@@ -38,7 +38,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function App() {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full font-sans">
       <head>
         <Meta />
         <Links />
@@ -47,7 +47,7 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
+        <LiveReload port={4200} />
       </body>
     </html>
   );

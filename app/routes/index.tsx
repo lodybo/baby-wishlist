@@ -1,5 +1,4 @@
-import { Form, Link } from "@remix-run/react";
-import Hero from '~/components/hero';
+import Hero from '~/components/Hero';
 
 import { useOptionalUser } from "~/utils";
 

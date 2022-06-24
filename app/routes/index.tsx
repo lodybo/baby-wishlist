@@ -1,4 +1,5 @@
 import Hero from '~/components/Hero';
+import Navigation from '~/components/Navigation';
 
 import { useOptionalUser } from "~/utils";
 
@@ -6,7 +7,8 @@ export default function Index() {
   const user = useOptionalUser();
 
   return (
-    <main className="w-5/6 mx-auto">
+    <main>
+      <Navigation />
       <Hero />
     </main>
   );

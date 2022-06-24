@@ -1,20 +1,23 @@
+import Menu from './Menu';
+import MenuItem from './MenuItem';
+
 const Navigation = () => (
-  <nav className="w-screen h-48 bg-slate-100 sticky shadow-md flex flex-row space-between">
-    <h1 className="text-lg">Cody's wensjes</h1>
+  <nav className="w-screen h-24 top-0 p-5 bg-slate-100 sticky shadow-md flex flex-row space-between items-center justify-center">
+    <h1 className="text-2xl flex-auto w-1/3">Cody's wensjes</h1>
 
-    <ul className="list-style-none">
-      <li>
+    <Menu>
+      <MenuItem>
         Lijst
-      </li>
+      </MenuItem>
 
-      <li>
+      <MenuItem>
         Suggesties
-      </li>
+      </MenuItem>
 
-      <li>
+      <MenuItem>
         <span className="rounded bg-slate">Inloggen</span>
-      </li>
-    </ul>
+      </MenuItem>
+    </Menu>
   </nav>
 );
 

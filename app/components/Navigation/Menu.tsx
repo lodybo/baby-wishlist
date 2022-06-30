@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useState } from "react";
+import Icon from "~/components/Icon";
 
 type Props = {
   children: ReactNode,
@@ -14,7 +15,9 @@ const Menu = ({ children }: Props) => {
 
   return (
     <>
-      <button className="block sm:hidden h-full w-24 text-lg" onClick={toggleMenu}>Menu</button>
+      <button className="block sm:hidden h-full w-24 text-lg" onClick={toggleMenu}>
+        <Icon name="ellipsis-vertical" />
+      </button>
 
       <ul className="hidden w-1/3 sm:w-2/3 flex-auto sm:flex flex-row space-between">
         { children }

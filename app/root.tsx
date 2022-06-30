@@ -13,8 +13,16 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faRobot, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
+
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser } from "./session.server";
+
+library.add(
+  faRobot,
+  faEllipsisVertical,
+);
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];

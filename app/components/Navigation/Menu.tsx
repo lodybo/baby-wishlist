@@ -1,31 +1,37 @@
 import type { ReactNode } from 'react';
-import { useState } from "react";
-import Icon from "~/components/Icon";
+import { useState } from 'react';
+import Icon from '~/components/Icon';
 
 type Props = {
-  children: ReactNode,
+  children: ReactNode;
 };
 
 const Menu = ({ children }: Props) => {
-  const [ menuIsOpen, setMenuIsOpen ] = useState(false);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuIsOpen(!menuIsOpen);
-  }
+  };
 
   return (
     <>
-      <button className="block sm:hidden h-full w-24 text-lg" onClick={toggleMenu}>
+      <button
+        className="block h-full w-24 text-lg sm:hidden"
+        onClick={toggleMenu}
+      >
         <Icon name="ellipsis-vertical" />
       </button>
 
-      <ul className="hidden w-1/3 sm:w-2/3 flex-auto sm:flex flex-row space-between">
-        { children }
+      <ul className="space-between hidden w-1/3 flex-auto flex-row sm:flex sm:w-2/3">
+        {children}
       </ul>
 
       <div
-        className={ `block sm:hidden absolute ${ menuIsOpen ? 'top-24' : '-top-72' } transition-all duration-300 motion-reduce:transition-none w-full h-64 bg-slate-200 p-8 shadow-inner flex flex-col space-between z-10 focus:none focus-visible:ring-2` }>
-        { children }
+        className={`absolute block sm:hidden ${
+          menuIsOpen ? 'top-24' : '-top-72'
+        } space-between focus:none z-10 flex h-64 w-full flex-col bg-slate-200 p-8 shadow-inner transition-all duration-300 focus-visible:ring-2 motion-reduce:transition-none`}
+      >
+        {children}
       </div>
     </>
   );

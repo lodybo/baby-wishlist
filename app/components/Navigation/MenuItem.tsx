@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 
 type Props = {
-  children: ReactNode,
+  children: ReactNode;
 };
 
 const MenuItem = ({ children }: Props) => (
-  <li className="flex-1 flex justify-center text-2xl sm:text-base items-center">
-    { children }
+  <li className="flex flex-1 items-center justify-center text-2xl sm:text-base">
+    {children}
   </li>
 );
 

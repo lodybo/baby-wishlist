@@ -6,11 +6,11 @@ import HeroParagraph from './HeroParagraph';
 const Hero = () => (
   <PageLayout>
     <div
-      className="mx-3 h-[40rem] flex flex-col"
+      className="mx-3 h-[50rem] flex flex-col"
     >
-      <h1 className="mb-8 text-8xl text-slate-700 text-center">Hallo Cody*!</h1>
+      <h1 className="mb-8 text-hero text-slate-700 text-center">Hallo Cody*!</h1>
 
-      <img className="h-full w-full object-cover object-center rounded-lg" src={sleepingBaby} alt="Niet-Cody aan het slapen" />
+      <img className="h-72 md:h-5/6 w-full object-cover object-center rounded-lg" src={sleepingBaby} alt="Niet-Cody aan het slapen" />
       <span className="text-right text-sm italic">*Dit is niet Cody.</span>
 
       <HeroParagraph>

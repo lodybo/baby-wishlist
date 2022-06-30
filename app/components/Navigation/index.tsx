@@ -1,3 +1,4 @@
+import { Link } from '@remix-run/react';
 import Menu from './Menu';
 import MenuItem from './MenuItem';
 import Icon from '~/components/Icon';
@@ -15,7 +16,12 @@ const Navigation = () => (
       <MenuItem>Suggesties</MenuItem>
 
       <MenuItem>
-        <span className="bg-slate rounded">Inloggen</span>
+        <Link
+          className="flex h-10 w-20 items-center justify-center rounded bg-cyan-800 text-cyan-50 transition duration-300 hover:scale-110 hover:bg-cyan-600"
+          to="/login"
+        >
+          Inloggen
+        </Link>
       </MenuItem>
     </Menu>
   </nav>

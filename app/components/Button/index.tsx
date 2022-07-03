@@ -27,6 +27,11 @@ export type Props = {
    * Whether the button looks like a normal button, or has some extra attention-catching styling
    */
   primary?: boolean;
+
+  /**
+   * For additional classes.
+   */
+  className?: string;
 };
 
 export default function Button({
@@ -35,6 +40,7 @@ export default function Button({
   type = 'button',
   jumpOut = false,
   primary = false,
+  className = '',
 }: Props) {
   const classes = classnames(
     'w-full h-full py-2 px-4 flex items-center justify-center rounded transition duration-300 motion-reduce:transition-none',
@@ -49,6 +55,7 @@ export default function Button({
 
       'hover:scale-110': jumpOut,
     },
+    className,
   );
 
   if (useSpan) {

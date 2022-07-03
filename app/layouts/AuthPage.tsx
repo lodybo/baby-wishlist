@@ -2,13 +2,17 @@ import type { LayoutProps } from './LayoutProps';
 import Navigation from '~/components/Navigation';
 import { useOptionalUser } from '~/utils';
 
-export default function PageLayout({ children }: LayoutProps) {
+export default function AuthPageLayout({ children }: LayoutProps) {
   const user = useOptionalUser();
 
   return (
     <>
       <Navigation isLoggedIn={!!user} />
-      <div className="mx-auto h-full w-5/6">{children}</div>
+      <div className="flex flex-col justify-center">
+        <div className="mx-auto w-full max-w-md px-8 lg:max-w-xl">
+          {children}
+        </div>
+      </div>
     </>
   );
 }

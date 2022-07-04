@@ -7,7 +7,7 @@ export default function PageLayout({ children }: LayoutProps) {
 
   return (
     <>
-      <Navigation isLoggedIn={!!user} />
+      <Navigation user={user} />
       <div className="mx-auto h-full w-5/6">{children}</div>
     </>
   );

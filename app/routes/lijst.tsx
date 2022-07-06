@@ -30,7 +30,7 @@ export default function ItemsPage() {
 
   return (
     <PageLayout>
-      <h1>Wenslijstje</h1>
+      <h1 className="mb-10 text-4xl">Wenslijstje</h1>
       {itemList.map((item) => (
         <p key={item.id}>{item.name}</p>
       ))}

@@ -1,21 +1,48 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { User } from '@prisma/client';
+
+type Person = Pick<User, 'name' | 'email' | 'role'> & {
+  password: string;
+};
 
 const prisma = new PrismaClient();
 
-async function seed() {
-  const email = 'kaylee@drakenfruit.com';
+const persons: Person[] = [
+  {
+    name: 'Kaylee',
+    email: 'kaylee@drakenfruit.com',
+    password: 'kayleeiscool',
+    role: 'ADMIN',
+  },
+  {
+    name: 'Lody',
+    email: 'hi@lodybo.nl',
+    password: 'lodyiscool',
+    role: 'ADMIN',
+  },
+  {
+    name: 'Wendell',
+    email: 'wendell@rosalina.nl',
+    password: 'wendelliscool',
+    role: 'USER',
+  },
+  {
+    name: 'Arantja',
+    email: 'arantja@rosalina.nl',
+    password: 'arantjaiscool',
+    role: 'USER',
+  },
+];
 
-  // cleanup the existing database
-  await prisma.user.delete({ where: { email } }).catch(() => {
-    // no worries if it doesn't exist yet
-  });
+async function createUser({ name, password, email, role }: Person) {
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-  const hashedPassword = await bcrypt.hash('kayleeiscool', 10);
-
-  const user = await prisma.user.create({
+  return prisma.user.create({
     data: {
+      name,
       email,
+      role,
       password: {
         create: {
           hash: hashedPassword,
@@ -23,13 +50,26 @@ async function seed() {
       },
     },
   });
+}
+
+function deleteUser(email: string) {
+  return prisma.user.delete({ where: { email } }).catch(() => {
+    // no worries if it doesn't exist yet
+  });
+}
+
+async function seed() {
+  const kaylee = await createUser(persons[0]);
+  const lody = await createUser(persons[1]);
+  const wendell = await createUser(persons[2]);
+  const arantja = await createUser(persons[3]);
 
   await prisma.item.create({
     data: {
       name: 'Tim de Turtle',
       description:
         'Verandert de kinderkamer in een prachtige zonsondergang met vogels die door de hele kamer vliegen, terwijl je luistert naar ontspannende Afrikaanse geluiden.',
-      userId: user.id,
+      userId: kaylee.id,
       amount: 100,
       tags: ['speelgoed'],
       imageUrl:
@@ -42,7 +82,7 @@ async function seed() {
       name: 'Baby Yoda romper',
       description:
         'Een set bestaande uit een romper, een short en een accessoire van zacht katoenen tricot met print. De romper heeft korte mouwen en een drukknoopsluiting in het kruis. De short heeft een comfortabele en mooi aansluitende pasvorm over de luier.',
-      userId: user.id,
+      userId: lody.id,
       amount: 14.99,
       tags: ['kleding'],
       imageUrl:

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 
 type Person = Pick<User, 'name' | 'email' | 'role'> & {
   password: string;

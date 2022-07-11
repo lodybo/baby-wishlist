@@ -7,6 +7,7 @@ import { getItemList } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
 import { useOptionalUser } from '~/utils';
 import { useLoaderData } from '@remix-run/react';
+import ListItem from '~/components/ListItem';
 
 type LoaderData = {
   itemList: Awaited<ReturnType<typeof getItemList>>;
@@ -31,9 +32,19 @@ export default function ItemsPage() {
   return (
     <PageLayout>
       <h1 className="mb-10 text-4xl">Wenslijstje</h1>
-      {itemList.map((item) => (
-        <p key={item.id}>{item.name}</p>
-      ))}
+
+      <ul className="block sm:flex sm:flex-row sm:gap-10">
+        {itemList.map(({ id, name, imageUrl, description, tags }) => (
+          <ListItem
+            key={id}
+            id={id}
+            name={name}
+            imageUrl={imageUrl}
+            description={description}
+            tags={tags}
+          />
+        ))}
+      </ul>
     </PageLayout>
   );
 }

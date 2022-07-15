@@ -80,7 +80,7 @@ export default function ItemDetailsPage() {
           <div className="flex-initial sm:w-3/4">
             {imageUrl && <img className="mb-10" src={imageUrl} alt={name} />}
 
-            <div className="prose lg:prose-xl">
+            <div className="prose lg:prose-xl xl:prose-2xl">
               <p>{description}</p>
             </div>
           </div>

@@ -28,7 +28,7 @@ model Item {
   id          String   @id @default(cuid())
   name        String
   description String
-  amount      Decimal @db.Money @default(0.0)
+  amount      Decimal? @db.Money @default(0.0)
   tags        String[] @default([])
   imageUrl    String?
 

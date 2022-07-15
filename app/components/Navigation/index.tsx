@@ -22,7 +22,9 @@ const Navigation = ({ user }: Props) => (
     </h1>
 
     <Menu>
-      <MenuItem>Lijst</MenuItem>
+      <MenuItem>
+        <Link to="/lijst">Lijst</Link>
+      </MenuItem>
 
       <MenuItem>Suggesties</MenuItem>
 

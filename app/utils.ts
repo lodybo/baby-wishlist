@@ -2,6 +2,7 @@ import { useMatches } from '@remix-run/react';
 import { useMemo } from 'react';
 
 import type { User } from '~/models/user.server';
+import { Decimal } from '@prisma/client/runtime';
 
 const DEFAULT_REDIRECT = '/';
 
@@ -68,4 +69,12 @@ export function useUser(): User {
 
 export function validateEmail(email: unknown): email is string {
   return typeof email === 'string' && email.length > 3 && email.includes('@');
+}
+
+export function formatAmount(amount: Decimal): string {
+  const value = parseInt(amount.toString(), 10);
+  return new Intl.NumberFormat('nl-NL', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(value);
 }

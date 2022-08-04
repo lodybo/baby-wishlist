@@ -47,3 +47,20 @@ export function deleteItem({ id }: Pick<Item, 'id'>) {
     where: { id },
   });
 }
+
+export function claimItem({
+  itemId,
+  claimUserId,
+}: {
+  itemId: Item['id'];
+  claimUserId: User['id'];
+}) {
+  return prisma.item.update({
+    where: {
+      id: itemId,
+    },
+    data: {
+      claimId: claimUserId,
+    },
+  });
+}

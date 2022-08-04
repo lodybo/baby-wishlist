@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  name      String    @default("")
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  role      Role      @default(USER)
-  items     Item[]
-  password  Password?
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String    @default("")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          Role      @default(USER)
+  items         Item[]    @relation("User")
+  claimedItems  Item[]    @relation("ClaimUser")
+  password      Password?
 }
 
 model Password {
@@ -36,7 +37,10 @@ model Item {
   updatedAt   DateTime @updatedAt
 
   userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation("User", fields: [userId], references: [id], onDelete: Cascade)
+
+  claimId     String?
+  claimUser   User?    @relation("ClaimUser", fields: [claimId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

@@ -5,17 +5,33 @@ import invariant from 'tiny-invariant';
 
 import type { Item } from '~/models/items.server';
 import type { User } from '~/models/user.server';
-import { getItem, deleteItem } from '~/models/items.server';
+import { getItem, deleteItem, claimItem } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
 import Tag from '~/components/Tag';
 import { getUserById } from '~/models/user.server';
 import { formatAmount } from '~/utils';
 import Avatar from '~/components/Avatar';
+import Button from '~/components/Button';
 
 type LoaderData = {
   item: Item;
   user: User;
 };
+
+interface Action {
+  action: 'CLAIM' | 'DELETE';
+}
+
+interface ClaimAction extends Action {
+  action: 'CLAIM';
+  userId: User['id'];
+}
+
+interface DeleteAction extends Action {
+  action: 'DELETE';
+}
+
+type ActionData = ClaimAction | DeleteAction;
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.itemId, 'Geen item gevonden');
@@ -35,18 +51,32 @@ export const loader: LoaderFunction = async ({ params }) => {
   return json<LoaderData>({ item, user });
 };
 
-export const action: ActionFunction = async ({ params }) => {
+export const action: ActionFunction = async ({ request, params }) => {
   invariant(params.itemId, 'Geen item gevonden');
 
-  await deleteItem({ id: params.itemId });
+  const data = (await request.formData()) as unknown as ActionData;
 
-  return redirect('/lijst');
+  switch (data.action) {
+    case 'CLAIM':
+      // TODO: crud
+      await claimItem({
+        itemId: params.itemId,
+        claimUserId: data.userId,
+      });
+      break;
+
+    case 'DELETE':
+      // TODO: Implement CRUD interface
+      // await deleteItem({ id: params.itemId });
+      // return redirect('/lijst');
+      break;
+  }
 };
 
 export default function ItemDetailsPage() {
   const {
     item: { id, name, description, tags, imageUrl, amount },
-    user: { name: userName },
+    user: { id: userId, name: userName },
   } = useLoaderData<LoaderData>();
 
   const formattedAmount = formatAmount(amount);
@@ -75,6 +105,14 @@ export default function ItemDetailsPage() {
                 <Tag key={tag} tag={tag} />
               ))}
             </ul>
+
+            <Form method="post" className="mt-5">
+              <input type="hidden" name="action" value="claim" />
+              <input type="hidden" name="userId" value={userId} />
+              <Button primary type="submit">
+                Ik claim deze!
+              </Button>
+            </Form>
           </div>
 
           <div className="flex-initial sm:w-3/4">

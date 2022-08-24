@@ -1,17 +1,19 @@
-import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { Form, useCatch, useLoaderData } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
 import type { Item } from '~/models/items.server';
 import type { User } from '~/models/user.server';
-import { getItem, deleteItem, claimItem } from '~/models/items.server';
+import { getItem, unclaimItem, claimItem } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
 import Tag from '~/components/Tag';
 import { getUserById } from '~/models/user.server';
-import { formatAmount } from '~/utils';
+import { formatAmount, useOptionalUser } from '~/utils';
 import Avatar from '~/components/Avatar';
-import Button from '~/components/Button';
+import ClaimField from '~/components/ClaimField';
 
 type LoaderData = {
   item: Item;
@@ -19,7 +21,7 @@ type LoaderData = {
 };
 
 interface Action {
-  action: 'CLAIM' | 'DELETE';
+  action: 'CLAIM' | 'UNCLAIM' | 'DELETE';
 }
 
 interface ClaimAction extends Action {
@@ -27,16 +29,22 @@ interface ClaimAction extends Action {
   userId: User['id'];
 }
 
+interface UnclaimAction extends Action {
+  action: 'UNCLAIM';
+  userId: User['id'];
+}
+
 interface DeleteAction extends Action {
   action: 'DELETE';
 }
 
-type ActionData = ClaimAction | DeleteAction;
+type ActionData = ClaimAction| UnclaimAction | DeleteAction;
 
-export const loader: LoaderFunction = async ({ params }) => {
-  invariant(params.itemId, 'Geen item gevonden');
+export const loader = async ({ params }: LoaderArgs) => {
+  const { itemId } = params;
+  invariant(itemId, 'Geen item gevonden');
 
-  const item = await getItem({ id: params.itemId });
+  const item = await getItem({ id: itemId });
 
   if (!item) {
     throw new Response('Niet gevonden', { status: 404 });
@@ -48,22 +56,30 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new Response('Geen gebruiker gevonden', { status: 404 });
   }
 
-  return json<LoaderData>({ item, user });
+  return json({ item, user });
 };
 
-export const action: ActionFunction = async ({ request, params }) => {
-  invariant(params.itemId, 'Geen item gevonden');
+export const action = async ({ request, params }: ActionArgs) => {
+  const { itemId } = params;
+  invariant(itemId, 'Geen item gevonden');
 
-  const data = (await request.formData()) as unknown as ActionData;
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData) as unknown as ActionData;
 
   switch (data.action) {
     case 'CLAIM':
       // TODO: crud
       await claimItem({
-        itemId: params.itemId,
+        itemId,
         claimUserId: data.userId,
       });
-      break;
+      return redirect(`/lijst/${itemId}`);
+
+    case 'UNCLAIM':
+      await unclaimItem({
+        itemId,
+      });
+      return redirect(`/lijst/${itemId}`);
 
     case 'DELETE':
       // TODO: Implement CRUD interface
@@ -74,12 +90,20 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function ItemDetailsPage() {
-  const {
-    item: { id, name, description, tags, imageUrl, amount },
-    user: { id: userId, name: userName },
-  } = useLoaderData<LoaderData>();
+  const navigate = useNavigate();
 
-  const formattedAmount = formatAmount(amount);
+  const {
+    item: { name, description, tags, imageUrl, amount, claimId },
+    user: { name: userName },
+  } = useLoaderData<typeof loader>();
+
+  const currentUser = useOptionalUser();
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login');
+    }
+  }, [currentUser, navigate]);
 
   return (
     <PageLayout>
@@ -92,7 +116,7 @@ export default function ItemDetailsPage() {
               {amount && (
                 <h2 className="my-5 flex-1 text-right text-3xl sm:my-0 sm:text-left">
                   <span className="font-light text-slate-500">v.a.</span>{' '}
-                  {formattedAmount}
+                  {formatAmount(amount)}
                 </h2>
               )}
 
@@ -106,13 +130,9 @@ export default function ItemDetailsPage() {
               ))}
             </ul>
 
-            <Form method="post" className="mt-5">
-              <input type="hidden" name="action" value="claim" />
-              <input type="hidden" name="userId" value={userId} />
-              <Button primary type="submit">
-                Ik claim deze!
-              </Button>
-            </Form>
+            { currentUser && (
+              <ClaimField currentUserId={currentUser.id} claimId={claimId} />
+            )}
           </div>
 
           <div className="flex-initial sm:w-3/4">

@@ -64,3 +64,18 @@ export function claimItem({
     },
   });
 }
+
+export function unclaimItem({
+  itemId,
+}: {
+  itemId: Item['id'];
+}) {
+  return prisma.item.update({
+    where: {
+      id: itemId,
+    },
+    data: {
+      claimId: null,
+    },
+  });
+}

@@ -71,8 +71,8 @@ export function validateEmail(email: unknown): email is string {
   return typeof email === 'string' && email.length > 3 && email.includes('@');
 }
 
-export function formatAmount(amount: Decimal): string {
-  const value = parseInt(amount.toString(), 10);
+export function formatAmount(amount: string): string {
+  const value = parseInt(amount, 10);
   return new Intl.NumberFormat('nl-NL', {
     style: 'currency',
     currency: 'EUR',

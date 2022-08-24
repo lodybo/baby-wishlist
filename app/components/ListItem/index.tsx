@@ -2,7 +2,7 @@ import type { Item } from '@prisma/client';
 import { Link } from '@remix-run/react';
 import Tag from '~/components/Tag';
 
-export type Props = Omit<Item, 'amount' | 'createdAt' | 'updatedAt' | 'userId'>;
+export type Props = Omit<Item, 'amount' | 'createdAt' | 'updatedAt' | 'userId' | 'claimId'>;
 
 export default function Index({
   id,

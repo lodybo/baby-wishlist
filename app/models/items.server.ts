@@ -48,6 +48,15 @@ export function deleteItem({ id }: Pick<Item, 'id'>) {
   });
 }
 
+export function getItemClaimStatus({ itemId }: { itemId: Item['id'] }) {
+  return prisma.item.findFirst({
+    where: { id: itemId },
+    select: {
+      claimId: true,
+    }
+  });
+}
+
 export function claimItem({
   itemId,
   claimUserId,
@@ -65,11 +74,7 @@ export function claimItem({
   });
 }
 
-export function unclaimItem({
-  itemId,
-}: {
-  itemId: Item['id'];
-}) {
+export function unclaimItem({ itemId }: { itemId: Item['id'] }) {
   return prisma.item.update({
     where: {
       id: itemId,

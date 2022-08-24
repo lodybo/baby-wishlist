@@ -16,7 +16,7 @@ export default function Index({
       key={id}
       className="group mb-10 w-full max-w-sm flex-initial cursor-pointer overflow-hidden rounded border border-slate-200 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg motion-reduce:transition-none"
     >
-      <Link to={id}>
+      <Link to={`/item/${id}`}>
         <div className="h-48 w-full overflow-hidden lg:h-80">
           <img
             className="h-full w-full object-cover transition-all duration-300 group-hover:scale-110 motion-reduce:transition-none"

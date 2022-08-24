@@ -1,44 +1,17 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { ActionArgs, LoaderArgs } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import type { LoaderArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
-import type { Item } from '~/models/items.server';
-import type { User } from '~/models/user.server';
-import { getItem, unclaimItem, claimItem } from '~/models/items.server';
+import { getUserById } from '~/models/user.server';
+import { getItem } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
 import Tag from '~/components/Tag';
-import { getUserById } from '~/models/user.server';
 import { formatAmount, useOptionalUser } from '~/utils';
 import Avatar from '~/components/Avatar';
 import ClaimField from '~/components/ClaimField';
-
-type LoaderData = {
-  item: Item;
-  user: User;
-};
-
-interface Action {
-  action: 'CLAIM' | 'UNCLAIM' | 'DELETE';
-}
-
-interface ClaimAction extends Action {
-  action: 'CLAIM';
-  userId: User['id'];
-}
-
-interface UnclaimAction extends Action {
-  action: 'UNCLAIM';
-  userId: User['id'];
-}
-
-interface DeleteAction extends Action {
-  action: 'DELETE';
-}
-
-type ActionData = ClaimAction| UnclaimAction | DeleteAction;
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { itemId } = params;
@@ -59,41 +32,11 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json({ item, user });
 };
 
-export const action = async ({ request, params }: ActionArgs) => {
-  const { itemId } = params;
-  invariant(itemId, 'Geen item gevonden');
-
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData) as unknown as ActionData;
-
-  switch (data.action) {
-    case 'CLAIM':
-      // TODO: crud
-      await claimItem({
-        itemId,
-        claimUserId: data.userId,
-      });
-      return redirect(`/lijst/${itemId}`);
-
-    case 'UNCLAIM':
-      await unclaimItem({
-        itemId,
-      });
-      return redirect(`/lijst/${itemId}`);
-
-    case 'DELETE':
-      // TODO: Implement CRUD interface
-      // await deleteItem({ id: params.itemId });
-      // return redirect('/lijst');
-      break;
-  }
-};
-
 export default function ItemDetailsPage() {
   const navigate = useNavigate();
 
   const {
-    item: { name, description, tags, imageUrl, amount, claimId },
+    item: { id, name, description, tags, imageUrl, amount, claimId },
     user: { name: userName },
   } = useLoaderData<typeof loader>();
 
@@ -131,7 +74,7 @@ export default function ItemDetailsPage() {
             </ul>
 
             { currentUser && (
-              <ClaimField currentUserId={currentUser.id} claimId={claimId} />
+              <ClaimField currentUserId={currentUser.id} claimId={claimId} itemId={id} />
             )}
           </div>
 

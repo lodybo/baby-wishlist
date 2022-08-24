@@ -9,12 +9,15 @@ export type Props = {
   className?: React.HTMLAttributes<HTMLSpanElement>['className'];
   prefix?: Extract<IconPrefix, 'fas' | 'fab' | 'far'>;
   name: IconName;
+  iconClasses?: string;
 };
 
-const Icon = ({ name, prefix = 'fas', className = '' }: Props) => {
+const Icon = ({ name, prefix = 'fas', className = '', iconClasses = '' }: Props) => {
   const icon = fontAwesomeIcon({
     prefix,
     iconName: name,
+  }, {
+    classes: iconClasses,
   }).abstract.shift();
 
   return (

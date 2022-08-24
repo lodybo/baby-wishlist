@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import Icon from '~/components/Icon';
 
 export type Props = {
   /**
@@ -29,6 +30,16 @@ export type Props = {
   primary?: boolean;
 
   /**
+   * Whether the button is disabled or not.
+   */
+  disabled?: boolean;
+
+  /**
+   * Whether the button represents an action that is pending.
+   */
+  pending?: boolean;
+
+  /**
    * For additional classes.
    */
   className?: string;
@@ -40,20 +51,25 @@ export default function Button({
   type = 'button',
   jumpOut = false,
   primary = false,
+  disabled = false,
+  pending = false,
   className = '',
 }: Props) {
   const classes = classnames(
     'w-full h-full py-2 px-4 flex items-center justify-center rounded transition duration-300 motion-reduce:transition-none',
     {
-      'bg-cyan-600': primary,
-      'text-cyan-50': primary,
-      'hover:bg-cyan-800': primary,
+      'bg-cyan-600': primary && !disabled,
+      'text-cyan-50': primary && !disabled,
+      'hover:bg-cyan-800': primary && !disabled,
 
-      'bg-slate-200': !primary,
-      'text-slate-700': !primary,
-      'hover:bg-slate-300': !primary,
+      'bg-slate-300': !primary && !disabled,
+      'text-slate-900': !primary && !disabled,
+      'hover:bg-slate-400': !primary && !disabled,
 
       'hover:scale-110': jumpOut,
+
+      'bg-slate-100': disabled,
+      'text-slate-400': disabled,
     },
     className,
   );
@@ -63,7 +79,12 @@ export default function Button({
   }
 
   return (
-    <button className={classes} type={type}>
+    <button className={classes} type={type} disabled={disabled}>
+      { pending && (
+        <span className="mr-2">
+          <Icon name="spinner" iconClasses="fa-spin-pulse" />
+        </span>
+      )}
       {children}
     </button>
   );

@@ -3,11 +3,11 @@ import sleepingBaby from '~/images/sleeping-baby.jpg';
 import HeroParagraph from './HeroParagraph';
 
 const Hero = () => (
-  <div className="mx-3 flex h-[50rem] flex-col">
+  <div className="mx-3 flex flex-col">
     <h1 className="mb-8 text-center text-hero text-slate-700">Hallo Cody*!</h1>
 
     <img
-      className="h-72 w-full rounded-lg object-cover object-center md:h-5/6"
+      className="h-72 lg:h-[50rem] w-full rounded-lg object-cover object-center md:h-5/6"
       src={sleepingBaby}
       alt="Niet-Cody aan het slapen"
     />

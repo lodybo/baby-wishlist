@@ -1,6 +1,7 @@
 import type { LayoutProps } from './LayoutProps';
 import Navigation from '~/components/Navigation';
 import { useOptionalUser } from '~/utils';
+import Footer from '~/components/Footer';
 
 export default function PageLayout({ children }: LayoutProps) {
   const user = useOptionalUser();
@@ -8,7 +9,8 @@ export default function PageLayout({ children }: LayoutProps) {
   return (
     <>
       <Navigation user={user} />
-      <div className="mx-auto h-full w-5/6">{children}</div>
+      <div className="mx-auto w-5/6">{children}</div>
+      <Footer />
     </>
   );
 }

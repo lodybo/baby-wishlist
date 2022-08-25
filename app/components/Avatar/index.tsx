@@ -9,7 +9,7 @@ export default function Avatar({ name }: Props) {
   return (
     <div className="lg:flexs-row mb-2.5 flex flex-row items-center gap-5 sm:flex-col md:flex-row">
       <img
-        className="h-auto w-14 rounded-full"
+        className="h-auto w-14 aspect-square object-cover rounded-full"
         src={name === 'Kaylee' ? Kaylee : Lody}
         alt={`Aangevraagd door ${name}`}
       />

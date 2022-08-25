@@ -4,7 +4,7 @@ import PageLayout from '~/layouts/Page';
 export default function Index() {
   return (
     <PageLayout>
-      <main className="h-full">
+      <main>
         <Hero />
       </main>
     </PageLayout>

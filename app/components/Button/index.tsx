@@ -25,9 +25,14 @@ export type Props = {
   jumpOut?: boolean;
 
   /**
-   * Whether the button looks like a normal button, or has some extra attention-catching styling
+   * Whether the button looks like a normal button, or has some extra attention-catching styling.
    */
   primary?: boolean;
+
+  /**
+   * Whether the button represents a dangerous action, and is styled accordingly.
+   */
+  danger?: boolean;
 
   /**
    * Whether the button is disabled or not.
@@ -51,12 +56,13 @@ export default function Button({
   type = 'button',
   jumpOut = false,
   primary = false,
+  danger = false,
   disabled = false,
   pending = false,
   className = '',
 }: Props) {
   const classes = classnames(
-    'w-full h-full py-2 px-4 flex items-center justify-center rounded transition duration-300 motion-reduce:transition-none',
+    'py-2 px-4 flex items-center justify-center rounded transition duration-300 motion-reduce:transition-none',
     {
       'bg-cyan-600': primary && !disabled,
       'text-cyan-50': primary && !disabled,
@@ -65,6 +71,10 @@ export default function Button({
       'bg-slate-300': !primary && !disabled,
       'text-slate-900': !primary && !disabled,
       'hover:bg-slate-400': !primary && !disabled,
+
+      'bg-rose-500': danger,
+      'text-rose-100': danger,
+      'hover:bg-rose-700': danger,
 
       'hover:scale-110': jumpOut,
 

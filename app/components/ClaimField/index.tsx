@@ -29,11 +29,11 @@ export default function ClaimField({ currentUserId, claimId, itemId }: Props) {
 
       <div>
         { claimed ? (
-          <Button type="submit" disabled={pending} pending={pending}>
+          <Button className="w-full" type="submit" disabled={pending} pending={pending}>
             Ik weerleg mijn claim op deze!
           </Button>
         ) : (
-          <Button primary type="submit" disabled={pending} pending={pending}>
+          <Button className="w-full" primary type="submit" disabled={pending} pending={pending}>
             Ik claim deze!
           </Button>
         )}

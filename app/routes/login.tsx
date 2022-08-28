@@ -66,7 +66,7 @@ export const action: ActionFunction = async ({ request }) => {
   return createUserSession({
     request,
     userId: user.id,
-    remember: remember === 'on' ? true : false,
+    remember: remember === 'on',
     redirectTo,
   });
 };
@@ -125,7 +125,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div>
+        <div className="flex flex-col">
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700"
@@ -152,7 +152,7 @@ export default function LoginPage() {
         </div>
 
         <input type="hidden" name="redirectTo" value={redirectTo} />
-        <Button type="submit" primary>
+        <Button className="ml-auto" type="submit" primary>
           Log in
         </Button>
         <div className="flex items-center justify-between">
@@ -167,11 +167,11 @@ export default function LoginPage() {
               htmlFor="remember"
               className="ml-2 block text-sm text-gray-900"
             >
-              Remember me
+              Herinner mij
             </label>
           </div>
           <div className="text-center text-sm text-gray-500">
-            Don't have an account?{' '}
+            Geen account?{' '}
             <Link
               className="text-blue-500 underline"
               to={{
@@ -179,7 +179,7 @@ export default function LoginPage() {
                 search: searchParams.toString(),
               }}
             >
-              Sign up
+              Geef je hier op
             </Link>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import { Form, Link } from '@remix-run/react';
 import type { User } from '@prisma/client';
-import classnames from 'classnames';
 
 import Menu from './Menu';
 import MenuItem from './MenuItem';
@@ -12,24 +11,11 @@ export type Props = {
    * The user, if available
    */
   user?: User;
-
-  /**
-   * Whether the nav bar is shown in an admin layout
-   */
-  isInAdminLayout?: boolean;
 };
 
-const Navigation = ({ user, isInAdminLayout = false }: Props) => {
-  const classes = classnames(
-    'space-between sticky top-0 z-20 flex h-24 w-full flex-row items-center justify-center bg-slate-100 p-5',
-    {
-      'mb-8': !isInAdminLayout,
-      'shadow-md': !isInAdminLayout,
-    }
-  );
-
+const Navigation = ({ user}: Props) => {
   return (
-    <nav className={ classes }>
+    <nav className="space-between sticky mb-8 shadow-md top-0 z-20 flex h-24 w-full flex-row items-center justify-center bg-slate-100 p-5">
       <h1 className="w-2/3 flex-auto text-2xl sm:w-1/3">
         <Link to="/">
           <Logo />
@@ -46,19 +32,17 @@ const Navigation = ({ user, isInAdminLayout = false }: Props) => {
         <MenuItem>
           { user ? (
             <Form
-              className="ml-5 flex flex-row items-center"
+              className="flex flex-row items-center gap-5"
               action="/logout"
               method="post"
             >
-              <Link to={ `/profiel/${ user.id }` }>
-                <span className="mr-5 text-slate-600">Hallo { user.name }!</span>
+              <Link to="/profiel">
+                <span className="text-slate-600">Hallo { user.name }!</span>
               </Link>
 
-              <div className="h-10 w-20">
-                <Button jumpOut type="submit">
-                  Uitloggen
-                </Button>
-              </div>
+              <Button jumpOut type="submit">
+                Uitloggen
+              </Button>
             </Form>
           ) : (
             <Link className="h-10 w-20" to="/login?redirectTo=/">

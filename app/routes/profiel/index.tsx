@@ -1,22 +1,11 @@
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useOptionalUser } from '~/utils';
+import { useUser } from '~/utils';
 
 const ProfileIndexPage = () => {
-  const navigate = useNavigate();
-  const user = useOptionalUser();
+  const user = useUser();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    }
-
-    navigate(`/profiel/${user!.id}`, {
-      replace: true,
-    });
-  }, [user, navigate]);
-
-  return null;
+  return (
+    <h1 className="text-2xl lg:text-4xl">Hallo {user!.name}</h1>
+  );
 };
 
 export default ProfileIndexPage;

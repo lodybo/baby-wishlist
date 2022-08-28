@@ -16,6 +16,15 @@ export function getItemList() {
   });
 }
 
+export function getItemsByUser({ id }: { id: User['id']}) {
+  return prisma.item.findMany({
+    orderBy: { updatedAt: 'desc' },
+    where: {
+      claimId: id,
+    },
+  })
+}
+
 export function createItem({
   name,
   description,

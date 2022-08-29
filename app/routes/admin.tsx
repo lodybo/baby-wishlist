@@ -1,10 +1,11 @@
 import type { LoaderArgs } from '@remix-run/node';
 import { redirect, json } from '@remix-run/node';
-import { Link, useLoaderData, Outlet } from '@remix-run/react';
+import { Link, useLoaderData, Outlet, useMatches, useLocation } from '@remix-run/react';
 import AdminPageLayout from '~/layouts/AdminPage';
 import { getItemList } from '~/models/items.server';
 import Button from '~/components/Button';
 import { requireUser } from '~/session.server';
+import Icon from '~/components/Icon';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -19,20 +20,46 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function AdminPage() {
+  const matches = useMatches();
+  const location = useLocation();
   const { count } = useLoaderData<typeof loader>();
+  const path = matches.find(match => match.pathname === location.pathname);
+
+  let title = 'Items toevoegen of bewerken';
+
+  if (path?.pathname === '/admin/item/nieuw') {
+    title = 'Item toevoegen';
+  } else if (path?.pathname.includes('/admin/item/bewerk/')) {
+    title = 'Item bewerken';
+  }
+
+  const showDetails = path?.pathname === '/admin';
 
   const itemCount = count === 1 ? '1 item' : `${count} items`;
 
   return (
     <AdminPageLayout>
-      <h1 className="text-4xl">Items toevoegen of bewerken</h1>
+      <h1 className="text-4xl">{ title }</h1>
+
       <div className="flex flex-row justify-between">
-        <h2 className="text-xl">{itemCount}</h2>
-        <Link to="item/new">
-          <Button className="mx-auto md:w-auto md:mr-0" primary>
-            Item toevoegen
-          </Button>
-        </Link>
+        { showDetails ? (
+          <>
+            <h2 className="text-xl">{itemCount}</h2>
+            <Link to="item/nieuw">
+              <Button className="mx-auto md:w-auto md:mr-0" primary>
+                Item toevoegen
+              </Button>
+            </Link>
+          </>
+        ): (
+          <>
+            <Link to="/admin">
+              <Button>
+                <Icon name="arrow-left-long" />
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
 
       <div>

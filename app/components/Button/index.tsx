@@ -45,6 +45,11 @@ export type Props = {
   pending?: boolean;
 
   /**
+   * On click handler for the button
+   */
+  onClick?: JSX.IntrinsicElements['button']['onClick'];
+
+  /**
    * For additional classes.
    */
   className?: string;
@@ -59,6 +64,7 @@ export default function Button({
   danger = false,
   disabled = false,
   pending = false,
+  onClick,
   className = '',
 }: Props) {
   const classes = classnames(
@@ -89,7 +95,7 @@ export default function Button({
   }
 
   return (
-    <button className={classes} type={type} disabled={disabled}>
+    <button className={classes} type={type} disabled={disabled} onClick={onClick}>
       { pending && (
         <span className="mr-2">
           <Icon name="spinner" iconClasses="fa-spin-pulse" />

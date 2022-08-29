@@ -2,7 +2,6 @@ import { useMatches } from '@remix-run/react';
 import { useMemo } from 'react';
 
 import type { User } from '~/models/user.server';
-import { Decimal } from '@prisma/client/runtime';
 
 const DEFAULT_REDIRECT = '/';
 

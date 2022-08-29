@@ -25,13 +25,13 @@ export default function AdminItemList() {
             <p className="text-xl">{ item.name }</p>
 
             <div className="ml-auto flex flex-row gap-2.5">
-              <Link to={`/item/bewerk/${item.id}`}>
+              <Link to={`item/bewerk/${item.id}`}>
                 <Button primary>
                   <Icon name="pencil" />
                 </Button>
               </Link>
 
-              <Link to={`/item/verwijder/${item.id}`}>
+              <Link to={`item/verwijder/${item.id}`}>
                 <Button danger>
                   <Icon name="trash-can" />
                 </Button>

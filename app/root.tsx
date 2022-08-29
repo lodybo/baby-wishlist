@@ -14,12 +14,12 @@ import {
 } from '@remix-run/react';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faRobot, faEllipsisVertical, faSpinner, faTrashCan, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faRobot, faEllipsisVertical, faSpinner, faTrashCan, faPencil, faArrowLeftLong, faEuroSign, faRemove } from '@fortawesome/free-solid-svg-icons';
 
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { getUser } from './session.server';
 
-library.add(faRobot, faEllipsisVertical, faSpinner, faTrashCan, faPencil);
+library.add(faRobot, faEllipsisVertical, faSpinner, faTrashCan, faPencil, faArrowLeftLong, faEuroSign, faRemove);
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }];

@@ -6,6 +6,7 @@ import TextInput from '~/components/Inputs/TextInput';
 import NumberInput from '~/components/Inputs/NumberInput';
 import TagField from '~/components/TagField';
 import SelectUserField from '~/components/SelectUserField';
+import { useUser } from '~/utils';
 
 type Props = {
   state: 'new' | 'edit',
@@ -13,7 +14,17 @@ type Props = {
   users: User[];
 };
 
+export interface ItemFormData {
+  name: string;
+  amount: string;
+  imageUrl: string;
+  tags: string[];
+  itemOwner: string;
+  claimedBy: string | 'none';
+}
+
 export default function ItemForm({ state, item, users }: Props) {
+  const user = useUser();
   const fetcher = useFetcher();
 
   let action = '/admin/item/nieuw';
@@ -22,11 +33,12 @@ export default function ItemForm({ state, item, users }: Props) {
   }
 
   const adminUsers = users.filter(u => u.role === 'ADMIN');
+  const currentAdminUser = adminUsers.find(u => u.id === user.id);
 
   return (
     <fetcher.Form className="w-2/3 flex flex-col gap-5 mb-10" action={action} method="post">
       <Label caption="Naam">
-        <TextInput name="naam" autoComplete="off" />
+        <TextInput name="name" autoComplete="off" />
       </Label>
 
       <Label caption="Bedrag (v.a.)">
@@ -42,7 +54,11 @@ export default function ItemForm({ state, item, users }: Props) {
       </Label>
 
       <Label caption="Namens wie vragen we dit?">
-        <SelectUserField users={adminUsers} />
+        <SelectUserField name="itemOwner" users={adminUsers} defaultValue={currentAdminUser} />
+      </Label>
+
+      <Label caption="Heeft iemand dit al geclaimed?">
+        <SelectUserField name="claimedBy" users={users} hideAvatars includeEmptyOption />
       </Label>
     </fetcher.Form>
   );

@@ -28,9 +28,9 @@ export default function Index({
         <div className="p-2.5">
           <h2 className="mb-1 text-2xl">{name}</h2>
 
-          <p className="text-sm">{description}</p>
+          <div className="text-sm" dangerouslySetInnerHTML={{ __html: description }} />
 
-          <ul className="my-2.5">
+          <ul className="my-2.5 flex flex-wrap gap-2.5">
             {tags.map((tag) => (
               <Tag key={tag} tag={tag} />
             ))}

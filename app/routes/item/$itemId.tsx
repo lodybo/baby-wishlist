@@ -4,6 +4,7 @@ import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
+import { marked } from 'marked';
 
 import { getUserById } from '~/models/user.server';
 import { getItem } from '~/models/items.server';
@@ -29,7 +30,9 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw new Response('Geen gebruiker gevonden', { status: 404 });
   }
 
-  return json({ item, user });
+  const parsedDescription = marked.parse(item.description);
+
+  return json({ item: { ...item, description: parsedDescription }, user });
 };
 
 export default function ItemDetailsPage() {
@@ -82,7 +85,7 @@ export default function ItemDetailsPage() {
             {imageUrl && <img className="mb-10" src={imageUrl} alt={name} />}
 
             <div className="prose lg:prose-xl xl:prose-2xl">
-              <p>{description}</p>
+              <div dangerouslySetInnerHTML={{ __html: description}} />
             </div>
           </div>
         </div>

@@ -1,26 +1,28 @@
 import { useEffect } from 'react';
 import { json } from '@remix-run/node';
-import type { LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useNavigate } from 'react-router-dom';
+import { marked } from 'marked';
 
 import { getItemList } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
 import { useOptionalUser } from '~/utils';
 import ListItem from '~/components/ListItem';
 
-type LoaderData = {
-  itemList: Awaited<ReturnType<typeof getItemList>>;
-};
-
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const itemList = await getItemList();
-  return json<LoaderData>({ itemList });
+
+  const items = itemList.map(item => ({
+    ...item,
+    description: `${marked.parse(item.description).substring(0, 250)}...`,
+  }));
+
+  return json({ items });
 };
 
 export default function ItemsPage() {
   const navigate = useNavigate();
-  const { itemList } = useLoaderData<LoaderData>();
+  const { items } = useLoaderData<typeof loader>();
   const user = useOptionalUser();
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function ItemsPage() {
       <h1 className="mb-10 text-4xl">Wenslijstje</h1>
 
       <ul className="block sm:flex sm:flex-row sm:flex-wrap sm:gap-10">
-        {itemList.map(({ id, name, imageUrl, description, tags }) => (
+        {items.map(({ id, name, imageUrl, description, tags }) => (
           <ListItem
             key={id}
             id={id}

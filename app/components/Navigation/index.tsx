@@ -1,5 +1,5 @@
 import { Form, Link } from '@remix-run/react';
-import type { User } from '@prisma/client';
+import type { User } from '~/models/user.server';
 
 import Menu from './Menu';
 import MenuItem from './MenuItem';

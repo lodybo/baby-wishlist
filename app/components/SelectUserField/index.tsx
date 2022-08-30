@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import { useRef, useState } from 'react';
 import UserField from '~/components/SelectUserField/UserField';
 import type { User } from '~/models/user.server';
@@ -49,7 +50,6 @@ export default function SelectUserField({ name, users, hideAvatars = false, incl
           focus-within:ring-offset-2
           py-2
           place-items-center
-          cursor-pointer
           bg-transparent
           hover:bg-slate-100
           open:bg-slate-100
@@ -57,7 +57,7 @@ export default function SelectUserField({ name, users, hideAvatars = false, incl
         "
         ref={fieldRef}
       >
-        <summary className="focus:outline-none select-none px-2">
+        <summary className="focus:outline-none select-none px-2 cursor-pointer">
           <UserField name={selectedUser !== 'none' ? selectedUser.name : 'Niemand'} hideAvatar={hideAvatars} />
         </summary>
 
@@ -65,7 +65,16 @@ export default function SelectUserField({ name, users, hideAvatars = false, incl
           { includeEmptyOption && (
             <li
               key="undefined"
-              className="p-4 bg-transparent hover:bg-cyan-100 transition"
+              className={ classnames(
+                'p-4 bg-transparent transition',
+                {
+                  'hover:bg-cyan-100': selectedUser !== 'none',
+                  'cursor-pointer': selectedUser !== 'none',
+                  'text-slate-200': selectedUser === 'none',
+                  'cursor-default': selectedUser === 'none',
+                  'pointer-events-none': selectedUser === 'none',
+                }
+              )}
               onClick={() => { handleSelect(undefined) }}
             >Niemand</li>
           )}
@@ -73,7 +82,16 @@ export default function SelectUserField({ name, users, hideAvatars = false, incl
           {users.map(user => (
             <li
               key={user.id}
-              className="p-4 bg-transparent hover:bg-cyan-100 transition"
+              className={ classnames(
+                'p-4 bg-transparent transition',
+                {
+                  'hover:bg-cyan-100': selectedUser !== 'none' ? selectedUser.id !== user.id : true,
+                  'cursor-pointer': selectedUser !== 'none' ? selectedUser.id !== user.id : true,
+                  'text-slate-200': selectedUser !== 'none' ? selectedUser.id === user.id : false,
+                  'cursor-default': selectedUser !== 'none' ? selectedUser.id === user.id : false,
+                  'pointer-events-none': selectedUser !== 'none' ? selectedUser.id === user.id : false,
+                }
+              )}
               onClick={() => { handleSelect(user) }}
             >
               { user.name }

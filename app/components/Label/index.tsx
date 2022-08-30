@@ -5,11 +5,12 @@ export type Props = {
   caption: string;
   subCaption?: string;
   children: ReactNode;
+  className?: string;
 };
 
-export default function Label({ caption, children, subCaption }: Props) {
+export default function Label({ caption, children, subCaption, className = '' }: Props) {
   return (
-    <label>
+    <label className={className}>
       <p className={classnames(
         'block text-lg font-medium text-slate-700',
         {

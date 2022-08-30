@@ -36,30 +36,36 @@ export default function ItemForm({ state, item, users }: Props) {
   const currentAdminUser = adminUsers.find(u => u.id === user.id);
 
   return (
-    <fetcher.Form className="w-2/3 flex flex-col gap-5 mb-10" action={action} method="post">
-      <Label caption="Naam">
-        <TextInput name="name" autoComplete="off" />
-      </Label>
+    <fetcher.Form className="w-full flex flex-col gap-10 mb-10" action={action} method="post">
+      <div className="flex flex-row gap-5">
+        <Label className="flex-1" caption="Wat is het?" subCaption="Oftewel: hoe heet het item?">
+          <TextInput name="name" autoComplete="off" />
+        </Label>
 
-      <Label caption="Bedrag (v.a.)">
-        <NumberInput name="amount" icon="euro-sign" />
-      </Label>
+        <Label className="flex-1" caption="Wat is het bedrag?" subCaption="Vanaf-prijs, gebruik een punt i.p.v. comma">
+          <NumberInput name="amount" icon="euro-sign" />
+        </Label>
+      </div>
 
-      <Label caption="Afbeeldings URL" subCaption="Copy & paste van een website naar keuze">
-        <TextInput name="imageUrl" />
-      </Label>
+      <div className="flex flex-row h-32 gap-5">
+        <Label className="flex-1" caption="Afbeeldings URL" subCaption="Copy & paste van een website naar keuze">
+          <TextInput name="imageUrl" />
+        </Label>
 
-      <Label caption="Tags">
-        <TagField name="tags" />
-      </Label>
+        <Label className="flex-1" caption="Tags" subCaption="Onder welke categoriëen valt dit?">
+          <TagField name="tags" />
+        </Label>
+      </div>
 
-      <Label caption="Namens wie vragen we dit?">
-        <SelectUserField name="itemOwner" users={adminUsers} defaultValue={currentAdminUser} />
-      </Label>
+      <div className="flex flex-row gap-5">
+        <Label className="flex-1" caption="Wie vraagt hierom?">
+          <SelectUserField name="itemOwner" users={adminUsers} defaultValue={currentAdminUser} />
+        </Label>
 
-      <Label caption="Heeft iemand dit al geclaimed?">
-        <SelectUserField name="claimedBy" users={users} hideAvatars includeEmptyOption />
-      </Label>
+        <Label className="flex-1" caption="Heeft iemand dit al geclaimed?">
+          <SelectUserField name="claimedBy" users={users} hideAvatars includeEmptyOption />
+        </Label>
+      </div>
     </fetcher.Form>
   );
 }

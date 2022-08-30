@@ -14,13 +14,9 @@ export default function TagField({ name }: Props) {
   const [ newTag, setNewTag ] = useState('');
 
   const handleNewTag = () => {
-    setTags([ ...tags, newTag ]);
-    setNewTag('');
-  };
-
-  const handleEnterKey = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleNewTag();
+    if (newTag) {
+      setTags([ ...tags, newTag ]);
+      setNewTag('');
     }
   };
 
@@ -44,10 +40,9 @@ export default function TagField({ name }: Props) {
           className="flex-1"
           value={newTag}
           onChange={(evt) => { setNewTag(evt.target.value) }}
-          onKeyDown={(e) => { handleEnterKey(e); }}
         />
 
-        <Button primary onClick={() => { handleNewTag(); }}>
+        <Button primary onClick={handleNewTag}>
           Tag toevoegen
         </Button>
       </div>

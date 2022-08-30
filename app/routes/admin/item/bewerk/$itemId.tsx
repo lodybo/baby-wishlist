@@ -1,10 +1,14 @@
-import type { LoaderArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import invariant from 'tiny-invariant';
-import { getItem } from '~/models/items.server';
 import { useLoaderData } from '@remix-run/react';
+import type { ActionArgs, LoaderArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import invariant from 'tiny-invariant';
+import ItemForm, { ItemFormData } from '~/components/ItemForm';
+import { claimItem, editItem, getItem, unclaimItem } from '~/models/items.server';
+import { getUsers } from '~/models/user.server';
 
 export const loader = async ({ params }: LoaderArgs) => {
+  const users = await getUsers();
+
   const { itemId } = params;
   invariant(itemId, `Geen item gevonden met id ${itemId}`);
 
@@ -14,15 +18,44 @@ export const loader = async ({ params }: LoaderArgs) => {
 
   invariant(item, 'Geen item gevonden');
 
-  return json({ item });
+  return json({ item, users, });
+};
+
+export const action = async ({ request }: ActionArgs) => {
+  const formData = await request.formData();
+
+  const item = Object.fromEntries(formData) as unknown as ItemFormData;
+
+  const newItem = await editItem({
+    id: item.id,
+    name: item.name,
+    amount: parseFloat(item.amount),
+    imageUrl: item.imageUrl,
+    description: item.description,
+    tags: item.tags.split(','),
+    userId: item.itemOwner,
+  });
+
+  if (item.claimedBy !== 'none') {
+    await claimItem({
+      itemId: newItem.id,
+      claimUserId: item.claimedBy,
+    });
+  } else {
+    await unclaimItem({
+      itemId: newItem.id,
+    });
+  }
+
+  return redirect('/admin');
 };
 
 export default function EditItemPage() {
-  const { item } = useLoaderData<typeof loader>();
+  const { item, users } = useLoaderData<typeof loader>();
 
   return (
     <div>
-      <h3>{item.name}</h3>
+      <ItemForm state="edit" users={users} item={item} />
     </div>
   );
 }

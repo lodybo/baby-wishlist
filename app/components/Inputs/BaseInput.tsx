@@ -13,6 +13,7 @@ export default function BaseInput({ icon, className, inputClassName, ...props }:
       focus-within:ring
       focus-within:ring-primary
       focus-within:ring-offset-2
+      focus-within:ring-offset-slate-50
     `,
       className,
     )}>

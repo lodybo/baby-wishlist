@@ -31,6 +31,8 @@ export default function AdminPage() {
     title = 'Item toevoegen';
   } else if (path?.pathname.includes('/admin/item/bewerk/')) {
     title = 'Item bewerken';
+  } else if (path?.pathname.includes('/admin/item/verwijder')) {
+    title = '';
   }
 
   const showDetails = path?.pathname === '/admin';

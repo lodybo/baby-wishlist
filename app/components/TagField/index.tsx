@@ -1,17 +1,22 @@
-import { useState } from 'react';
-import type { KeyboardEvent } from 'react';
+import { useEffect, useState } from 'react';
 import type { Props as InputProps } from '~/components/Inputs/Props';
 import TextInput from '~/components/Inputs/TextInput';
 import Tag from '~/components/Tag';
 import Button from '~/components/Button';
 
-type Props = InputProps & {
-
+type Props = Omit<InputProps, 'defaultValue'> & {
+  defaultValue?: string[];
 };
 
-export default function TagField({ name }: Props) {
+export default function TagField({ name, defaultValue }: Props) {
   const [ tags, setTags ] = useState<string[]>([]);
   const [ newTag, setNewTag ] = useState('');
+
+  useEffect(() => {
+    if (defaultValue && defaultValue.length) {
+      setTags([...defaultValue]);
+    }
+  }, [defaultValue]);
 
   const handleNewTag = () => {
     if (newTag) {

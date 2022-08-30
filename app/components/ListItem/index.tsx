@@ -1,8 +1,8 @@
-import type { Item } from '@prisma/client';
+import type { Item } from '~/models/items.server';
 import { Link } from '@remix-run/react';
 import Tag from '~/components/Tag';
 
-export type Props = Omit<Item, 'amount' | 'createdAt' | 'updatedAt' | 'userId' | 'claimId'>;
+export type Props = Omit<Item, 'amount' | 'userId' | 'claimId'>;
 
 export default function Index({
   id,

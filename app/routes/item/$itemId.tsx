@@ -66,8 +66,8 @@ export default function ItemDetailsPage() {
               <ItemOwner name={userName} />
             </div>
 
-            <ul className="my-5 flex list-none flex-row items-center p-0">
-              <li className="mr-2 text-xs text-slate-500">Valt onder:</li>
+            <ul className="my-5 flex list-none flex-row gap-2.5 items-center p-0">
+              <li className="text-xs text-slate-500">Valt onder:</li>
               {tags.map((tag) => (
                 <Tag key={tag} tag={tag} />
               ))}

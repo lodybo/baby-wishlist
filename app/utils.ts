@@ -71,7 +71,7 @@ export function validateEmail(email: unknown): email is string {
 }
 
 export function formatAmount(amount: string): string {
-  const value = parseInt(amount, 10);
+  const value = parseFloat(amount);
   return new Intl.NumberFormat('nl-NL', {
     style: 'currency',
     currency: 'EUR',

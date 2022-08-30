@@ -10,7 +10,7 @@ import { getItem } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
 import Tag from '~/components/Tag';
 import { formatAmount, useOptionalUser } from '~/utils';
-import Avatar from '~/components/Avatar';
+import ItemOwner from '~/components/ItemOwner';
 import ClaimField from '~/components/ClaimField';
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -63,7 +63,7 @@ export default function ItemDetailsPage() {
                 </h2>
               )}
 
-              <Avatar name={userName} />
+              <ItemOwner name={userName} />
             </div>
 
             <ul className="my-5 flex list-none flex-row items-center p-0">

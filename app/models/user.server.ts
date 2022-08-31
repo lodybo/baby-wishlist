@@ -37,6 +37,23 @@ export async function createUser(
   });
 }
 
+export async function updateUserRole({
+  id,
+  newRole,
+}: {
+  id: User['id'];
+  newRole: User['role'];
+}) {
+  return prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      role: newRole,
+    },
+  });
+}
+
 export async function deleteUserByEmail(email: User['email']) {
   return prisma.user.delete({ where: { email } });
 }

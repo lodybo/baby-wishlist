@@ -1,11 +1,12 @@
-import { Outlet, Link } from '@remix-run/react';
+import { Outlet } from '@remix-run/react';
 import type { LoaderArgs } from '@remix-run/node';
+import Anchor from '~/components/Anchor';
 
 import ProfilePageLayout from '~/layouts/ProfilePage';
 import { requireUser } from '~/session.server';
 import { useUser } from '~/utils';
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderArgs) => {
   await requireUser(request);
   return null;
 };
@@ -15,24 +16,30 @@ const ProfilePage = () => {
 
   return (
     <ProfilePageLayout>
-      <div className="flex flex-col md:flex-row gap-5">
-        <nav className="w-full h-screen md:w-1/4 flex-1 p-8 bg-slate-100">
-          <ul>
-            { user.role === 'ADMIN' && (
-              <li>
-                <Link to="/admin">
-                  Items bewerken
-                </Link>
-              </li>
+      <div className="flex flex-col gap-10 md:flex-row">
+        <nav className="w-full flex-1 bg-slate-100 p-8 md:w-1/4">
+          <ul className="flex flex-col gap-2.5">
+            <li>
+              <Anchor to="/profiel">Mijn geclaimde items</Anchor>
+            </li>
+
+            {user.role === 'ADMIN' && (
+              <>
+                <li>
+                  <Anchor to="/admin">Items beheren</Anchor>
+                </li>
+
+                <li>
+                  <Anchor to="/admin/gebruikers">Gebruikers beheren</Anchor>
+                </li>
+              </>
             )}
 
-            <li>Geclaimde items</li>
             <li>Instellingen</li>
           </ul>
         </nav>
 
-        <div className="w-full md:w-3/4 mt-4 md:mt-8 px-8 md:px-0">
-
+        <div className="w-full px-8 md:w-3/4 md:px-0">
           <Outlet />
         </div>
       </div>

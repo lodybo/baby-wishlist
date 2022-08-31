@@ -8,8 +8,9 @@ import {
   faRobot,
   faSpinner,
   faTrashCan,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import type { LinksFunction, LoaderArgs, LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import Document from '~/components/Document';
@@ -18,7 +19,7 @@ import { getUser } from './session.server';
 
 import tailwindStylesheetUrl from './styles/tailwind.css';
 
-library.add(faRobot, faEllipsisVertical, faSpinner, faTrashCan, faPencil, faArrowLeftLong, faEuroSign, faRemove);
+library.add(faRobot, faEllipsisVertical, faSpinner, faTrashCan, faPencil, faArrowLeftLong, faEuroSign, faRemove, faUser);
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }];

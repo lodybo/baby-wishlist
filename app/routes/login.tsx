@@ -1,10 +1,13 @@
 import type {
+  ActionArgs,
   ActionFunction,
+  LoaderArgs,
   LoaderFunction,
   MetaFunction,
 } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
+import invariant from 'tiny-invariant';
 import Checkbox from '~/components/Inputs/Checkbox';
 import EmailInput from '~/components/Inputs/EmailInput';
 import PasswordInput from '~/components/Inputs/PasswordInput';
@@ -12,7 +15,8 @@ import Label from '~/components/Label';
 
 import { createUserSession, getUserId } from '~/session.server';
 import { verifyLogin } from '~/models/user.server';
-import { safeRedirect, validateEmail } from '~/utils';
+import { safeRedirect } from '~/utils';
+import { validateEmail, validatePassword } from '~/validations';
 import Button from '~/components/Button';
 import AuthPageLayout from '~/layouts/AuthPage';
 
@@ -22,47 +26,40 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json({});
 };
 
-interface ActionData {
-  errors?: {
-    email?: string;
-    password?: string;
-  };
-}
-
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
   const email = formData.get('email');
   const password = formData.get('password');
   const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
   const remember = formData.get('remember');
 
-  // TODO: Granular validation
-  if (!validateEmail(email)) {
-    return json<ActionData>(
-      { errors: { email: 'Het e-mailadres is ongeldig' } },
-      { status: 400 },
-    );
-  }
+  const errors = {
+    email: validateEmail(email),
+    password: validatePassword(password),
+    user: null,
+  };
 
-  if (typeof password !== 'string' || password.length === 0) {
-    return json<ActionData>(
-      { errors: { password: 'Het wachtwoord is verplicht' } },
-      { status: 400 },
-    );
-  }
+  invariant(typeof email === 'string', 'Email is of an incorrect type');
+  invariant(typeof password === 'string', 'Password is of an incorrect type');
 
-  if (password.length < 8) {
-    return json<ActionData>(
-      { errors: { password: 'Het wachtwoord is te kort' } },
-      { status: 400 },
-    );
+  const fields = { email, password };
+
+  if (Object.values(errors).some(Boolean)) {
+    return json({ errors, fields }, { status: 400 });
   }
 
   const user = await verifyLogin(email, password);
 
   if (!user) {
-    return json<ActionData>(
-      { errors: { email: 'Het wachtwoord of e-mailadres is ongeldig' } },
+    return json(
+      {
+        errors: {
+          email: null,
+          password: null,
+          user: 'Het wachtwoord of e-mailadres is ongeldig',
+        },
+        fields,
+      },
       { status: 400 },
     );
   }
@@ -84,31 +81,34 @@ export const meta: MetaFunction = () => {
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/lijst';
-  const actionData = useActionData() as ActionData;
+  const actionData = useActionData<typeof action>();
 
   return (
     <AuthPageLayout>
       <h2 className="mb-10 text-4xl md:text-6xl">Log in om de lijst te zien</h2>
 
       <Form method="post" className="space-y-6" noValidate>
-        <div>
-          <Label caption="E-mailadres">
-            <EmailInput
-              id="email"
-              required
-              autoFocus={true}
-              name="email"
-              autoComplete="email"
-              aria-invalid={actionData?.errors?.email ? true : undefined}
-              aria-describedby="email-error"
-            />
-            {actionData?.errors?.email && (
-              <div className="pt-1 text-red-700" id="email-error">
-                {actionData.errors.email}
-              </div>
-            )}
-          </Label>
-        </div>
+        {actionData?.errors?.user && (
+          <p className="pb-5 text-red-700">{actionData.errors.user}</p>
+        )}
+
+        <Label caption="E-mailadres">
+          <EmailInput
+            id="email"
+            required
+            autoFocus={true}
+            name="email"
+            autoComplete="email"
+            defaultValue={actionData?.fields?.email || undefined}
+            aria-invalid={actionData?.errors?.email ? true : undefined}
+            aria-describedby="email-error"
+          />
+          {actionData?.errors?.email && (
+            <p className="pt-1 text-red-700" id="email-error">
+              {actionData.errors.email}
+            </p>
+          )}
+        </Label>
 
         <div className="flex flex-col">
           <Label caption="Wachtwoord">
@@ -120,9 +120,9 @@ export default function LoginPage() {
               aria-describedby="password-error"
             />
             {actionData?.errors?.password && (
-              <div className="pt-1 text-red-700" id="password-error">
+              <p className="pt-1 text-red-700" id="password-error">
                 {actionData.errors.password}
-              </div>
+              </p>
             )}
           </Label>
         </div>

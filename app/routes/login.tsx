@@ -5,7 +5,10 @@ import type {
 } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
-import * as React from 'react';
+import Checkbox from '~/components/Inputs/Checkbox';
+import EmailInput from '~/components/Inputs/EmailInput';
+import PasswordInput from '~/components/Inputs/PasswordInput';
+import Label from '~/components/Label';
 
 import { createUserSession, getUserId } from '~/session.server';
 import { verifyLogin } from '~/models/user.server';
@@ -33,23 +36,24 @@ export const action: ActionFunction = async ({ request }) => {
   const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
   const remember = formData.get('remember');
 
+  // TODO: Granular validation
   if (!validateEmail(email)) {
     return json<ActionData>(
-      { errors: { email: 'Email is invalid' } },
+      { errors: { email: 'Het e-mailadres is ongeldig' } },
       { status: 400 },
     );
   }
 
   if (typeof password !== 'string' || password.length === 0) {
     return json<ActionData>(
-      { errors: { password: 'Password is required' } },
+      { errors: { password: 'Het wachtwoord is verplicht' } },
       { status: 400 },
     );
   }
 
   if (password.length < 8) {
     return json<ActionData>(
-      { errors: { password: 'Password is too short' } },
+      { errors: { password: 'Het wachtwoord is te kort' } },
       { status: 400 },
     );
   }
@@ -58,7 +62,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (!user) {
     return json<ActionData>(
-      { errors: { email: 'Invalid email or password' } },
+      { errors: { email: 'Het wachtwoord of e-mailadres is ongeldig' } },
       { status: 400 },
     );
   }
@@ -81,16 +85,6 @@ export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/lijst';
   const actionData = useActionData() as ActionData;
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
-
-  React.useEffect(() => {
-    if (actionData?.errors?.email) {
-      emailRef.current?.focus();
-    } else if (actionData?.errors?.password) {
-      passwordRef.current?.focus();
-    }
-  }, [actionData]);
 
   return (
     <AuthPageLayout>
@@ -98,57 +92,39 @@ export default function LoginPage() {
 
       <Form method="post" className="space-y-6" noValidate>
         <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email-adres
-          </label>
-          <div className="mt-1">
-            <input
-              ref={emailRef}
+          <Label caption="E-mailadres">
+            <EmailInput
               id="email"
               required
               autoFocus={true}
               name="email"
-              type="email"
               autoComplete="email"
               aria-invalid={actionData?.errors?.email ? true : undefined}
               aria-describedby="email-error"
-              className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
             />
             {actionData?.errors?.email && (
               <div className="pt-1 text-red-700" id="email-error">
                 {actionData.errors.email}
               </div>
             )}
-          </div>
+          </Label>
         </div>
 
         <div className="flex flex-col">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Wachtwoord
-          </label>
-          <div className="mt-1">
-            <input
+          <Label caption="Wachtwoord">
+            <PasswordInput
               id="password"
-              ref={passwordRef}
               name="password"
-              type="password"
               autoComplete="current-password"
               aria-invalid={actionData?.errors?.password ? true : undefined}
               aria-describedby="password-error"
-              className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
             />
             {actionData?.errors?.password && (
               <div className="pt-1 text-red-700" id="password-error">
                 {actionData.errors.password}
               </div>
             )}
-          </div>
+          </Label>
         </div>
 
         <input type="hidden" name="redirectTo" value={redirectTo} />
@@ -157,19 +133,9 @@ export default function LoginPage() {
         </Button>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <input
-              id="remember"
-              name="remember"
-              type="checkbox"
-              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <label
-              htmlFor="remember"
-              className="ml-2 block text-sm text-gray-900"
-            >
-              Herinner mij
-            </label>
+            <Checkbox name="remember" caption="Herinner mij" />
           </div>
+
           <div className="text-center text-sm text-gray-500">
             Geen account?{' '}
             <Link
@@ -179,7 +145,7 @@ export default function LoginPage() {
                 search: searchParams.toString(),
               }}
             >
-              Geef je hier op
+              Geef je hier op.
             </Link>
           </div>
         </div>

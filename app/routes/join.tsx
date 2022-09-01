@@ -1,65 +1,59 @@
-import type {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-} from '@remix-run/node';
+import type { ActionArgs, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import invariant from 'tiny-invariant';
+import PasswordInput from '~/components/Inputs/PasswordInput';
+import TextInput from '~/components/Inputs/TextInput';
 
-import { getUserId, createUserSession } from '~/session.server';
+import { createUserSession, getUserId } from '~/session.server';
 
 import { createUser, getUserByEmail } from '~/models/user.server';
 import type { User } from '~/models/user.server';
-import { safeRedirect, validateEmail } from '~/utils';
+import { safeRedirect } from '~/utils';
 
 import AuthPageLayout from '~/layouts/AuthPage';
 import Label from '~/components/Label';
-import Input from '~/components/Input';
 
 import noPass from '~/images/you-shall-not-pass.png';
 import Button from '~/components/Button';
+import EmailInput from '~/components/Inputs/EmailInput';
+import {
+  validateAccessCode,
+  validatePassword,
+  validateEmail,
+  validateName,
+} from '~/validations';
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const userId = await getUserId(request);
   if (userId) return redirect('/');
-  return json({});
+  return null;
 };
 
-interface ActionData {
-  access?: {
-    granted: boolean;
-  };
-  errors?: {
-    email?: string;
-    password?: string;
-    access?: string;
-  };
-}
-
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
   const access = formData.get('access') === 'true';
 
+  let errors: Record<string, string | undefined> = {};
+  let fields: Record<string, string | undefined> = {};
+
   if (!access) {
-    const code = formData.get('access-code');
+    const { 'access-code': code } = Object.fromEntries(formData);
 
-    if (!code) {
-      return json<ActionData>(
-        { errors: { access: 'De code is verplicht.' } },
+    errors.access = validateAccessCode(code);
+
+    if (Object.values(errors).some(Boolean)) {
+      return json(
+        { errors, fields, access: { granted: false } },
         { status: 400 },
       );
     }
 
-    if (code !== process.env['ACCESS_CODE']) {
-      return json<ActionData>(
-        { errors: { access: 'Deze code is niet correct.' } },
-        { status: 400 },
-      );
-    }
-
-    return json<ActionData>(
+    return json(
       {
+        errors: null,
+        fields: null,
         access: {
           granted: true,
         },
@@ -68,45 +62,49 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  const email = formData.get('email');
-  const password = formData.get('password');
-  const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
+  const { name, email, password } = Object.fromEntries(formData);
   let role: User['role'] = 'USER';
+  const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
 
   if (formData.get('role') === 'admin') {
     role = 'ADMIN';
   }
 
-  if (!validateEmail(email)) {
-    return json<ActionData>(
-      { errors: { email: 'Email is invalid' } },
-      { status: 400 },
-    );
-  }
+  errors = {
+    name: validateName(name),
+    email: validateEmail(email),
+    password: validatePassword(password),
+  };
 
-  if (typeof password !== 'string' || password.length === 0) {
-    return json<ActionData>(
-      { errors: { password: 'Password is required' } },
-      { status: 400 },
-    );
-  }
+  invariant(typeof name === 'string', 'Name is of an incorrect type');
+  invariant(typeof email === 'string', 'Email is of an incorrect type');
+  invariant(typeof password === 'string', 'Password is of an incorrect type');
+  invariant(typeof role === 'string', 'Role is of an incorrect type');
 
-  if (password.length < 8) {
-    return json<ActionData>(
-      { errors: { password: 'Password is too short' } },
-      { status: 400 },
-    );
+  fields = { name, email, password };
+
+  if (Object.values(errors).some(Boolean)) {
+    return json({ errors, fields, access: { granted: true } }, { status: 400 });
   }
 
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
-    return json<ActionData>(
-      { errors: { email: 'A user already exists with this email' } },
+    return json(
+      {
+        errors: {
+          name: null,
+          email: 'Dit e-mailadres is al in gebruik',
+          password: null,
+          access: null,
+        },
+        fields,
+        access: null,
+      },
       { status: 400 },
     );
   }
 
-  const user = await createUser(email, password, role);
+  const user = await createUser(name, email, password, role);
 
   return createUserSession({
     request,
@@ -118,19 +116,17 @@ export const action: ActionFunction = async ({ request }) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Sign Up',
+    title: 'Aanmelden',
   };
 };
 
 export default function Join() {
-  const [access, setAccess] = useState(false);
   const [role, setRole] = useState<string>('user');
   const [redirectTo, setRedirectTo] = useState<string | undefined>(undefined);
 
   const [searchParams] = useSearchParams();
-  const actionData = useActionData() as ActionData;
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const actionData = useActionData<typeof action>();
+  const access = actionData?.access?.granted || false;
 
   useEffect(() => {
     const customRole = searchParams.get('use_role');
@@ -143,18 +139,6 @@ export default function Join() {
       setRedirectTo(customRedirectTo);
     }
   }, [searchParams]);
-
-  useEffect(() => {
-    if (actionData?.errors?.email) {
-      emailRef.current?.focus();
-    } else if (actionData?.errors?.password) {
-      passwordRef.current?.focus();
-    }
-
-    if (actionData?.access?.granted) {
-      setAccess(true);
-    }
-  }, [actionData]);
 
   if (!access) {
     return (
@@ -184,13 +168,12 @@ export default function Join() {
 
           <p>Kom je er niet uit? Stuur ons dan een berichtje.</p>
 
-          <Form method="post">
+          <Form className="not-prose" method="post">
             <input type="hidden" name="access" value="false" />
 
             <Label caption="Voer je access code in">
-              <Input
+              <TextInput
                 name="access-code"
-                type="text"
                 autoComplete="false"
                 autoFocus={true}
               />
@@ -213,71 +196,68 @@ export default function Join() {
 
   return (
     <AuthPageLayout>
+      <h2 className="mb-10 text-4xl md:text-6xl">
+        Geef je op voor Cody's wensjes!
+      </h2>
+
       <Form method="post" className="space-y-6" noValidate>
         <input type="hidden" name="role" value={role} />
         <input type="hidden" name="access" value="true" />
 
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email address
-          </label>
-          <div className="mt-1">
-            <input
-              ref={emailRef}
-              id="email"
-              required
-              autoFocus={true}
-              name="email"
-              type="email"
-              autoComplete="email"
-              aria-invalid={actionData?.errors?.email ? true : undefined}
-              aria-describedby="email-error"
-              className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
-            />
-            {actionData?.errors?.email && (
-              <div className="pt-1 text-red-700" id="email-error">
-                {actionData.errors.email}
-              </div>
-            )}
-          </div>
-        </div>
+        <Label caption="Wat is je naam?">
+          <TextInput
+            id="name"
+            autoFocus={true}
+            name="name"
+            autoComplete="name"
+            aria-invalid={actionData?.errors?.name ? true : undefined}
+            aria-describedby="name-error"
+          />
+          {actionData?.errors?.name && (
+            <p className="pt-1 text-red-700" id="name-error">
+              {actionData.errors.name}
+            </p>
+          )}
+        </Label>
 
-        <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Password
-          </label>
-          <div className="mt-1">
-            <input
-              id="password"
-              ref={passwordRef}
-              name="password"
-              type="password"
-              autoComplete="new-password"
-              aria-invalid={actionData?.errors?.password ? true : undefined}
-              aria-describedby="password-error"
-              className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
-            />
-            {actionData?.errors?.password && (
-              <div className="pt-1 text-red-700" id="password-error">
-                {actionData.errors.password}
-              </div>
-            )}
-          </div>
-        </div>
+        <Label className="block" caption="E-mailadres">
+          <EmailInput
+            id="email"
+            required
+            name="email"
+            autoComplete="email"
+            aria-invalid={actionData?.errors?.email ? true : undefined}
+            aria-describedby="email-error"
+          />
+          {actionData?.errors?.email && (
+            <p className="pt-1 text-red-700" id="email-error">
+              {actionData.errors.email}
+            </p>
+          )}
+        </Label>
+
+        <Label className="block" caption="Wachtwoord">
+          <PasswordInput
+            id="password"
+            name="password"
+            autoComplete="new-password"
+            aria-invalid={actionData?.errors?.password ? true : undefined}
+            aria-describedby="password-error"
+          />
+          {actionData?.errors?.password && (
+            <p className="pt-1 text-red-700" id="password-error">
+              {actionData.errors.password}
+            </p>
+          )}
+        </Label>
 
         <input type="hidden" name="redirectTo" value={redirectTo} />
-        <Button type="submit" primary>
-          Create Account
-        </Button>
-        <div className="flex items-center justify-center">
-          <div className="text-center text-sm text-gray-500">
-            Already have an account?{' '}
+        <div className="flex flex-row items-center justify-between">
+          <Button type="submit" primary>
+            Account aanmaken
+          </Button>
+          <p className=" text-sm text-gray-500">
+            Heb je al een account?{' '}
             <Link
               className="text-blue-500 underline"
               to={{
@@ -285,9 +265,9 @@ export default function Join() {
                 search: searchParams.toString(),
               }}
             >
-              Log in
+              Log dan in
             </Link>
-          </div>
+          </p>
         </div>
       </Form>
     </AuthPageLayout>

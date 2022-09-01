@@ -18,6 +18,7 @@ export async function getUsers() {
 }
 
 export async function createUser(
+  name: User['name'],
   email: User['email'],
   password: string,
   role: User['role'],
@@ -26,6 +27,7 @@ export async function createUser(
 
   return prisma.user.create({
     data: {
+      name,
       email,
       password: {
         create: {

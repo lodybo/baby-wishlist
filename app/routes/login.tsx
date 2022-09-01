@@ -1,10 +1,4 @@
-import type {
-  ActionArgs,
-  ActionFunction,
-  LoaderArgs,
-  LoaderFunction,
-  MetaFunction,
-} from '@remix-run/node';
+import type { ActionArgs, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
 import invariant from 'tiny-invariant';
@@ -20,10 +14,10 @@ import { validateEmail, validatePassword } from '~/validations';
 import Button from '~/components/Button';
 import AuthPageLayout from '~/layouts/AuthPage';
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const userId = await getUserId(request);
   if (userId) return redirect('/');
-  return json({});
+  return null;
 };
 
 export const action = async ({ request }: ActionArgs) => {
@@ -92,7 +86,7 @@ export default function LoginPage() {
           <p className="pb-5 text-red-700">{actionData.errors.user}</p>
         )}
 
-        <Label caption="E-mailadres">
+        <Label className="block" caption="E-mailadres">
           <EmailInput
             id="email"
             required
@@ -110,22 +104,20 @@ export default function LoginPage() {
           )}
         </Label>
 
-        <div className="flex flex-col">
-          <Label caption="Wachtwoord">
-            <PasswordInput
-              id="password"
-              name="password"
-              autoComplete="current-password"
-              aria-invalid={actionData?.errors?.password ? true : undefined}
-              aria-describedby="password-error"
-            />
-            {actionData?.errors?.password && (
-              <p className="pt-1 text-red-700" id="password-error">
-                {actionData.errors.password}
-              </p>
-            )}
-          </Label>
-        </div>
+        <Label className="block" caption="Wachtwoord">
+          <PasswordInput
+            id="password"
+            name="password"
+            autoComplete="current-password"
+            aria-invalid={actionData?.errors?.password ? true : undefined}
+            aria-describedby="password-error"
+          />
+          {actionData?.errors?.password && (
+            <p className="pt-1 text-red-700" id="password-error">
+              {actionData.errors.password}
+            </p>
+          )}
+        </Label>
 
         <input type="hidden" name="redirectTo" value={redirectTo} />
         <Button className="ml-auto" type="submit" primary>

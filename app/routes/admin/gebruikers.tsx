@@ -2,7 +2,7 @@ import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import Button from '~/components/Button';
-import { getUsers, updateUserRole } from '~/models/user.server';
+import { getUsers, editUserRole } from '~/models/user.server';
 import type { User } from '~/models/user.server';
 import { requireUser } from '~/session.server';
 
@@ -25,7 +25,7 @@ export const action = async ({ request }: ActionArgs) => {
     formData,
   ) as unknown as FormData;
 
-  await updateUserRole({
+  await editUserRole({
     id: userId,
     newRole,
   });

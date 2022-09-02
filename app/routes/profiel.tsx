@@ -23,8 +23,13 @@ const ProfilePage = () => {
               <Anchor to="/profiel">Mijn geclaimde items</Anchor>
             </li>
 
+            <li>
+              <Anchor to="instellingen">Instellingen</Anchor>
+            </li>
+
             {user.role === 'ADMIN' && (
               <>
+                <li className="mt-5 font-semibold">Admin opties</li>
                 <li>
                   <Anchor to="/admin">Items beheren</Anchor>
                 </li>
@@ -34,8 +39,6 @@ const ProfilePage = () => {
                 </li>
               </>
             )}
-
-            <li>Instellingen</li>
           </ul>
         </nav>
 

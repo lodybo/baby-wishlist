@@ -66,10 +66,6 @@ export function useUser(): User {
   return maybeUser;
 }
 
-export function validateEmail(email: unknown): email is string {
-  return typeof email === 'string' && email.length > 3 && email.includes('@');
-}
-
 export function formatAmount(amount: string): string {
   const value = parseFloat(amount);
   return new Intl.NumberFormat('nl-NL', {

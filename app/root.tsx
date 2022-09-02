@@ -11,7 +11,11 @@ import {
   faUser,
   faEye,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import {
+  faCircle,
+  faCircleCheck,
+  faCircleXmark,
+} from '@fortawesome/free-regular-svg-icons';
 import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
@@ -34,6 +38,7 @@ library.add(
   faEye,
   faCircle,
   faCircleCheck,
+  faCircleXmark,
 );
 
 export const links: LinksFunction = () => {

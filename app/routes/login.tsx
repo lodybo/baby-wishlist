@@ -86,7 +86,7 @@ export default function LoginPage() {
           <p className="pb-5 text-red-700">{actionData.errors.user}</p>
         )}
 
-        <Label className="block" caption="E-mailadres">
+        <Label caption="E-mailadres">
           <EmailInput
             id="email"
             required
@@ -104,7 +104,7 @@ export default function LoginPage() {
           )}
         </Label>
 
-        <Label className="block" caption="Wachtwoord">
+        <Label caption="Wachtwoord">
           <PasswordInput
             id="password"
             name="password"

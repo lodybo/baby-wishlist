@@ -220,7 +220,7 @@ export default function Join() {
           )}
         </Label>
 
-        <Label className="block" caption="E-mailadres">
+        <Label caption="E-mailadres">
           <EmailInput
             id="email"
             required
@@ -236,7 +236,7 @@ export default function Join() {
           )}
         </Label>
 
-        <Label className="block" caption="Wachtwoord">
+        <Label caption="Wachtwoord">
           <PasswordInput
             id="password"
             name="password"

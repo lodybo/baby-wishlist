@@ -8,8 +8,15 @@ import {
   faRobot,
   faSpinner,
   faTrashCan,
+  faUser,
+  faEye,
 } from '@fortawesome/free-solid-svg-icons';
-import type { LinksFunction, LoaderArgs, LoaderFunction, MetaFunction } from '@remix-run/node';
+import {
+  faCircle,
+  faCircleCheck,
+  faCircleXmark,
+} from '@fortawesome/free-regular-svg-icons';
+import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import Document from '~/components/Document';
@@ -18,7 +25,21 @@ import { getUser } from './session.server';
 
 import tailwindStylesheetUrl from './styles/tailwind.css';
 
-library.add(faRobot, faEllipsisVertical, faSpinner, faTrashCan, faPencil, faArrowLeftLong, faEuroSign, faRemove);
+library.add(
+  faRobot,
+  faEllipsisVertical,
+  faSpinner,
+  faTrashCan,
+  faPencil,
+  faArrowLeftLong,
+  faEuroSign,
+  faRemove,
+  faUser,
+  faEye,
+  faCircle,
+  faCircleCheck,
+  faCircleXmark,
+);
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }];
@@ -44,7 +65,7 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error}) {
+export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error.stack);
 
   return (
@@ -52,7 +73,7 @@ export function ErrorBoundary({ error }: { error: Error}) {
       <PageLayout>
         <div className="prose lg:prose-xl xl:prose-2xl">
           <h1>Er is iets fout gegaan.</h1>
-          <p>{ error.message }</p>
+          <p>{error.message}</p>
         </div>
       </PageLayout>
     </Document>

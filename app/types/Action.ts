@@ -5,6 +5,7 @@ interface BaseAction {
   action?: 'CLAIM' | 'UNCLAIM';
   userId?: User['id'];
   itemId?: Item['id'];
+  referer?: string;
 }
 
 interface ClaimAction extends BaseAction {

@@ -1,4 +1,5 @@
 import { Form, Link } from '@remix-run/react';
+import Icon from '~/components/Icon';
 import type { User } from '~/models/user.server';
 
 import Menu from './Menu';
@@ -27,8 +28,6 @@ const Navigation = ({ user}: Props) => {
           <Link to="/lijst">Lijst</Link>
         </MenuItem>
 
-        <MenuItem>Suggesties</MenuItem>
-
         <MenuItem>
           { user ? (
             <Form
@@ -36,8 +35,10 @@ const Navigation = ({ user}: Props) => {
               action="/logout"
               method="post"
             >
+              <span className="hidden md:inline text-slate-600">Hallo { user.name }!</span>
+
               <Link to="/profiel">
-                <span className="text-slate-600">Hallo { user.name }!</span>
+                <Icon name="user" />
               </Link>
 
               <Button jumpOut type="submit">

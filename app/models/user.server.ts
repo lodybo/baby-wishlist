@@ -18,6 +18,7 @@ export async function getUsers() {
 }
 
 export async function createUser(
+  name: User['name'],
   email: User['email'],
   password: string,
   role: User['role'],
@@ -26,6 +27,7 @@ export async function createUser(
 
   return prisma.user.create({
     data: {
+      name,
       email,
       password: {
         create: {
@@ -33,6 +35,62 @@ export async function createUser(
         },
       },
       role,
+    },
+  });
+}
+
+export async function editUser({
+  id,
+  name,
+  email,
+}: {
+  id: User['id'];
+  name: User['name'];
+  email: User['email'];
+}) {
+  return prisma.user.update({
+    where: { id },
+    data: {
+      name,
+      email,
+    },
+  });
+}
+
+export async function editUserRole({
+  id,
+  newRole,
+}: {
+  id: User['id'];
+  newRole: User['role'];
+}) {
+  return prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      role: newRole,
+    },
+  });
+}
+
+export async function editUserPassword({
+  id,
+  newPassword,
+}: {
+  id: User['id'];
+  newPassword: string;
+}) {
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  return prisma.user.update({
+    where: { id },
+    data: {
+      password: {
+        update: {
+          hash: hashedPassword,
+        },
+      },
     },
   });
 }

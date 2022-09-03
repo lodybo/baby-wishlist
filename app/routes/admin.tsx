@@ -1,6 +1,12 @@
 import type { LoaderArgs } from '@remix-run/node';
 import { redirect, json } from '@remix-run/node';
-import { Link, useLoaderData, Outlet, useMatches, useLocation } from '@remix-run/react';
+import {
+  Link,
+  useLoaderData,
+  Outlet,
+  useMatches,
+  useLocation,
+} from '@remix-run/react';
 import AdminPageLayout from '~/layouts/AdminPage';
 import { getItemList } from '~/models/items.server';
 import Button from '~/components/Button';
@@ -23,7 +29,7 @@ export default function AdminPage() {
   const matches = useMatches();
   const location = useLocation();
   const { count } = useLoaderData<typeof loader>();
-  const path = matches.find(match => match.pathname === location.pathname);
+  const path = matches.find((match) => match.pathname === location.pathname);
 
   let title = 'Items toevoegen of bewerken';
 
@@ -33,6 +39,8 @@ export default function AdminPage() {
     title = 'Item bewerken';
   } else if (path?.pathname.includes('/admin/item/verwijder')) {
     title = '';
+  } else if (path?.pathname === '/admin/gebruikers') {
+    title = 'Gebuikers beheren';
   }
 
   const showDetails = path?.pathname === '/admin';
@@ -41,19 +49,19 @@ export default function AdminPage() {
 
   return (
     <AdminPageLayout>
-      <h1 className="text-4xl">{ title }</h1>
+      <h1 className="text-4xl">{title}</h1>
 
       <div className="flex flex-row justify-between">
-        { showDetails ? (
+        {showDetails ? (
           <>
             <h2 className="text-xl">{itemCount}</h2>
             <Link to="item/nieuw">
-              <Button className="mx-auto md:w-auto md:mr-0" primary>
+              <Button className="mx-auto md:mr-0 md:w-auto" primary>
                 Item toevoegen
               </Button>
             </Link>
           </>
-        ): (
+        ) : (
           <>
             <Link to="/admin">
               <Button>

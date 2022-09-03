@@ -2,20 +2,26 @@ import type { ActionArgs } from '@remix-run/node';
 import { redirect, json } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 import type { Action } from '~/types/Action';
-import { claimItem, unclaimItem, getItemClaimStatus } from '~/models/items.server';
+import {
+  claimItem,
+  unclaimItem,
+  getItemClaimStatus,
+} from '~/models/items.server';
 
-export const action = async ({ request, params }: ActionArgs) => {
+export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
 
-  const { itemId, userId, action } = Object.fromEntries(formData) as unknown as Action;
+  const { itemId, userId, action, referer } = Object.fromEntries(
+    formData,
+  ) as unknown as Action;
   invariant(itemId, 'Geen item gevonden');
   invariant(userId, 'Geen gebruiker gevonden');
   invariant(action, 'Geen actie gevonden');
 
   switch (action) {
     case 'CLAIM':
-      const claimStatus = await getItemClaimStatus({ itemId, });
-      console.log({claimStatus})
+      const claimStatus = await getItemClaimStatus({ itemId });
+
       if (claimStatus && claimStatus.claimId) {
         return json({ claimed: true }, { status: 409 });
       }
@@ -33,5 +39,6 @@ export const action = async ({ request, params }: ActionArgs) => {
       break;
   }
 
-  return redirect(`/item/${ itemId }`);
+  const redirectUrl = referer || `/item/${itemId}`;
+  return redirect(redirectUrl);
 };

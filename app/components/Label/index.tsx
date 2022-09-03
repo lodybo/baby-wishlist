@@ -8,18 +8,26 @@ export type Props = {
   className?: string;
 };
 
-export default function Label({ caption, children, subCaption, className = '' }: Props) {
+export default function Label({
+  caption,
+  children,
+  subCaption,
+  className = '',
+}: Props) {
   return (
-    <label className={className}>
-      <p className={classnames(
-        'block text-lg font-medium text-slate-700',
-        {
+    <label className={`${className} block`}>
+      <p
+        className={classnames('block text-lg font-medium text-slate-700', {
           'mb-1': !subCaption,
-        }
-      )}>{caption}</p>
+        })}
+      >
+        {caption}
+      </p>
 
-      { subCaption && (
-        <small className="block mb-2 text-sm font-medium text-slate-500">{subCaption}</small>
+      {subCaption && (
+        <small className="mb-2 block text-sm font-medium text-slate-500">
+          {subCaption}
+        </small>
       )}
 
       {children}

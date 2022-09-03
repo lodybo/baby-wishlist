@@ -8,7 +8,7 @@ export default function ProfilePageLayout({ children }: LayoutProps) {
   return (
     <>
       <Navigation user={user} />
-      <div className="mx-auto w-full">{children}</div>
+      <div className="w-full px-14">{children}</div>
     </>
   );
 }

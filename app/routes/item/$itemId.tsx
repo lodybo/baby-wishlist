@@ -69,23 +69,29 @@ export default function ItemDetailsPage() {
               <ItemOwner name={userName} />
             </div>
 
-            <ul className="my-5 flex list-none flex-row gap-2.5 items-center p-0">
+            <ul className="my-5 flex list-none flex-row items-center gap-2.5 p-0">
               <li className="text-xs text-slate-500">Valt onder:</li>
               {tags.map((tag) => (
                 <Tag key={tag} tag={tag} />
               ))}
             </ul>
 
-            { currentUser && (
-              <ClaimField currentUserId={currentUser.id} claimId={claimId} itemId={id} />
+            {currentUser && (
+              <ClaimField
+                currentUserId={currentUser.id}
+                claimId={claimId}
+                itemId={id}
+              />
             )}
           </div>
 
           <div className="flex-initial sm:w-3/4">
-            {imageUrl && <img className="mb-10" src={imageUrl} alt={name} />}
+            {imageUrl && (
+              <img className="mb-10 w-3/4" src={imageUrl} alt={name} />
+            )}
 
             <div className="prose lg:prose-xl xl:prose-2xl">
-              <div dangerouslySetInnerHTML={{ __html: description}} />
+              <div dangerouslySetInnerHTML={{ __html: description }} />
             </div>
           </div>
         </div>

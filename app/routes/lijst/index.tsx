@@ -1,18 +1,19 @@
-import { useEffect } from 'react';
+import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { useNavigate } from 'react-router-dom';
 import { marked } from 'marked';
 
 import { getItemList } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
+import { requireUser } from '~/session.server';
 import { useOptionalUser } from '~/utils';
 import ListItem from '~/components/ListItem';
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderArgs) => {
+  await requireUser(request);
   const itemList = await getItemList();
 
-  const items = itemList.map(item => ({
+  const items = itemList.map((item) => ({
     ...item,
     description: `${marked.parse(item.description).substring(0, 250)}...`,
   }));
@@ -21,15 +22,7 @@ export const loader = async () => {
 };
 
 export default function ItemsPage() {
-  const navigate = useNavigate();
   const { items } = useLoaderData<typeof loader>();
-  const user = useOptionalUser();
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    }
-  }, [user, navigate]);
 
   return (
     <PageLayout>

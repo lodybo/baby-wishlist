@@ -1,11 +1,13 @@
 import { Link, useLoaderData } from '@remix-run/react';
-import { json } from '@remix-run/node';
+import { json, LoaderArgs } from '@remix-run/node';
 import Button from '~/components/Button';
 import Icon from '~/components/Icon';
 import SmallListItem from '~/components/ListItem/Small';
 import { getItemList } from '~/models/items.server';
+import { requireUser } from '~/session.server';
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderArgs) => {
+  await requireUser(request);
   const items = await getItemList();
   return json({ items }, { status: 200 });
 };

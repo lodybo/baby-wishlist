@@ -3,10 +3,17 @@ import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 import ItemForm, { ItemFormData } from '~/components/ItemForm';
-import { claimItem, editItem, getItem, unclaimItem } from '~/models/items.server';
+import {
+  claimItem,
+  editItem,
+  getItem,
+  unclaimItem,
+} from '~/models/items.server';
 import { getUsers } from '~/models/user.server';
+import { requireUser } from '~/session.server';
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
+  await requireUser(request);
   const users = await getUsers();
 
   const { itemId } = params;
@@ -18,7 +25,7 @@ export const loader = async ({ params }: LoaderArgs) => {
 
   invariant(item, 'Geen item gevonden');
 
-  return json({ item, users, });
+  return json({ item, users });
 };
 
 export const action = async ({ request }: ActionArgs) => {

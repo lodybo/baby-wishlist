@@ -1,12 +1,14 @@
 import { useLoaderData } from '@remix-run/react';
-import type{ ActionArgs } from '@remix-run/node';
+import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import ItemForm from '~/components/ItemForm';
 import type { ItemFormData } from '~/components/ItemForm';
 import { getUsers } from '~/models/user.server';
 import { createItem, claimItem } from '~/models/items.server';
+import { requireUser } from '~/session.server';
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderArgs) => {
+  await requireUser(request);
   const users = await getUsers();
 
   return json({ users });

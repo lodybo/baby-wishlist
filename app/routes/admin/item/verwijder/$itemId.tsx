@@ -4,10 +4,15 @@ import { Link, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import Button from '~/components/Button';
 import { deleteItem, getItem } from '~/models/items.server';
+import { requireUser } from '~/session.server';
 
-export const loader = async ({ params }: LoaderArgs) => {
-  const { itemId, } = params;
-  invariant(itemId, 'Er kan geen item gevonden worden omdat er geen ID is meegegeven.');
+export const loader = async ({ request, params }: LoaderArgs) => {
+  await requireUser(request);
+  const { itemId } = params;
+  invariant(
+    itemId,
+    'Er kan geen item gevonden worden omdat er geen ID is meegegeven.',
+  );
 
   const item = await getItem({ id: itemId });
   invariant(item, `Geen item gevonden met het ID: ${itemId}`);
@@ -16,8 +21,11 @@ export const loader = async ({ params }: LoaderArgs) => {
 };
 
 export const action = async ({ params }: ActionArgs) => {
-  const { itemId, } = params;
-  invariant(itemId, 'Er kan geen item gevonden worden omdat er geen ID is meegegeven.');
+  const { itemId } = params;
+  invariant(
+    itemId,
+    'Er kan geen item gevonden worden omdat er geen ID is meegegeven.',
+  );
 
   await deleteItem({
     id: itemId,
@@ -31,21 +39,29 @@ export default function DeleteItemPage() {
 
   return (
     <>
-      <h1 className="text-5xl mb-10 text-center">Weet je zeker dat je dit wilt verwijderen?</h1>
+      <h1 className="mb-10 text-center text-5xl">
+        Weet je zeker dat je dit wilt verwijderen?
+      </h1>
 
-      <div className="flex flex-row place-items-center gap-5 mb-10">
-        <img className="flex-none w-1/4 h-full w-48 object-cover" src={item.imageUrl || ''} alt={item.name} />
+      <div className="mb-10 flex flex-row place-items-center gap-5">
+        <img
+          className="h-full w-1/4 w-48 flex-none object-cover"
+          src={item.imageUrl || ''}
+          alt={item.name}
+        />
 
-        <h2 className="text-3xl flex-none w-3/4">{item.name}</h2>
+        <h2 className="w-3/4 flex-none text-3xl">{item.name}</h2>
       </div>
 
-      <div className="flex flex-row gap-14 justify-center">
+      <div className="flex flex-row justify-center gap-14">
         <Link to="/admin">
           <Button useSpan>Nee, laat maar</Button>
         </Link>
 
         <form method="post">
-          <Button danger type="submit">Ja, ik weet het zeker</Button>
+          <Button danger type="submit">
+            Ja, ik weet het zeker
+          </Button>
         </form>
       </div>
     </>

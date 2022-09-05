@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
@@ -10,11 +8,13 @@ import { getUserById } from '~/models/user.server';
 import { getItem } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
 import Tag from '~/components/Tag';
+import { requireUser } from '~/session.server';
 import { formatAmount, useOptionalUser } from '~/utils';
 import ItemOwner from '~/components/ItemOwner';
 import ClaimField from '~/components/ClaimField';
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
+  await requireUser(request);
   const { itemId } = params;
   invariant(itemId, 'Geen item gevonden');
 
@@ -36,20 +36,12 @@ export const loader = async ({ params }: LoaderArgs) => {
 };
 
 export default function ItemDetailsPage() {
-  const navigate = useNavigate();
-
   const {
     item: { id, name, description, tags, imageUrl, amount, claimId },
     user: { name: userName },
   } = useLoaderData<typeof loader>();
 
   const currentUser = useOptionalUser();
-
-  useEffect(() => {
-    if (!currentUser) {
-      navigate('/login');
-    }
-  }, [currentUser, navigate]);
 
   return (
     <PageLayout>

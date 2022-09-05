@@ -14,7 +14,7 @@ export default function Index({
   return (
     <li
       key={id}
-      className="group mb-10 w-full max-w-sm flex-initial cursor-pointer overflow-hidden rounded border border-slate-200 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg motion-reduce:transition-none"
+      className="group cursor-pointer overflow-hidden rounded border border-slate-200 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg motion-reduce:transition-none"
     >
       <Link to={`/item/${id}`}>
         <div className="h-48 w-full overflow-hidden lg:h-80">
@@ -28,7 +28,10 @@ export default function Index({
         <div className="p-2.5">
           <h2 className="mb-1 text-2xl">{name}</h2>
 
-          <div className="text-sm" dangerouslySetInnerHTML={{ __html: description }} />
+          <div
+            className="text-sm"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
 
           <ul className="my-2.5 flex flex-wrap gap-2.5">
             {tags.map((tag) => (

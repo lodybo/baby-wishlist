@@ -28,6 +28,19 @@ export function getItemsByUser({ id }: { id: User['id'] }) {
   });
 }
 
+export function getItemsByTag({ tag }: { tag: string }) {
+  return prisma.item.findMany({
+    orderBy: {
+      updatedAt: 'desc',
+    },
+    where: {
+      tags: {
+        has: tag,
+      },
+    },
+  });
+}
+
 export function createItem({
   name,
   description,

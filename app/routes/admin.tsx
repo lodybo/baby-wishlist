@@ -7,6 +7,7 @@ import {
   useMatches,
   useLocation,
 } from '@remix-run/react';
+import BackButton from '~/components/BackButton';
 import AdminPageLayout from '~/layouts/AdminPage';
 import { getItemList } from '~/models/items.server';
 import Button from '~/components/Button';
@@ -62,13 +63,7 @@ export default function AdminPage() {
             </Link>
           </>
         ) : (
-          <>
-            <Link to="/admin">
-              <Button>
-                <Icon name="arrow-left-long" />
-              </Button>
-            </Link>
-          </>
+          <BackButton to="/admin" />
         )}
       </div>
 

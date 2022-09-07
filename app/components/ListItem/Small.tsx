@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
-import type { Item } from '~/models/items.server';
+import { Item } from '~/models/items.server';
 
 type Props = {
-  item: Omit<Item, 'amount' | 'userId' | 'claimId'>;
+  item: Pick<Item, 'id' | 'name' | 'imageUrl'> & { claimedUserName?: string };
   actionRow: ReactNode;
 };
 
 export default function SmallListItem({
-  item: { id, name, imageUrl },
+  item: { id, name, imageUrl, claimedUserName },
   actionRow,
 }: Props) {
   return (
@@ -16,7 +16,12 @@ export default function SmallListItem({
         <img className="h-full w-20 object-cover" src={imageUrl} alt={name} />
       )}
 
-      <p className="text-xl">{name}</p>
+      <div>
+        <p className="text-xl">{name}</p>
+        {claimedUserName && (
+          <small className="text-sm">Geclaimed door {claimedUserName}</small>
+        )}
+      </div>
 
       <div className="ml-auto flex flex-row gap-2.5">{actionRow}</div>
     </li>

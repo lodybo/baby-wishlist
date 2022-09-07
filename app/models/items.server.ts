@@ -13,9 +13,12 @@ export function getItem({ id }: Pick<Item, 'id'>) {
   });
 }
 
-export function getItemList() {
+export function getItemList(params?: { includeClaimedUser: boolean }) {
   return prisma.item.findMany({
     orderBy: { updatedAt: 'desc' },
+    include: {
+      claimUser: params?.includeClaimedUser,
+    },
   });
 }
 

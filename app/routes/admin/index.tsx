@@ -1,14 +1,32 @@
 import { Link, useLoaderData } from '@remix-run/react';
-import { json, LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import Button from '~/components/Button';
 import Icon from '~/components/Icon';
 import SmallListItem from '~/components/ListItem/Small';
 import { getItemList } from '~/models/items.server';
+import { getUserById } from '~/models/user.server';
 import { requireUser } from '~/session.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
   await requireUser(request);
-  const items = await getItemList();
+  const list = await getItemList({ includeClaimedUser: true });
+
+  const items = list.map(({ id, name, imageUrl, claimUser }) => {
+    let claimedUser;
+
+    if (claimUser) {
+      claimedUser = claimUser.name;
+    }
+
+    return {
+      id,
+      name,
+      imageUrl,
+      claimedUserName: claimedUser,
+    };
+  });
+
   return json({ items }, { status: 200 });
 };
 

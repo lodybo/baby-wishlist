@@ -8,7 +8,7 @@ export default function AdminPageLayout({ children }: LayoutProps) {
   return (
     <>
       <Navigation user={user} />
-      <div className="mx-5 w-full md:mx-auto md:w-2/3 flex flex-col gap-10">{children}</div>
+      <div className="w-full px-14">{children}</div>
     </>
   );
 }

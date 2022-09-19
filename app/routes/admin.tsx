@@ -8,11 +8,11 @@ import {
   useLocation,
 } from '@remix-run/react';
 import BackButton from '~/components/BackButton';
+import ProfileMenu from '~/components/ProfileMenu';
 import AdminPageLayout from '~/layouts/AdminPage';
 import { getItemList } from '~/models/items.server';
 import Button from '~/components/Button';
 import { requireUser } from '~/session.server';
-import Icon from '~/components/Icon';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -50,25 +50,29 @@ export default function AdminPage() {
 
   return (
     <AdminPageLayout>
-      <h1 className="text-4xl">{title}</h1>
+      <h1 className="mb-5 text-4xl">{title}</h1>
 
-      <div className="flex flex-row justify-between">
-        {showDetails ? (
-          <>
-            <h2 className="text-xl">{itemCount}</h2>
-            <Link to="item/nieuw">
-              <Button className="mx-auto md:mr-0 md:w-auto" primary>
-                Item toevoegen
-              </Button>
-            </Link>
-          </>
-        ) : (
-          <BackButton to="/admin" />
-        )}
-      </div>
+      <div className="flex flex-col gap-10 md:flex-row">
+        <ProfileMenu role="ADMIN" />
 
-      <div>
-        <Outlet />
+        <div className="w-full px-8 md:w-3/4 md:px-0">
+          <div className="flex flex-row justify-between">
+            {showDetails && (
+              <>
+                <h2 className="text-xl">{itemCount}</h2>
+                <Link to="item/nieuw">
+                  <Button className="mx-auto md:mr-0 md:w-auto" primary>
+                    Item toevoegen
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
+
+          <div>
+            <Outlet />
+          </div>
+        </div>
       </div>
     </AdminPageLayout>
   );

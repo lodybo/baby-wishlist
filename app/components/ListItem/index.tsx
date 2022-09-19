@@ -20,7 +20,16 @@ export default function Index({
         <div className="h-48 w-full overflow-hidden lg:h-80">
           <img
             className="h-full w-full object-cover transition-all duration-300 group-hover:scale-110 motion-reduce:transition-none"
-            src={imageUrl || ''}
+            srcSet={`
+              /images/${id}-575w.webp 575w,
+              /images/${id}-900w.webp 900w,
+              /images/${id}-1400w.webp 1400w,
+            `}
+            sizes="
+              (min-width: 1280px) 900px,
+              (min-width: 1536px) 1400px
+            "
+            loading="lazy"
             alt={name}
           />
         </div>

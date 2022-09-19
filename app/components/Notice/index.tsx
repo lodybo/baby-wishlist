@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import Icon from '~/components/Icon';
 
-type Props = {
+export type Props = {
   visible: boolean;
   message: string;
   state?: 'info' | 'success' | 'warning' | 'error';

@@ -63,6 +63,9 @@ app.use(
 // more aggressive with this caching.
 app.use(express.static('public', { maxAge: '1h' }));
 
+// Host the image volume
+app.use('/images', express.static('images'));
+
 app.use(morgan('tiny'));
 
 const MODE = process.env.NODE_ENV;

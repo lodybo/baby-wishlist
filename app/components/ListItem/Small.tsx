@@ -4,11 +4,13 @@ import type { Item } from '~/models/items.server';
 type Props = {
   item: Pick<Item, 'id' | 'name' | 'imageUrl'> & { claimedUserName?: string };
   actionRow: ReactNode;
+  showClaimedItems?: boolean;
 };
 
 export default function SmallListItem({
   item: { id, name, imageUrl, claimedUserName },
   actionRow,
+  showClaimedItems,
 }: Props) {
   return (
     <li className="flex h-20 flex-row items-center gap-5">
@@ -28,7 +30,7 @@ export default function SmallListItem({
 
       <div>
         <p className="text-xl">{name}</p>
-        {claimedUserName && (
+        {showClaimedItems && claimedUserName && (
           <small className="text-sm">Geclaimed door {claimedUserName}</small>
         )}
       </div>

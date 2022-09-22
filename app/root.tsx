@@ -75,7 +75,7 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const metaCollection: HtmlMetaDescriptor = {
     charset: 'utf-8',
     title: "Cody's wensjes",
@@ -84,7 +84,7 @@ export const meta: MetaFunction = () => {
     'theme-color': '#ff0000',
   };
 
-  if (process.env.IS_STAGING === 'true') {
+  if (data.isStaging && data.isStaging === 'true') {
     metaCollection.robots = 'noindex, nofollow, noarchive, nosnippet, nocache';
   }
 
@@ -94,6 +94,7 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ request }: LoaderArgs) => {
   return json({
     user: await getUser(request),
+    isStaging: process.env.IS_STAGING,
   });
 };
 

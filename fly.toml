@@ -6,6 +6,10 @@ processes = [ ]
 [env]
 PORT = "8080"
 
+[mounts]
+source="images"
+destination="/images"
+
 [deploy]
 release_command = "npx prisma migrate deploy"
 

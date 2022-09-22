@@ -14,7 +14,7 @@ export default function ProfileMenu({ role }: Props) {
         </li>
 
         <li>
-          <Anchor to="instellingen">Instellingen</Anchor>
+          <Anchor to="/profiel/instellingen">Instellingen</Anchor>
         </li>
 
         {role === 'ADMIN' && (

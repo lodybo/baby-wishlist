@@ -5,7 +5,6 @@ import Button from '~/components/Button';
 import Icon from '~/components/Icon';
 import SmallListItem from '~/components/ListItem/Small';
 import { getItemList } from '~/models/items.server';
-import { getUserById } from '~/models/user.server';
 import { requireUser } from '~/session.server';
 
 export const loader = async ({ request }: LoaderArgs) => {

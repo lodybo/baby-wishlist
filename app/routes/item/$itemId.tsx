@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
@@ -12,6 +12,35 @@ import { requireUser } from '~/session.server';
 import { formatAmount, useOptionalUser } from '~/utils';
 import ItemOwner from '~/components/ItemOwner';
 import ClaimField from '~/components/ClaimField';
+
+export const meta: MetaFunction<typeof loader> = ({
+  data: { item },
+  location,
+}) => {
+  let origin = 'https://babywensjes.kaskady.nl';
+
+  if (typeof document !== 'undefined') {
+    origin = document.location.origin;
+  }
+
+  return {
+    title: item.name,
+    description: `${marked.parse(item.description).substring(0, 250)}...`,
+    // Open Graph / Facebook
+    'og:type': 'website',
+    'og:url': `${origin}${location.pathname}`,
+    'og:title': item.name,
+    'og:description': item.description,
+    'og:image': `${origin}/images/${item.id}-160w.webp`,
+
+    // Twitter
+    'twitter:card': 'summary_large_image',
+    'twitter:url': `${origin}${location.pathname}`,
+    'twitter:title': item.name,
+    'twitter:description': item.description,
+    'twitter:image': `${origin}/images/${item.id}-160w.webp`,
+  };
+};
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   await requireUser(request);

@@ -116,7 +116,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Aanmelden',
+    title: "Registreren by Cody's wensjes",
   };
 };
 

@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { marked } from 'marked';
@@ -7,6 +7,10 @@ import ItemGrid from '~/components/ItemGrid';
 import { getItemList } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
 import { requireUser } from '~/session.server';
+
+export const meta: MetaFunction = () => ({
+  title: "Cody's lijst",
+});
 
 export const loader = async ({ request }: LoaderArgs) => {
   await requireUser(request);

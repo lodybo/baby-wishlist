@@ -1,14 +1,15 @@
 import { json } from '@remix-run/node';
-import type { LoaderArgs } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
+import type { MetaFunction, LoaderArgs } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import BackButton from '~/components/BackButton';
-import Button from '~/components/Button';
-import Icon from '~/components/Icon';
 import ItemGrid from '~/components/ItemGrid';
-import ListItem from '~/components/ListItem';
 import PageLayout from '~/layouts/Page';
 import { getItemsByTag } from '~/models/items.server';
+
+export const meta: MetaFunction<typeof loader> = ({ data: { tag } }) => ({
+  title: tag,
+});
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { tag } = params;

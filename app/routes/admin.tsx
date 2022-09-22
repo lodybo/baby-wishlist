@@ -58,19 +58,17 @@ export default function AdminPage() {
       <div className="flex flex-col gap-10 md:flex-row">
         <ProfileMenu role="ADMIN" />
 
-        <div className="w-full px-8 md:w-3/4 md:px-0">
-          <div className="flex flex-row justify-between">
-            {showDetails && (
-              <>
-                <h2 className="text-xl">{itemCount}</h2>
-                <Link to="item/nieuw">
-                  <Button className="mx-auto md:mr-0 md:w-auto" primary>
-                    Item toevoegen
-                  </Button>
-                </Link>
-              </>
-            )}
-          </div>
+        <div className="w-full md:w-3/4">
+          {showDetails && (
+            <div className="flex w-full flex-row justify-between sm:w-3/4">
+              <h2 className="text-xl">{itemCount}</h2>
+              <Link to="item/nieuw">
+                <Button className="mx-auto md:mr-0 md:w-auto" primary>
+                  Item toevoegen
+                </Button>
+              </Link>
+            </div>
+          )}
 
           <div>
             <Outlet />

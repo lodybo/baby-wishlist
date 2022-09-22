@@ -32,7 +32,7 @@ const ProfilePage = () => {
       <div className="flex flex-col gap-10 md:flex-row">
         <ProfileMenu role={user.role} />
 
-        <div className="w-full px-8 md:w-3/4 md:px-0">
+        <div className="w-full md:w-3/4">
           <Outlet />
         </div>
       </div>

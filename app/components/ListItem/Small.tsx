@@ -13,7 +13,7 @@ export default function SmallListItem({
   showClaimedItems,
 }: Props) {
   return (
-    <li className="flex h-20 flex-row items-center gap-5">
+    <li className="min-h-20 flex flex-row flex-wrap items-center gap-5">
       {imageUrl && (
         <img
           className="h-full w-20 object-cover"
@@ -35,7 +35,9 @@ export default function SmallListItem({
         )}
       </div>
 
-      <div className="ml-auto flex flex-row gap-2.5">{actionRow}</div>
+      <div className="ml-auto flex w-full flex-row justify-end gap-2.5 sm:w-auto">
+        {actionRow}
+      </div>
     </li>
   );
 }

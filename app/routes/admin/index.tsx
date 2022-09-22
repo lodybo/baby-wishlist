@@ -41,8 +41,9 @@ export default function AdminItemList() {
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex w-full flex-col gap-5 sm:w-3/4">
       <Checkbox
+        className="mt-5"
         caption="Toon welke items geclaimed zijn"
         onChange={handleShowClaimedStatus}
       />

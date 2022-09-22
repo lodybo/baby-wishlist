@@ -9,7 +9,9 @@ export default function AuthPageLayout({ children }: LayoutProps) {
     <>
       <Navigation user={user} />
       <div className="flex flex-col justify-center">
-        <div className="mx-auto w-full max-w-md lg:max-w-2xl">{children}</div>
+        <div className="mx-auto w-full max-w-md px-10 lg:max-w-2xl">
+          {children}
+        </div>
       </div>
     </>
   );

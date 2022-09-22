@@ -240,7 +240,7 @@ export default function ProfileSettingsPage() {
             )}
           </Label>
 
-          <div className="flex space-x-5">
+          <div className="flex flex-col space-x-0 space-y-5 sm:flex-row sm:space-y-0 sm:space-x-5">
             <Label className="flex-1" caption="Wat is je nieuwe wachtwoord?">
               <PasswordInput
                 name="newPassword"

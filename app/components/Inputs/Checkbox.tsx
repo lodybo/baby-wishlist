@@ -14,12 +14,14 @@ export default function Checkbox({
   icon,
   defaultChecked,
   onChange,
+  className = '',
   ...props
 }: Props) {
   const [checked, setChecked] = useState(defaultChecked || false);
 
   return (
     <label
+      className={className}
       onClick={(e) => {
         e.preventDefault();
         setChecked(!checked);

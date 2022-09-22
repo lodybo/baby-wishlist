@@ -12,3 +12,7 @@ node_modules
 
 .idea/
 coverage
+
+images/
+
+.DS_Store

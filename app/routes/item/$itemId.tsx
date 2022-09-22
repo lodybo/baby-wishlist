@@ -77,9 +77,22 @@ export default function ItemDetailsPage() {
             )}
           </div>
 
-          <div className="flex-initial sm:w-3/4">
+          <div className="mt-10 flex-initial sm:mt-0 sm:w-3/4">
             {imageUrl && (
-              <img className="mb-10 w-3/4" src={imageUrl} alt={name} />
+              <img
+                className="mb-10 w-full"
+                srcSet={`
+                  /images/${id}-575w.webp 575w,
+                  /images/${id}-900w.webp 900w,
+                  /images/${id}-1400w.webp 1400w,
+                `}
+                sizes="
+                  (min-width: 640px) 900px,
+                  (min-width: 1280) 1400px,
+                "
+                loading="lazy"
+                alt={name}
+              />
             )}
 
             <div className="prose lg:prose-xl xl:prose-2xl">

@@ -49,6 +49,4 @@ COPY --from=build /baby-wishlist/build /baby-wishlist/build
 COPY --from=build /baby-wishlist/public /baby-wishlist/public
 ADD . .
 
-RUN ln -s /images /baby-wishlist/images
-
 CMD ["npm", "start"]

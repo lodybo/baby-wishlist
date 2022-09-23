@@ -6,6 +6,10 @@ processes = [ ]
 [env]
 PORT = "8080"
 
+[mounts]
+source="images_vol"
+destination="/baby-wishlist/images"
+
 [deploy]
 release_command = "npx prisma migrate deploy"
 

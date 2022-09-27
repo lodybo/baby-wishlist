@@ -12,13 +12,24 @@ export type Props = {
   iconClasses?: string;
 };
 
-const Icon = ({ name, prefix = 'fas', className = '', iconClasses = '' }: Props) => {
-  const icon = fontAwesomeIcon({
-    prefix,
-    iconName: name,
-  }, {
-    classes: iconClasses,
-  }).abstract.shift();
+const Icon = ({
+  name,
+  prefix = 'fas',
+  className = '',
+  iconClasses = '',
+}: Props) => {
+  const icon = fontAwesomeIcon(
+    {
+      prefix,
+      iconName: name,
+    },
+    {
+      classes: iconClasses,
+      styles: {
+        height: '1em',
+      },
+    },
+  ).abstract.shift();
 
   return (
     <span

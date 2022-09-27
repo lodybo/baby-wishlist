@@ -5,7 +5,7 @@ type Props = {
 };
 
 const MenuItem = ({ children }: Props) => (
-  <li className="mx-5 flex flex-initial items-center justify-center text-2xl last:mr-0 sm:text-base">
+  <li className="mx-0 flex flex-initial items-center justify-center text-2xl sm:mx-5 sm:text-base sm:last:mr-0">
     {children}
   </li>
 );

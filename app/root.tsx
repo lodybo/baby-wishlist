@@ -78,7 +78,7 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const metaCollection: HtmlMetaDescriptor = {
     charset: 'utf-8',
-    title: "Cody's wensjes",
+    title: "Aké's wensjes",
     viewport: 'width=device-width,initial-scale=1',
     'msapplication-TileColor': '#2d89ef',
     'theme-color': '#ff0000',

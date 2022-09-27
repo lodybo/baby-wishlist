@@ -9,7 +9,7 @@ import PageLayout from '~/layouts/Page';
 import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
-  title: "Cody's lijst",
+  title: "Aké's lijst",
 });
 
 export const loader = async ({ request }: LoaderArgs) => {

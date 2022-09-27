@@ -14,7 +14,7 @@ import Button from '~/components/Button';
 import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
-  title: "Cody's administratie",
+  title: "Aké's administratie",
 });
 
 export const loader = async ({ request }: LoaderArgs) => {

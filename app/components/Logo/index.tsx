@@ -1,9 +1,13 @@
 import Icon from '~/components/Icon';
 
-const Logo = () => (
+type Props = {
+  emblemOnly?: boolean;
+};
+
+const Logo = ({ emblemOnly = false }: Props) => (
   <>
     <Icon className="mr-2" name="robot" />
-    Cody's wensjes
+    {!emblemOnly && <span>Aké's wensjes</span>}
   </>
 );
 

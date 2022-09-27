@@ -6,21 +6,28 @@ import BaseInput from '~/components/Inputs/BaseInput';
 
 type Props = InputProps & {
   caption: string;
+  onChange?: () => void;
 };
 
 export default function Checkbox({
   caption,
   icon,
   defaultChecked,
+  onChange,
+  className = '',
   ...props
 }: Props) {
   const [checked, setChecked] = useState(defaultChecked || false);
 
   return (
     <label
+      className={className}
       onClick={(e) => {
         e.preventDefault();
         setChecked(!checked);
+        if (onChange) {
+          onChange();
+        }
       }}
     >
       <BaseInput

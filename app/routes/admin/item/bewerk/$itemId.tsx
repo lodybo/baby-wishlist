@@ -2,7 +2,9 @@ import { useLoaderData } from '@remix-run/react';
 import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import invariant from 'tiny-invariant';
-import ItemForm, { ItemFormData } from '~/components/ItemForm';
+import type { ItemFormData } from '~/components/ItemForm';
+import ItemForm from '~/components/ItemForm';
+import { processImage } from '~/models/images.server';
 import {
   claimItem,
   editItem,
@@ -33,6 +35,8 @@ export const action = async ({ request }: ActionArgs) => {
 
   const item = Object.fromEntries(formData) as unknown as ItemFormData;
 
+  const currentItem = await getItem({ id: item.id });
+
   const newItem = await editItem({
     id: item.id,
     name: item.name,
@@ -42,6 +46,18 @@ export const action = async ({ request }: ActionArgs) => {
     tags: item.tags.split(','),
     userId: item.itemOwner,
   });
+
+  if (
+    currentItem &&
+    currentItem.imageUrl &&
+    item.imageUrl &&
+    currentItem.imageUrl !== item.imageUrl
+  ) {
+    await processImage({
+      url: item.imageUrl,
+      itemId: item.id,
+    });
+  }
 
   if (item.claimedBy !== 'none') {
     await claimItem({

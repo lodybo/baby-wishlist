@@ -1,0 +1,19 @@
+{
+    "name": "Aké's Wensjes",
+    "short_name": "Aké's Wensjes",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png?v1=1",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png?v1=1",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#ff0000",
+    "background_color": "#ff0000",
+    "display": "standalone"
+}

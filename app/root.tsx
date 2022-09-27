@@ -16,7 +16,12 @@ import {
   faCircleCheck,
   faCircleXmark,
 } from '@fortawesome/free-regular-svg-icons';
-import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
+import type {
+  HtmlMetaDescriptor,
+  LinksFunction,
+  LoaderArgs,
+  MetaFunction,
+} from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import Document from '~/components/Document';
@@ -42,18 +47,54 @@ library.add(
 );
 
 export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }];
+  return [
+    {
+      rel: 'stylesheet',
+      href: tailwindStylesheetUrl,
+    },
+    {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      href: '/apple-touch-icon.png?v1=1',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      href: '/favicon-32x32.png?v1=1',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      href: '/favicon-16x16.png?v1=1',
+    },
+    { rel: 'manifest', href: '/site.webmanifest?v1=1' },
+    { rel: 'mask-icon', href: '/safari-pinned-tab.svg?v1=1', color: '#f1f5f9' },
+    { rel: 'shortcut icon', href: '/favicon.ico?v1=1' },
+  ];
 };
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: "Cody's wensjes",
-  viewport: 'width=device-width,initial-scale=1',
-});
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const metaCollection: HtmlMetaDescriptor = {
+    charset: 'utf-8',
+    title: "Aké's wensjes",
+    viewport: 'width=device-width,initial-scale=1',
+    'msapplication-TileColor': '#2d89ef',
+    'theme-color': '#ff0000',
+  };
+
+  if (data.isStaging && data.isStaging === 'true') {
+    metaCollection.robots = 'noindex, nofollow, noarchive, nosnippet, nocache';
+  }
+
+  return metaCollection;
+};
 
 export const loader = async ({ request }: LoaderArgs) => {
   return json({
     user: await getUser(request),
+    isStaging: process.env.IS_STAGING,
   });
 };
 

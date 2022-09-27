@@ -37,7 +37,7 @@ export default function AdminUsersPage() {
   const { users } = useLoaderData<typeof loader>();
 
   return (
-    <ul className="flex w-3/4 flex-col gap-5">
+    <ul className="flex w-full flex-col gap-5 sm:w-3/4">
       {users.map((user) => (
         <li key={user.id} className="flex flex-row justify-between">
           <span>{user.name}</span>

@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { redirect, json } from '@remix-run/node';
 import {
   Link,
@@ -7,12 +7,15 @@ import {
   useMatches,
   useLocation,
 } from '@remix-run/react';
-import BackButton from '~/components/BackButton';
 import ProfileMenu from '~/components/ProfileMenu';
 import AdminPageLayout from '~/layouts/AdminPage';
 import { getItemList } from '~/models/items.server';
 import Button from '~/components/Button';
 import { requireUser } from '~/session.server';
+
+export const meta: MetaFunction = () => ({
+  title: "Aké's administratie",
+});
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await requireUser(request);
@@ -23,7 +26,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const items = await getItemList();
 
-  return json({ count: items.length }, { status: 200 });
+  return json({ count: items.length, name: user.name }, { status: 200 });
 };
 
 export default function AdminPage() {
@@ -55,19 +58,17 @@ export default function AdminPage() {
       <div className="flex flex-col gap-10 md:flex-row">
         <ProfileMenu role="ADMIN" />
 
-        <div className="w-full px-8 md:w-3/4 md:px-0">
-          <div className="flex flex-row justify-between">
-            {showDetails && (
-              <>
-                <h2 className="text-xl">{itemCount}</h2>
-                <Link to="item/nieuw">
-                  <Button className="mx-auto md:mr-0 md:w-auto" primary>
-                    Item toevoegen
-                  </Button>
-                </Link>
-              </>
-            )}
-          </div>
+        <div className="w-full md:w-3/4">
+          {showDetails && (
+            <div className="flex w-full flex-row justify-between sm:w-3/4">
+              <h2 className="text-xl">{itemCount}</h2>
+              <Link to="item/nieuw">
+                <Button className="mx-auto md:mr-0 md:w-auto" primary>
+                  Item toevoegen
+                </Button>
+              </Link>
+            </div>
+          )}
 
           <div>
             <Outlet />

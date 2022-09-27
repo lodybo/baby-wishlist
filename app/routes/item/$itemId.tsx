@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
@@ -12,6 +12,35 @@ import { requireUser } from '~/session.server';
 import { formatAmount, useOptionalUser } from '~/utils';
 import ItemOwner from '~/components/ItemOwner';
 import ClaimField from '~/components/ClaimField';
+
+export const meta: MetaFunction<typeof loader> = ({
+  data: { item },
+  location,
+}) => {
+  let origin = 'https://babywensjes.kaskady.nl';
+
+  if (typeof document !== 'undefined') {
+    origin = document.location.origin;
+  }
+
+  return {
+    title: item.name,
+    description: `${marked.parse(item.description).substring(0, 250)}...`,
+    // Open Graph / Facebook
+    'og:type': 'website',
+    'og:url': `${origin}${location.pathname}`,
+    'og:title': item.name,
+    'og:description': item.description,
+    'og:image': `${origin}/images/${item.id}-160w.webp`,
+
+    // Twitter
+    'twitter:card': 'summary_large_image',
+    'twitter:url': `${origin}${location.pathname}`,
+    'twitter:title': item.name,
+    'twitter:description': item.description,
+    'twitter:image': `${origin}/images/${item.id}-160w.webp`,
+  };
+};
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   await requireUser(request);
@@ -49,7 +78,7 @@ export default function ItemDetailsPage() {
         <h1 className="mb-5 text-resp sm:mb-20">{name}</h1>
 
         <div className="flex flex-col gap-0 sm:flex-row-reverse sm:gap-10">
-          <div className="sm:space-between flex w-full flex-initial flex-col sm:w-1/4">
+          <div className="sm:space-between flex w-full flex-initial flex-col sm:w-1/3">
             <div className="flex w-full flex-1 flex-col gap-0 sm:flex-initial sm:flex-row sm:flex-col xs:gap-10">
               {amount && (
                 <h2 className="my-5 flex-1 text-right text-3xl sm:my-0 sm:text-left">
@@ -77,10 +106,10 @@ export default function ItemDetailsPage() {
             )}
           </div>
 
-          <div className="mt-10 flex-initial sm:mt-0 sm:w-3/4">
+          <div className="mt-10 flex-initial sm:mt-0 sm:w-2/3">
             {imageUrl && (
               <img
-                className="mb-10 w-full"
+                className="mb-10 w-full object-cover"
                 srcSet={`
                   /images/${id}-575w.webp 575w,
                   /images/${id}-900w.webp 900w,

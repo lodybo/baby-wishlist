@@ -3,6 +3,7 @@ import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import ItemForm from '~/components/ItemForm';
 import type { ItemFormData } from '~/components/ItemForm';
+import { processImage } from '~/models/images.server';
 import { getUsers } from '~/models/user.server';
 import { createItem, claimItem } from '~/models/items.server';
 import { requireUser } from '~/session.server';
@@ -26,6 +27,11 @@ export const action = async ({ request }: ActionArgs) => {
     description: item.description,
     tags: item.tags.split(','),
     userId: item.itemOwner,
+  });
+
+  await processImage({
+    url: item.imageUrl,
+    itemId: newItem.id,
   });
 
   if (item.claimedBy !== 'none') {

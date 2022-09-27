@@ -26,13 +26,13 @@ const Menu = ({ children }: Props) => {
         {children}
       </ul>
 
-      <div
+      <ul
         className={`absolute block sm:hidden ${
           menuIsOpen ? 'top-24' : '-top-72'
-        } space-between focus:none z-10 flex h-64 w-full flex-col bg-slate-200 p-8 shadow-inner transition-all duration-300 focus-visible:ring-2 motion-reduce:transition-none`}
+        } space-between focus:none z-10 flex w-full flex-col gap-5 bg-slate-200 p-8 shadow-inner transition-all duration-300 focus-visible:ring-2 motion-reduce:transition-none`}
       >
         {children}
-      </div>
+      </ul>
     </>
   );
 };

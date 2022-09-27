@@ -116,7 +116,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Aanmelden',
+    title: "Registreren by Aké's wensjes",
   };
 };
 
@@ -156,7 +156,7 @@ export default function Join() {
 
           <p>
             We willen liever niet dat zomaar iedereen zich aan kan melden en een
-            kadootje voor Cody kan kopen. Dit is iets wat we willen delen met
+            kadootje voor Aké kan kopen. Dit is iets wat we willen delen met
             onze vrienden en familie. Daarom willen we je vragen om ons een
             appje te sturen als je geen account hebt.
           </p>
@@ -197,7 +197,7 @@ export default function Join() {
   return (
     <AuthPageLayout>
       <h2 className="mb-10 text-4xl md:text-6xl">
-        Geef je op voor Cody's wensjes!
+        Geef je op voor Aké's wensjes!
       </h2>
 
       <Form method="post" className="space-y-6" noValidate>

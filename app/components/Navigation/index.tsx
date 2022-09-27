@@ -14,9 +14,9 @@ export type Props = {
   user?: User;
 };
 
-const Navigation = ({ user}: Props) => {
+const Navigation = ({ user }: Props) => {
   return (
-    <nav className="space-between sticky mb-8 shadow-md top-0 z-20 flex h-24 w-full flex-row items-center justify-center bg-slate-100 p-5">
+    <nav className="space-between sticky top-0 z-20 mb-8 flex h-24 w-full flex-row items-center justify-center bg-slate-100 p-5 shadow-md">
       <h1 className="w-2/3 flex-auto text-2xl sm:w-1/3">
         <Link to="/">
           <Logo />
@@ -28,30 +28,36 @@ const Navigation = ({ user}: Props) => {
           <Link to="/lijst">Lijst</Link>
         </MenuItem>
 
+        {user && (
+          <MenuItem>
+            <span className="flex flex-row gap-2">
+              <span className="text-slate-600">Hallo {user.name}!</span>
+
+              <Link to="/profiel">
+                <Icon name="user" />
+              </Link>
+            </span>
+          </MenuItem>
+        )}
+
         <MenuItem>
-          { user ? (
+          {user ? (
             <Form
               className="flex flex-row items-center gap-5"
               action="/logout"
               method="post"
             >
-              <span className="hidden md:inline text-slate-600">Hallo { user.name }!</span>
-
-              <Link to="/profiel">
-                <Icon name="user" />
-              </Link>
-
               <Button jumpOut type="submit">
                 Uitloggen
               </Button>
             </Form>
           ) : (
-            <Link className="h-10 w-20" to="/login?redirectTo=/">
+            <Link className="w-30 h-10 sm:w-20" to="/login?redirectTo=/">
               <Button useSpan jumpOut primary>
                 Inloggen
               </Button>
             </Link>
-          ) }
+          )}
         </MenuItem>
       </Menu>
     </nav>

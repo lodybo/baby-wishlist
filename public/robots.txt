@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /profiel/
+Disallow: /admin/
+Disallow: /lijst/
+Disallow: /item/

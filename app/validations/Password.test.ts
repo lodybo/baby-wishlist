@@ -11,21 +11,21 @@ test('Validate password', () => {
     'Er is iets fout gegaan met het wachtwoord',
   );
   expect(validatePassword('')).toBe('Wachtwoord is verplicht');
-  expect(validatePassword('Cody')).toBe('Het wachtwoord is te kort');
-  expect(validatePassword('CodyIsAwesome')).toBe(undefined);
+  expect(validatePassword('Aké')).toBe('Het wachtwoord is te kort');
+  expect(validatePassword('AkéIsAwesome')).toBe(undefined);
 });
 
 test('Current and new passwords differ', () => {
-  expect(currentPasswordDiffersFromNew('CodyIsCool', 'CodyIsCool')).toBe(
+  expect(currentPasswordDiffersFromNew('AkéIsCool', 'AkéIsCool')).toBe(
     'Het huidige en nieuwe wachtwoord mogen niet hetzelfde zijn',
   );
-  expect(currentPasswordDiffersFromNew('CodyIsCool', 'CodyIsAwesome')).toBe(
+  expect(currentPasswordDiffersFromNew('AkéIsCool', 'AkéIsAwesome')).toBe(
     undefined,
   );
 });
 
 test('Validate new password', () => {
-  const currentPassword = 'CodyIsCool';
+  const currentPassword = 'AkéIsCool';
 
   expect(validateNewPassword(currentPassword, currentPassword)).toBe(
     'Het huidige en nieuwe wachtwoord mogen niet hetzelfde zijn',
@@ -36,14 +36,14 @@ test('Validate new password', () => {
   expect(validateNewPassword(currentPassword, '')).toBe(
     'Wachtwoord is verplicht',
   );
-  expect(validateNewPassword(currentPassword, 'Cody')).toBe(
+  expect(validateNewPassword(currentPassword, 'Aké')).toBe(
     'Het wachtwoord is te kort',
   );
-  expect(validateNewPassword(currentPassword, 'CodyIsAwesome')).toBe(undefined);
+  expect(validateNewPassword(currentPassword, 'AkéIsAwesome')).toBe(undefined);
 });
 
 test('Validate verified password', () => {
-  const newPassword = 'CodyIsCool';
+  const newPassword = 'AkéIsCool';
 
   expect(validateVerifiedNewPassword(newPassword, {})).toBe(
     'Er is iets fout gegaan met het wachtwoord',
@@ -51,13 +51,11 @@ test('Validate verified password', () => {
   expect(validateVerifiedNewPassword(newPassword, '')).toBe(
     'Wachtwoord is verplicht',
   );
-  expect(validateVerifiedNewPassword(newPassword, 'Cody')).toBe(
+  expect(validateVerifiedNewPassword(newPassword, 'Aké')).toBe(
     'Het wachtwoord is te kort',
   );
-  expect(validateVerifiedNewPassword(newPassword, 'CodyIsAwesome')).toBe(
+  expect(validateVerifiedNewPassword(newPassword, 'AkéIsAwesome')).toBe(
     'De nieuwe wachtwoorden zijn niet gelijk aan elkaar',
   );
-  expect(validateVerifiedNewPassword(newPassword, 'CodyIsCool')).toBe(
-    undefined,
-  );
+  expect(validateVerifiedNewPassword(newPassword, 'AkéIsCool')).toBe(undefined);
 });

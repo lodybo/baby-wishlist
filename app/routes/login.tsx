@@ -1,18 +1,22 @@
 import type { ActionArgs, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
+import { Form, useActionData, useSearchParams } from '@remix-run/react';
 import invariant from 'tiny-invariant';
+
+import Anchor from '~/components/Anchor';
+import ErrorText from '~/components/ErrorText';
 import Checkbox from '~/components/Inputs/Checkbox';
 import EmailInput from '~/components/Inputs/EmailInput';
 import PasswordInput from '~/components/Inputs/PasswordInput';
 import Label from '~/components/Label';
+import Button from '~/components/Button';
+import AuthPageLayout from '~/layouts/AuthPage';
 
 import { createUserSession, getUserId } from '~/session.server';
 import { verifyLogin } from '~/models/user.server';
+
 import { safeRedirect } from '~/utils';
 import { validateEmail, validatePassword } from '~/validations';
-import Button from '~/components/Button';
-import AuthPageLayout from '~/layouts/AuthPage';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userId = await getUserId(request);
@@ -83,7 +87,7 @@ export default function LoginPage() {
 
       <Form method="post" className="space-y-6" noValidate>
         {actionData?.errors?.user && (
-          <p className="pb-5 text-red-700">{actionData.errors.user}</p>
+          <ErrorText extraTopPadding>{actionData.errors.user}</ErrorText>
         )}
 
         <Label caption="E-mailadres">
@@ -98,9 +102,7 @@ export default function LoginPage() {
             aria-describedby="email-error"
           />
           {actionData?.errors?.email && (
-            <p className="pt-1 text-red-700" id="email-error">
-              {actionData.errors.email}
-            </p>
+            <ErrorText id="email-error">{actionData.errors.email}</ErrorText>
           )}
         </Label>
 
@@ -113,9 +115,9 @@ export default function LoginPage() {
             aria-describedby="password-error"
           />
           {actionData?.errors?.password && (
-            <p className="pt-1 text-red-700" id="password-error">
+            <ErrorText id="password-error">
               {actionData.errors.password}
-            </p>
+            </ErrorText>
           )}
         </Label>
 
@@ -130,15 +132,14 @@ export default function LoginPage() {
 
           <div className="text-center text-sm text-gray-500">
             Geen account?{' '}
-            <Link
-              className="text-blue-500 underline"
+            <Anchor
               to={{
                 pathname: '/join',
                 search: searchParams.toString(),
               }}
             >
               Geef je hier op.
-            </Link>
+            </Anchor>
           </div>
         </div>
       </Form>

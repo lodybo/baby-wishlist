@@ -1,13 +1,25 @@
+import classNames from 'classnames';
 import type { ReactNode } from 'react';
 
 type Props = {
-  id: string;
+  id?: string;
+  extraTopPadding?: boolean;
   children: ReactNode;
 };
 
-export default function ErrorText({ id, children }: Props) {
+export default function ErrorText({
+  id = '',
+  extraTopPadding = false,
+  children,
+}: Props) {
   return (
-    <p className="pt-1 text-rose-700" id={id}>
+    <p
+      className={classNames('text-rose-700', {
+        'pt-1': !extraTopPadding,
+        'pt-5': extraTopPadding,
+      })}
+      id={id}
+    >
       {children}
     </p>
   );

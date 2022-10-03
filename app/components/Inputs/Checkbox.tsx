@@ -21,7 +21,7 @@ export default function Checkbox({
 
   return (
     <label
-      className={className}
+      className={classnames('cursor-pointer', className)}
       onClick={(e) => {
         e.preventDefault();
         setChecked(!checked);

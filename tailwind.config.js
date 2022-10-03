@@ -1,6 +1,27 @@
+const colors = require('tailwindcss/colors');
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.{ts,tsx,jsx,js}'],
   theme: {
+    colors: {
+      slate: colors.slate,
+      gray: colors.gray,
+      cyan: colors.cyan,
+      emerald: colors.emerald,
+      amber: colors.amber,
+      rose: colors.rose,
+      teal: {
+        300: 'rgb(64, 104, 100)',
+        500: 'rgb(49, 92, 88)',
+        700: 'rgb(42, 85, 81)',
+      },
+      gold: {
+        300: 'rgb(199, 172, 128)',
+        500: 'rgb(170, 119, 78)',
+        700: 'rgb(167, 119, 72)',
+      },
+    },
     extend: {
       screens: {
         xs: '480px',

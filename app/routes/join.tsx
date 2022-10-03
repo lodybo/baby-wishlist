@@ -1,19 +1,21 @@
 import type { ActionArgs, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
+import { Form, useActionData, useSearchParams } from '@remix-run/react';
 import { useState, useEffect } from 'react';
 import invariant from 'tiny-invariant';
+import Anchor from '~/components/Anchor';
+
+import ErrorText from '~/components/ErrorText';
 import PasswordInput from '~/components/Inputs/PasswordInput';
 import TextInput from '~/components/Inputs/TextInput';
-
-import { createUserSession, getUserId } from '~/session.server';
-
-import { createUser, getUserByEmail } from '~/models/user.server';
-import type { User } from '~/models/user.server';
-import { safeRedirect } from '~/utils';
-
 import AuthPageLayout from '~/layouts/AuthPage';
 import Label from '~/components/Label';
+
+import { createUserSession, getUserId } from '~/session.server';
+import { createUser, getUserByEmail } from '~/models/user.server';
+import type { User } from '~/models/user.server';
+
+import { safeRedirect } from '~/utils';
 
 import noPass from '~/images/you-shall-not-pass.png';
 import Button from '~/components/Button';
@@ -180,9 +182,7 @@ export default function Join() {
             </Label>
 
             {actionData?.errors?.access && (
-              <div className="pt-1 text-red-700" id="email-error">
-                {actionData.errors.access}
-              </div>
+              <ErrorText id="email-error">{actionData.errors.access}</ErrorText>
             )}
 
             <Button className="mt-4" type="submit" primary>
@@ -214,9 +214,7 @@ export default function Join() {
             aria-describedby="name-error"
           />
           {actionData?.errors?.name && (
-            <p className="pt-1 text-red-700" id="name-error">
-              {actionData.errors.name}
-            </p>
+            <ErrorText id="name-error">{actionData.errors.name}</ErrorText>
           )}
         </Label>
 
@@ -230,9 +228,7 @@ export default function Join() {
             aria-describedby="email-error"
           />
           {actionData?.errors?.email && (
-            <p className="pt-1 text-red-700" id="email-error">
-              {actionData.errors.email}
-            </p>
+            <ErrorText id="email-error">{actionData.errors.email}</ErrorText>
           )}
         </Label>
 
@@ -245,9 +241,9 @@ export default function Join() {
             aria-describedby="password-error"
           />
           {actionData?.errors?.password && (
-            <p className="pt-1 text-red-700" id="password-error">
+            <ErrorText id="password-error">
               {actionData.errors.password}
-            </p>
+            </ErrorText>
           )}
         </Label>
 
@@ -258,15 +254,14 @@ export default function Join() {
           </Button>
           <p className=" text-sm text-gray-500">
             Heb je al een account?{' '}
-            <Link
-              className="text-blue-500 underline"
+            <Anchor
               to={{
                 pathname: '/login',
                 search: searchParams.toString(),
               }}
             >
               Log dan in
-            </Link>
+            </Anchor>
           </p>
         </div>
       </Form>

@@ -30,7 +30,7 @@ export default function BaseInput({
       )}
       <input
         className={classnames(
-          'h-full w-full bg-slate-50 p-2 text-lg text-slate-700 transition focus:bg-white focus:outline-none',
+          'focus:bg-white h-full w-full bg-cyan-50 p-2 text-lg text-slate-700 transition focus:outline-none',
           inputClassName,
         )}
         {...props}

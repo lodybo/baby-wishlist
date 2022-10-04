@@ -1,6 +1,4 @@
 import Avatar from '~/components/Avatar';
-import Kaylee from '~/images/kaylee.jpg';
-import Lody from '~/images/lody.jpeg';
 
 export type Props = {
   name: string;
@@ -12,7 +10,8 @@ export default function ItemOwner({ name }: Props) {
       <Avatar name={name} alt={`Aangevraagd door ${name}`} />
 
       <p>
-        Aangevraagd door <span className="text-xl font-semibold">{name}</span>
+        Aangevraagd door{' '}
+        <span className="text-xl font-semibold text-gold-500">{name}</span>
       </p>
     </div>
   );

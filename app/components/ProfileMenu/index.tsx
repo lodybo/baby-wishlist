@@ -1,13 +1,21 @@
+import classnames from 'classnames';
 import Anchor from '~/components/Anchor';
-import { User } from '~/models/user.server';
+import type { Props as NavigationProps } from '~/components/Navigation';
+import type { User } from '~/models/user.server';
 
-type Props = {
+type Props = Pick<NavigationProps, 'theme'> & {
   role: User['role'];
 };
 
-export default function ProfileMenu({ role }: Props) {
+export default function ProfileMenu({ role, theme = 'cyan' }: Props) {
   return (
-    <nav className="w-full flex-1 bg-slate-100 p-8 md:w-1/4">
+    <nav
+      className={classnames('w-full flex-1 p-8 md:w-1/4', {
+        'bg-lime-100': theme === 'lime',
+        'bg-cyan-100': theme === 'cyan',
+        'bg-gold-100': theme === 'gold',
+      })}
+    >
       <ul className="flex flex-col gap-2.5">
         <li>
           <Anchor to="/profiel">Mijn geclaimde items</Anchor>

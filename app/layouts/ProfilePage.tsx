@@ -7,7 +7,7 @@ export default function ProfilePageLayout({ children }: LayoutProps) {
 
   return (
     <>
-      <Navigation user={user} />
+      <Navigation user={user} theme="lime" />
       <div className="w-full px-14">{children}</div>
     </>
   );

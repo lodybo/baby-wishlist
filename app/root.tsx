@@ -80,7 +80,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     charset: 'utf-8',
     title: "Aké's wensjes",
     viewport: 'width=device-width,initial-scale=1',
-    'msapplication-TileColor': '#2d89ef',
+    'msapplication-TileColor': '#315c58',
     'theme-color': '#ff0000',
   };
 

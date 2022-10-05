@@ -34,19 +34,19 @@ export default function Index({
           />
         </div>
 
-        <div className="p-2.5">
-          <h2 className="mb-1 text-2xl">{name}</h2>
-
-          <div
-            className="text-sm"
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
+        <div className="py-2.5 px-5">
+          <h2 className="mb-1 font-handwritten text-5xl">{name}</h2>
 
           <ul className="my-2.5 flex flex-wrap gap-2.5">
             {tags.map((tag) => (
               <Tag key={tag} tag={tag} />
             ))}
           </ul>
+
+          <div
+            className="text-sm"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
         </div>
       </Link>
     </li>

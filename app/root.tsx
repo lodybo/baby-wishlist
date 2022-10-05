@@ -46,8 +46,22 @@ library.add(
   faCircleXmark,
 );
 
+// @ts-ignore
 export const links: LinksFunction = () => {
   return [
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: 'true',
+    },
+    {
+      href: 'https://fonts.googleapis.com/css2?family=Bentham&display=swap',
+      rel: 'stylesheet',
+    },
     {
       rel: 'stylesheet',
       href: tailwindStylesheetUrl,
@@ -78,7 +92,7 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const metaCollection: HtmlMetaDescriptor = {
     charset: 'utf-8',
-    title: "Aké's wensjes",
+    title: 'Akés wensjes',
     viewport: 'width=device-width,initial-scale=1',
     'msapplication-TileColor': '#315c58',
     'theme-color': '#ff0000',

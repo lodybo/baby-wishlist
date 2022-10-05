@@ -9,7 +9,7 @@ export default function PageLayout({ children }: LayoutProps) {
   return (
     <>
       <Navigation user={user} />
-      <div className="mx-auto w-5/6">{children}</div>
+      <div className="mx-auto mt-5 w-5/6">{children}</div>
       <Footer />
     </>
   );

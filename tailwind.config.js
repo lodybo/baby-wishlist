@@ -4,6 +4,10 @@ const colors = require('tailwindcss/colors');
 module.exports = {
   content: ['./app/**/*.{ts,tsx,jsx,js}'],
   theme: {
+    fontFamily: {
+      serif: ['Bentham', 'serif'],
+      handwritten: ['Jenna Sue Regular', 'serif'],
+    },
     colors: {
       slate: colors.slate,
       gray: colors.gray,
@@ -54,7 +58,7 @@ module.exports = {
       },
       fontSize: {
         hero: ['clamp(3.75rem, 10vw, 8rem)', '1'],
-        resp: ['clamp(2.5rem, 6vw, 5rem)', '1'],
+        resp: ['clamp(4.5rem, 10vw, 8rem)', '1'],
       },
       animation: {
         throb: 'throb 2s ease infinite',

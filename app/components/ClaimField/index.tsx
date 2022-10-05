@@ -12,7 +12,7 @@ export default function ClaimField({ currentUserId, claimId, itemId }: Props) {
 
   if (claimId && claimId !== currentUserId) {
     return (
-      <p className="flex w-full items-center justify-center rounded bg-slate-600 py-2 px-4 text-slate-100">
+      <p className="min-h-14 flex w-full items-center justify-center rounded bg-slate-600 py-2 px-4 font-handwritten text-3xl text-slate-100">
         Dit product is al geclaimed door iemand.
       </p>
     );
@@ -34,23 +34,23 @@ export default function ClaimField({ currentUserId, claimId, itemId }: Props) {
       <div>
         {claimed ? (
           <Button
-            className="w-full"
+            className="min-h-14 w-full font-handwritten text-3xl"
             primary
             type="submit"
             disabled={pending}
             pending={pending}
           >
-            Ik weerleg mijn claim op deze!
+            Iemand anders mag dit claimen
           </Button>
         ) : (
           <Button
-            className="w-full"
+            className="min-h-14 w-full font-handwritten text-3xl"
             secondary
             type="submit"
             disabled={pending}
             pending={pending}
           >
-            Ik claim deze!
+            Ik claim dit!
           </Button>
         )}
       </div>

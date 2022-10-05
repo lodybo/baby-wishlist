@@ -10,7 +10,7 @@ import { useUser } from '~/utils';
 export const meta: MetaFunction = ({ data }) => {
   if (!data) {
     return {
-      title: "Aké's wensjes",
+      title: 'Akés wensjes',
     };
   }
 

@@ -37,7 +37,7 @@ const Navigation = ({ user, logoContrast = false, theme = 'cyan' }: Props) => {
         },
       )}
     >
-      <h1 className="w-2/3 flex-auto text-2xl sm:w-1/3">
+      <h1 className="w-2/3 flex-auto text-3xl sm:w-1/3">
         <Link to="/">
           <Logo emblemContrast={logoContrast} />
         </Link>
@@ -52,6 +52,7 @@ const Navigation = ({ user, logoContrast = false, theme = 'cyan' }: Props) => {
           <MenuItem>
             <span className="flex flex-row gap-2">
               <Link to="/profiel">
+                <span className="inline sm:hidden">Profiel</span>{' '}
                 <Icon name="user" />
               </Link>
             </span>

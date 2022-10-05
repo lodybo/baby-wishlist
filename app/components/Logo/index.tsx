@@ -26,8 +26,8 @@ const Logo = ({ emblemOnly = false, emblemContrast = false }: Props) => (
       name="robot"
     />
     {!emblemOnly && (
-      <span className="text-cyan-50 transition-colors duration-300 group-hover:text-cyan-100">
-        Aké's wensjes
+      <span className="font-handwritten text-4xl text-cyan-50 transition-colors duration-300 group-hover:text-cyan-100">
+        Akés wensjes
       </span>
     )}
   </span>

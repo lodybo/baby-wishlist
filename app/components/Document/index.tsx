@@ -13,7 +13,7 @@ type Props = {
 
 export default function Document({ children }: Props) {
   return (
-    <html lang="en" className="h-full bg-cyan-50 font-sans">
+    <html lang="en" className="h-full bg-cyan-50 font-serif">
       <head>
         <Meta />
         <Links />

@@ -71,7 +71,7 @@ const Navigation = ({ user, logoContrast = false, theme = 'cyan' }: Props) => {
               </Button>
             </Form>
           ) : (
-            <Link className="w-30 h-10 sm:w-20" to="/login?redirectTo=/">
+            <Link className="h-10" to="/login?redirectTo=/">
               <Button useSpan jumpOut secondary lighterContrast>
                 Inloggen
               </Button>

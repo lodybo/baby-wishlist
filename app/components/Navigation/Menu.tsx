@@ -22,7 +22,7 @@ const Menu = ({ children }: Props) => {
         <Icon name="ellipsis-vertical" />
       </button>
 
-      <ul className="hidden h-full w-1/3 flex-auto flex-row justify-end sm:flex sm:w-2/3">
+      <ul className="hidden h-full w-1/3 flex-auto flex-row justify-end text-cyan-50 sm:flex sm:w-2/3">
         {children}
       </ul>
 

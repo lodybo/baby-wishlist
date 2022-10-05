@@ -75,14 +75,18 @@ export default function ItemDetailsPage() {
   return (
     <PageLayout>
       <div className="mb-10 w-full">
-        <h1 className="mb-5 text-resp sm:mb-20">{name}</h1>
+        <h1 className="mb-5 font-handwritten text-resp text-slate-700 sm:mb-10">
+          {name}
+        </h1>
 
         <div className="flex flex-col gap-0 sm:flex-row-reverse sm:gap-10">
           <div className="sm:space-between flex w-full flex-initial flex-col sm:w-1/3">
             <div className="flex w-full flex-1 flex-col gap-0 sm:flex-initial sm:flex-row sm:flex-col xs:gap-10">
               {amount && (
-                <h2 className="my-5 flex-1 text-right text-3xl sm:my-0 sm:text-left">
-                  <span className="font-light text-slate-500">v.a.</span>{' '}
+                <h2 className="my-5 flex-1 text-right text-5xl sm:my-0 sm:text-left">
+                  <span className="text-3xl font-light text-slate-400">
+                    v.a.
+                  </span>{' '}
                   {formatAmount(amount)}
                 </h2>
               )}
@@ -91,7 +95,7 @@ export default function ItemDetailsPage() {
             </div>
 
             <ul className="my-5 flex list-none flex-row items-center gap-2.5 p-0">
-              <li className="text-xs text-slate-500">Valt onder:</li>
+              <li className="text-sm text-slate-500">Valt onder:</li>
               {tags.map((tag) => (
                 <Tag key={tag} tag={tag} />
               ))}

@@ -9,8 +9,8 @@ type Props = Omit<InputProps, 'defaultValue'> & {
 };
 
 export default function TagField({ name, defaultValue }: Props) {
-  const [ tags, setTags ] = useState<string[]>([]);
-  const [ newTag, setNewTag ] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [newTag, setNewTag] = useState('');
 
   useEffect(() => {
     if (defaultValue && defaultValue.length) {
@@ -20,7 +20,7 @@ export default function TagField({ name, defaultValue }: Props) {
 
   const handleNewTag = () => {
     if (newTag) {
-      setTags([ ...tags, newTag ]);
+      setTags([...tags, newTag]);
       setNewTag('');
     }
   };
@@ -44,7 +44,9 @@ export default function TagField({ name, defaultValue }: Props) {
         <TextInput
           className="flex-1"
           value={newTag}
-          onChange={(evt) => { setNewTag(evt.target.value) }}
+          onChange={(evt) => {
+            setNewTag(evt.target.value);
+          }}
         />
 
         <Button primary onClick={handleNewTag}>
@@ -53,11 +55,14 @@ export default function TagField({ name, defaultValue }: Props) {
       </div>
 
       <ul className="flex flex-row flex-wrap gap-2.5">
-        {
-          tags.map(tag => (
-            <Tag key={tag} tag={tag} isEditable onDelete={tag => handleTagDeletion(tag)} />
-          ))
-        }
+        {tags.map((tag) => (
+          <Tag
+            key={tag}
+            tag={tag}
+            isEditable
+            onDelete={(tag) => handleTagDeletion(tag)}
+          />
+        ))}
       </ul>
     </div>
   );

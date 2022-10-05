@@ -12,8 +12,15 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-export default function ToggleButton({ options, name, value, onChange }: Props) {
-  const [ selectedValue, setSelectedValue ] = useState<string | undefined>(undefined);
+export default function ToggleButton({
+  options,
+  name,
+  value,
+  onChange,
+}: Props) {
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     if (value) {
@@ -30,10 +37,10 @@ export default function ToggleButton({ options, name, value, onChange }: Props) 
 
   return (
     <div className="flex flex-row gap-2.5">
-      { options.map(({ label, value }) => (
+      {options.map(({ label, value }) => (
         <label key={value}>
           <input
-            className="hidden peer"
+            className="peer hidden"
             type="radio"
             name={`${name}-toggle`}
             value={value}
@@ -44,16 +51,18 @@ export default function ToggleButton({ options, name, value, onChange }: Props) 
           <span
             className="
               block
+              cursor-pointer
+              rounded
+              bg-slate-200
               py-2
               px-4
-              rounded
-              cursor-pointer
               transition
-              bg-slate-200
               hover:bg-cyan-100
               peer-checked:bg-cyan-200
             "
-          >{ label }</span>
+          >
+            {label}
+          </span>
         </label>
       ))}
     </div>

@@ -1,4 +1,5 @@
 import { Form, Link } from '@remix-run/react';
+import classnames from 'classnames';
 import Icon from '~/components/Icon';
 import type { User } from '~/models/user.server';
 
@@ -12,14 +13,33 @@ export type Props = {
    * The user, if available
    */
   user?: User;
+
+  /**
+   * The navigation bar theme, used to indicate differences in profiles.
+   */
+  theme?: 'cyan' | 'lime' | 'gold';
+
+  /**
+   * The contrast for the logo.
+   */
+  logoContrast?: boolean;
 };
 
-const Navigation = ({ user }: Props) => {
+const Navigation = ({ user, logoContrast = false, theme = 'cyan' }: Props) => {
   return (
-    <nav className="space-between sticky top-0 z-20 mb-8 flex h-24 w-full flex-row items-center justify-center bg-slate-100 p-5 shadow-md">
-      <h1 className="w-2/3 flex-auto text-2xl sm:w-1/3">
+    <nav
+      className={classnames(
+        'space-between top-0 z-20 mb-8 flex h-24 w-full flex-row items-center justify-center p-5 shadow-md',
+        {
+          'bg-cyan-500': theme === 'cyan',
+          'bg-lime-500': theme === 'lime',
+          'bg-gold-500': theme === 'gold',
+        },
+      )}
+    >
+      <h1 className="w-2/3 flex-auto text-3xl sm:w-1/3">
         <Link to="/">
-          <Logo />
+          <Logo emblemContrast={logoContrast} />
         </Link>
       </h1>
 
@@ -31,9 +51,8 @@ const Navigation = ({ user }: Props) => {
         {user && (
           <MenuItem>
             <span className="flex flex-row gap-2">
-              <span className="text-slate-600">Hallo {user.name}!</span>
-
               <Link to="/profiel">
+                <span className="inline sm:hidden">Profiel</span>{' '}
                 <Icon name="user" />
               </Link>
             </span>
@@ -47,13 +66,13 @@ const Navigation = ({ user }: Props) => {
               action="/logout"
               method="post"
             >
-              <Button jumpOut type="submit">
+              <Button jumpOut secondary lighterContrast type="submit">
                 Uitloggen
               </Button>
             </Form>
           ) : (
-            <Link className="w-30 h-10 sm:w-20" to="/login?redirectTo=/">
-              <Button useSpan jumpOut primary>
+            <Link className="h-10" to="/login?redirectTo=/">
+              <Button useSpan jumpOut secondary lighterContrast>
                 Inloggen
               </Button>
             </Link>

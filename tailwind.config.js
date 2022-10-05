@@ -4,22 +4,52 @@ const colors = require('tailwindcss/colors');
 module.exports = {
   content: ['./app/**/*.{ts,tsx,jsx,js}'],
   theme: {
+    fontFamily: {
+      serif: ['Bentham', 'serif'],
+      handwritten: ['Jenna Sue Regular', 'serif'],
+    },
     colors: {
       slate: colors.slate,
       gray: colors.gray,
-      cyan: colors.cyan,
       emerald: colors.emerald,
       amber: colors.amber,
       rose: colors.rose,
-      teal: {
-        300: 'rgb(64, 104, 100)',
-        500: 'rgb(49, 92, 88)',
-        700: 'rgb(42, 85, 81)',
-      },
+      // Colors below generated at: https://uicolors.app/edit?sv1=bone:50-faf7f2/100-f2ede2/200-decfb5/300-d3be9e/400-c19f76/500-b4885b/600-a7764f/700-8b5f43/800-714e3b/900-5c4132;lime:50-f6f7f6/100-eaeeea/200-d5ddd5/300-bac6ba/400-8b9d8b/500-697e69/600-546554/700-445144/800-394239/900-303730;cyan:50-f4f9f8/100-daede9/200-b5dad2/300-88c0b6/400-60a198/500-46867e/600-366b65/700-315c58/800-284745/900-253c3b
       gold: {
-        300: 'rgb(199, 172, 128)',
-        500: 'rgb(170, 119, 78)',
-        700: 'rgb(167, 119, 72)',
+        50: '#faf7f2',
+        100: '#f2ede2',
+        200: '#decfb5',
+        300: '#d3be9e',
+        400: '#c19f76',
+        500: '#b4885b',
+        600: '#a7764f',
+        700: '#8b5f43',
+        800: '#714e3b',
+        900: '#5c4132',
+      },
+      lime: {
+        50: '#f6f7f6',
+        100: '#eaeeea',
+        200: '#d5ddd5',
+        300: '#bac6ba',
+        400: '#8b9d8b',
+        500: '#697e69',
+        600: '#546554',
+        700: '#445144',
+        800: '#394239',
+        900: '#303730',
+      },
+      cyan: {
+        50: '#f4f9f8',
+        100: '#daede9',
+        200: '#b5dad2',
+        300: '#88c0b6',
+        400: '#60a198',
+        500: '#46867e',
+        600: '#366b65',
+        700: '#315c58',
+        800: '#284745',
+        900: '#253c3b',
       },
     },
     extend: {
@@ -28,7 +58,7 @@ module.exports = {
       },
       fontSize: {
         hero: ['clamp(3.75rem, 10vw, 8rem)', '1'],
-        resp: ['clamp(2.5rem, 6vw, 5rem)', '1'],
+        resp: ['clamp(4.5rem, 10vw, 8rem)', '1'],
       },
       animation: {
         throb: 'throb 2s ease infinite',

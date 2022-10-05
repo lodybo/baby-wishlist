@@ -28,26 +28,28 @@ const ProfileIndexPage = () => {
         <p className="mb-5">Er zijn nog geen items door jou geclaimed.</p>
       )}
 
-      {items.map((item) => (
-        <SmallListItem
-          key={item.id}
-          item={item}
-          actionRow={
-            <>
-              <Form action="/item/claim" method="post">
-                <input type="hidden" name="itemId" value={item.id} />
-                <input type="hidden" name="userId" value={user.id} />
-                <input type="hidden" name="action" value="UNCLAIM" />
-                <input type="hidden" name="referer" value="/profiel" />
+      <ul className="space-y-5">
+        {items.map((item) => (
+          <SmallListItem
+            key={item.id}
+            item={item}
+            actionRow={
+              <>
+                <Form action="/item/claim" method="post">
+                  <input type="hidden" name="itemId" value={item.id} />
+                  <input type="hidden" name="userId" value={user.id} />
+                  <input type="hidden" name="action" value="UNCLAIM" />
+                  <input type="hidden" name="referer" value="/profiel" />
 
-                <Button danger type="submit">
-                  Weerleg claim
-                </Button>
-              </Form>
-            </>
-          }
-        />
-      ))}
+                  <Button danger type="submit">
+                    Weerleg claim
+                  </Button>
+                </Form>
+              </>
+            }
+          />
+        ))}
+      </ul>
     </>
   );
 };

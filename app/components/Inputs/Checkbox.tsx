@@ -37,10 +37,7 @@ export default function Checkbox({
         defaultChecked={checked}
       />
       <Icon
-        className={classnames('mr-2', {
-          'text-slate-700': !checked,
-          'text-cyan-500': checked,
-        })}
+        className="mr-2 text-cyan-300"
         prefix="far"
         name={checked ? 'circle-check' : 'circle'}
       />

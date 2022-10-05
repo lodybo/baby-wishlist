@@ -9,7 +9,7 @@ import PageLayout from '~/layouts/Page';
 import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
-  title: "Aké's lijst",
+  title: 'Akés lijst',
 });
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -18,7 +18,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const items = itemList.map((item) => ({
     ...item,
-    description: `${marked.parse(item.description).substring(0, 250)}...`,
+    description: item.description
+      ? `${marked.parse(item.description).substring(0, 250)}...`
+      : '',
   }));
 
   return json({ items });
@@ -29,7 +31,7 @@ export default function ItemsPage() {
 
   return (
     <PageLayout>
-      <h1 className="mb-10 text-4xl">Wenslijstje</h1>
+      <h1 className="mb-10 font-handwritten text-resp">Wenslijstje</h1>
 
       <ItemGrid items={items} />
     </PageLayout>

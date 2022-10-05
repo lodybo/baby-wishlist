@@ -12,10 +12,10 @@ type FormData = {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await requireUser(request);
+  const user = await requireUser(request);
   const users = await getUsers();
 
-  return json({ users });
+  return json({ users, currentUser: user });
 };
 
 export const action = async ({ request }: ActionArgs) => {
@@ -34,7 +34,7 @@ export const action = async ({ request }: ActionArgs) => {
 };
 
 export default function AdminUsersPage() {
-  const { users } = useLoaderData<typeof loader>();
+  const { users, currentUser } = useLoaderData<typeof loader>();
 
   return (
     <ul className="flex w-full flex-col gap-5 sm:w-3/4">
@@ -50,7 +50,12 @@ export default function AdminUsersPage() {
               value={user.role === 'USER' ? 'ADMIN' : 'USER'}
             />
 
-            <Button type="submit" primary={user.role === 'ADMIN'}>
+            <Button
+              type="submit"
+              primary={user.role === 'USER'}
+              secondary={user.role === 'ADMIN'}
+              disabled={user.id === currentUser.id}
+            >
               {user.role === 'USER' ? 'Gebruiker' : 'Admin'}
             </Button>
           </Form>

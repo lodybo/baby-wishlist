@@ -14,7 +14,7 @@ import Button from '~/components/Button';
 import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
-  title: "Aké's administratie",
+  title: 'Akés administratie',
 });
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -56,7 +56,7 @@ export default function AdminPage() {
       <h1 className="mb-5 text-4xl">{title}</h1>
 
       <div className="flex flex-col gap-10 md:flex-row">
-        <ProfileMenu role="ADMIN" />
+        <ProfileMenu role="ADMIN" theme="gold" />
 
         <div className="w-full md:w-3/4">
           {showDetails && (

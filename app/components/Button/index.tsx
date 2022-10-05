@@ -30,6 +30,16 @@ export type Props = {
   primary?: boolean;
 
   /**
+   * Whether the button is colored in gold.
+   */
+  secondary?: boolean;
+
+  /**
+   * Whether the secondary color has a lighter contrast (for use of a gold button inside the nav bar)
+   */
+  lighterContrast?: boolean;
+
+  /**
    * Whether the button represents a dangerous action, and is styled accordingly.
    */
   danger?: boolean;
@@ -61,6 +71,8 @@ export default function Button({
   type = 'button',
   jumpOut = false,
   primary = false,
+  secondary = false,
+  lighterContrast = false,
   danger = false,
   disabled = false,
   pending = false,
@@ -70,13 +82,22 @@ export default function Button({
   const classes = classnames(
     'py-2 px-4 flex items-center justify-center rounded transition duration-300 motion-reduce:transition-none',
     {
-      'bg-cyan-600': primary && !disabled,
+      'bg-cyan-500': primary && !disabled,
       'text-cyan-50': primary && !disabled,
-      'hover:bg-cyan-800': primary && !disabled,
+      'hover:bg-cyan-700': primary && !disabled,
 
       'bg-slate-300': !primary && !disabled,
-      'text-slate-900': !primary && !disabled,
+      'text-slate-900': !(primary || secondary) && !disabled,
       'hover:bg-slate-400': !primary && !disabled,
+
+      'bg-gold-50': secondary && lighterContrast && !disabled,
+      'text-gold-900': secondary && lighterContrast && !disabled,
+      'hover:bg-gold-200': secondary && lighterContrast && !disabled,
+
+      'bg-gold-200': secondary && !lighterContrast && !disabled,
+      'text-gold-800': secondary && !lighterContrast && !disabled,
+      'hover:bg-gold-300': secondary && !lighterContrast && !disabled,
+      'hover:text-gold-900': secondary && !lighterContrast && !disabled,
 
       'bg-rose-500': danger,
       'text-rose-100': danger,
@@ -95,8 +116,13 @@ export default function Button({
   }
 
   return (
-    <button className={classes} type={type} disabled={disabled} onClick={onClick}>
-      { pending && (
+    <button
+      className={classes}
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {pending && (
         <span className="mr-2">
           <Icon name="spinner" iconClasses="fa-spin-pulse" />
         </span>

@@ -118,7 +118,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: "Registreren by Aké's wensjes",
+    title: 'Registreren by Akés wensjes',
   };
 };
 
@@ -197,7 +197,7 @@ export default function Join() {
   return (
     <AuthPageLayout>
       <h2 className="mb-10 text-4xl md:text-6xl">
-        Geef je op voor Aké's wensjes!
+        Geef je op voor Akés wensjes!
       </h2>
 
       <Form method="post" className="space-y-6" noValidate>

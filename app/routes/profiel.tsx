@@ -10,7 +10,7 @@ import { useUser } from '~/utils';
 export const meta: MetaFunction = ({ data }) => {
   if (!data) {
     return {
-      title: "Aké's wensjes",
+      title: 'Akés wensjes',
     };
   }
 
@@ -30,7 +30,7 @@ const ProfilePage = () => {
   return (
     <ProfilePageLayout>
       <div className="flex flex-col gap-10 md:flex-row">
-        <ProfileMenu role={user.role} />
+        <ProfileMenu role={user.role} theme="lime" />
 
         <div className="w-full md:w-3/4">
           <Outlet />

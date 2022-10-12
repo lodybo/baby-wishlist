@@ -39,6 +39,7 @@ model Item {
   userId      String
   user        User     @relation("User", fields: [userId], references: [id], onDelete: Cascade)
 
+  claimed     Boolean? @default(false)
   claimId     String?
   claimUser   User?    @relation("ClaimUser", fields: [claimId], references: [id], onDelete: Cascade)
 }

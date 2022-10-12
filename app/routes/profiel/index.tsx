@@ -2,6 +2,7 @@ import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import Button from '~/components/Button';
+import Icon from '~/components/Icon';
 import SmallListItem from '~/components/ListItem/Small';
 import { getItemsByUser } from '~/models/items.server';
 import { requireUser } from '~/session.server';
@@ -20,7 +21,7 @@ const ProfileIndexPage = () => {
   const { items } = useLoaderData<typeof loader>();
 
   return (
-    <>
+    <div className="w-full sm:w-3/4">
       <h1 className="mb-5 text-2xl lg:text-4xl">Hallo {user.name}</h1>
       {items.length ? (
         <p className="mb-5">Dit zijn de items die door jou zijn geclaimed:</p>
@@ -42,7 +43,7 @@ const ProfileIndexPage = () => {
                   <input type="hidden" name="referer" value="/profiel" />
 
                   <Button danger type="submit">
-                    Weerleg claim
+                    <Icon prefix="far" name="square-check" />
                   </Button>
                 </Form>
               </>
@@ -50,7 +51,7 @@ const ProfileIndexPage = () => {
           />
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 

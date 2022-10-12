@@ -2,13 +2,15 @@ import type { ReactNode } from 'react';
 import type { Item } from '~/models/items.server';
 
 type Props = {
-  item: Pick<Item, 'id' | 'name' | 'imageUrl'> & { claimedUserName?: string };
+  item: Pick<Item, 'id' | 'name' | 'imageUrl' | 'claimed'> & {
+    claimedUserName?: string;
+  };
   actionRow: ReactNode;
   showClaimedItems?: boolean;
 };
 
 export default function SmallListItem({
-  item: { id, name, imageUrl, claimedUserName },
+  item: { id, name, imageUrl, claimedUserName, claimed },
   actionRow,
   showClaimedItems,
 }: Props) {
@@ -30,9 +32,13 @@ export default function SmallListItem({
 
       <div>
         <p className="text-xl">{name}</p>
-        {showClaimedItems && claimedUserName && (
-          <small className="text-sm">Geclaimed door {claimedUserName}</small>
-        )}
+        {showClaimedItems &&
+          claimed &&
+          (claimedUserName ? (
+            <small className="text-sm">Geclaimed door {claimedUserName}</small>
+          ) : (
+            <small className="text-sm">Geclaimed door iemand</small>
+          ))}
       </div>
 
       <div className="ml-auto flex w-full flex-row justify-end gap-2.5 sm:w-auto">

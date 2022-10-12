@@ -13,7 +13,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   await requireUser(request);
   const list = await getItemList({ includeClaimedUser: true });
 
-  const items = list.map(({ id, name, imageUrl, claimUser }) => {
+  const items = list.map(({ id, name, imageUrl, claimUser, claimed }) => {
     let claimedUser;
 
     if (claimUser) {
@@ -24,6 +24,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       id,
       name,
       imageUrl,
+      claimed,
       claimedUserName: claimedUser,
     };
   });
@@ -41,7 +42,7 @@ export default function AdminItemList() {
   };
 
   return (
-    <div className="flex w-full flex-col gap-5 sm:w-3/4">
+    <div className="mb-20 flex w-full flex-col gap-5 sm:w-3/4">
       <Checkbox
         className="mt-5"
         caption="Toon welke items geclaimed zijn"
@@ -67,6 +68,23 @@ export default function AdminItemList() {
                     <Icon name="trash-can" />
                   </Button>
                 </Link>
+
+                <form action="/item/claim" method="post">
+                  <input
+                    type="hidden"
+                    name="action"
+                    value={item.claimed ? 'UNCLAIM' : 'CLAIM'}
+                  />
+                  <input type="hidden" name="itemId" value={item.id} />
+                  <input type="hidden" name="referer" value="/admin" />
+
+                  <Button type="submit" secondary>
+                    <Icon
+                      prefix="far"
+                      name={item.claimed ? 'square-check' : 'square'}
+                    />
+                  </Button>
+                </form>
               </>
             }
           />

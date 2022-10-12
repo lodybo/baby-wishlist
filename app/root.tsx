@@ -15,6 +15,8 @@ import {
   faCircle,
   faCircleCheck,
   faCircleXmark,
+  faSquare,
+  faSquareCheck,
 } from '@fortawesome/free-regular-svg-icons';
 import type {
   HtmlMetaDescriptor,
@@ -44,6 +46,8 @@ library.add(
   faCircle,
   faCircleCheck,
   faCircleXmark,
+  faSquare,
+  faSquareCheck,
 );
 
 // @ts-ignore

@@ -6,14 +6,12 @@ import ItemGrid from '~/components/ItemGrid';
 
 import { getItemList } from '~/models/items.server';
 import PageLayout from '~/layouts/Page';
-import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
   title: 'Akés lijst',
 });
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await requireUser(request);
   const itemList = await getItemList();
 
   const items = itemList.map((item) => ({

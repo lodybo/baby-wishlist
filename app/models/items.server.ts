@@ -79,7 +79,7 @@ export function editItem({
   name,
   tags,
   userId,
-}: Omit<Item, 'amount' | 'claimId'> & {
+}: Omit<Item, 'amount' | 'claimId' | 'claimed'> & {
   amount: number;
 }) {
   return prisma.item.update({

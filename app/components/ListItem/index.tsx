@@ -2,15 +2,9 @@ import type { Item } from '~/models/items.server';
 import { Link } from '@remix-run/react';
 import Tag from '~/components/Tag';
 
-export type Props = Omit<Item, 'amount' | 'userId' | 'claimId'>;
+export type Props = Omit<Item, 'amount' | 'userId' | 'claimId' | 'claimed'>;
 
-export default function Index({
-  id,
-  name,
-  description,
-  imageUrl,
-  tags,
-}: Props) {
+export default function Index({ id, name, description, tags }: Props) {
   return (
     <li
       key={id}

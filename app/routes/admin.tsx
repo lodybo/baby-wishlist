@@ -15,6 +15,7 @@ import { requireUser } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
   title: 'Akés administratie',
+  'theme-color': '#b4885b',
 });
 
 export const loader = async ({ request }: LoaderArgs) => {

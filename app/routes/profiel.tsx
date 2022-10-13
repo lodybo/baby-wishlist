@@ -1,4 +1,4 @@
-import { json } from '@remix-run/node';
+import { json, MetaDescriptor } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import ProfileMenu from '~/components/ProfileMenu';
@@ -8,14 +8,20 @@ import { requireUser } from '~/session.server';
 import { useUser } from '~/utils';
 
 export const meta: MetaFunction = ({ data }) => {
+  const genericMeta: MetaDescriptor = {
+    'theme-color': '#697e69',
+  };
+
   if (!data) {
     return {
       title: 'Akés wensjes',
+      ...genericMeta,
     };
   }
 
   return {
     title: `${data.name}'s profiel`,
+    ...genericMeta,
   };
 };
 

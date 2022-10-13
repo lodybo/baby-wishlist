@@ -43,7 +43,6 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export const loader = async ({ request, params }: LoaderArgs) => {
-  await requireUser(request);
   const { itemId } = params;
   invariant(itemId, 'Geen item gevonden');
 
@@ -53,21 +52,21 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     throw new Response('Niet gevonden', { status: 404 });
   }
 
-  const user = await getUserById(item.userId);
+  const owner = await getUserById(item.userId);
 
-  if (!user) {
+  if (!owner) {
     throw new Response('Geen gebruiker gevonden', { status: 404 });
   }
 
   const parsedDescription = marked.parse(item.description);
 
-  return json({ item: { ...item, description: parsedDescription }, user });
+  return json({ item: { ...item, description: parsedDescription }, owner });
 };
 
 export default function ItemDetailsPage() {
   const {
-    item: { id, name, description, tags, imageUrl, amount, claimId },
-    user: { name: userName },
+    item: { id, name, description, tags, imageUrl, amount, claimId, claimed },
+    owner: { name: ownerName },
   } = useLoaderData<typeof loader>();
 
   const currentUser = useOptionalUser();
@@ -91,7 +90,7 @@ export default function ItemDetailsPage() {
                 </h2>
               )}
 
-              <ItemOwner name={userName} />
+              <ItemOwner name={ownerName} />
             </div>
 
             <ul className="my-5 flex list-none flex-row items-center gap-2.5 p-0">
@@ -101,13 +100,12 @@ export default function ItemDetailsPage() {
               ))}
             </ul>
 
-            {currentUser && (
-              <ClaimField
-                currentUserId={currentUser.id}
-                claimId={claimId}
-                itemId={id}
-              />
-            )}
+            <ClaimField
+              claimId={claimId}
+              claimed={claimed}
+              currentUserId={currentUser?.id}
+              itemId={id}
+            />
           </div>
 
           <div className="mt-10 flex-initial sm:mt-0 sm:w-2/3">

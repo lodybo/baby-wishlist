@@ -79,7 +79,7 @@ export function editItem({
   name,
   tags,
   userId,
-}: Omit<Item, 'amount' | 'claimId'> & {
+}: Omit<Item, 'amount' | 'claimId' | 'claimed'> & {
   amount: number;
 }) {
   return prisma.item.update({
@@ -121,14 +121,15 @@ export function claimItem({
   claimUserId,
 }: {
   itemId: Item['id'];
-  claimUserId: User['id'];
+  claimUserId: User['id'] | undefined;
 }) {
   return prisma.item.update({
     where: {
       id: itemId,
     },
     data: {
-      claimId: claimUserId,
+      claimed: true,
+      claimId: claimUserId || null,
     },
   });
 }
@@ -139,6 +140,7 @@ export function unclaimItem({ itemId }: { itemId: Item['id'] }) {
       id: itemId,
     },
     data: {
+      claimed: false,
       claimId: null,
     },
   });

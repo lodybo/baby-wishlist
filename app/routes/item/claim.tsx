@@ -15,7 +15,6 @@ export const action = async ({ request }: ActionArgs) => {
     formData,
   ) as unknown as Action;
   invariant(itemId, 'Geen item gevonden');
-  invariant(userId, 'Geen gebruiker gevonden');
   invariant(action, 'Geen actie gevonden');
 
   switch (action) {

@@ -98,8 +98,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     charset: 'utf-8',
     title: 'Akés wensjes',
     viewport: 'width=device-width,initial-scale=1',
-    'msapplication-TileColor': '#315c58',
-    'theme-color': '#ff0000',
+    'msapplication-TileColor': '#46867e',
+    'theme-color': '#46867e',
   };
 
   if (data.isStaging && data.isStaging === 'true') {

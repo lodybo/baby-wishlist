@@ -8,7 +8,7 @@ type Props = {
 export default function ItemGrid({ items }: Props) {
   return (
     <ul className="block grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-      {items.map(({ id, name, imageUrl, description, tags }) => (
+      {items.map(({ id, name, imageUrl, description, tags, claimed }) => (
         <ListItem
           key={id}
           id={id}
@@ -16,6 +16,7 @@ export default function ItemGrid({ items }: Props) {
           imageUrl={imageUrl}
           description={description}
           tags={tags}
+          claimed={claimed}
         />
       ))}
     </ul>

@@ -1,10 +1,11 @@
+import Icon from '~/components/Icon';
 import type { Item } from '~/models/items.server';
 import { Link } from '@remix-run/react';
 import Tag from '~/components/Tag';
 
-export type Props = Omit<Item, 'amount' | 'userId' | 'claimId' | 'claimed'>;
+export type Props = Omit<Item, 'amount' | 'userId' | 'claimId'>;
 
-export default function Index({ id, name, description, tags }: Props) {
+export default function Index({ id, name, description, tags, claimed }: Props) {
   return (
     <li
       key={id}
@@ -31,11 +32,19 @@ export default function Index({ id, name, description, tags }: Props) {
         <div className="py-2.5 px-5">
           <h2 className="mb-1 font-handwritten text-5xl">{name}</h2>
 
-          <ul className="my-2.5 flex flex-wrap gap-2.5">
-            {tags.map((tag) => (
-              <Tag key={tag} tag={tag} />
-            ))}
-          </ul>
+          <div className="my-2.5 flex gap-2.5">
+            <ul className="flex w-full flex-1 flex-wrap gap-2.5">
+              {tags.map((tag) => (
+                <Tag key={tag} tag={tag} />
+              ))}
+            </ul>
+
+            {claimed && (
+              <span className="flex-none text-lime-500">
+                <Icon prefix="far" name="circle-check" /> Geclaimed
+              </span>
+            )}
+          </div>
 
           <div
             className="text-sm"

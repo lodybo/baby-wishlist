@@ -20,9 +20,9 @@ export default function Document({ children }: Props) {
         <Meta />
         <Links />
       </head>
-      <body className="h-full">
+      <body className="flex min-h-screen flex-col">
         <Navigation />
-        <div className="mx-auto mt-5 w-5/6">{children}</div>
+        <div className="mx-auto mt-5 mb-8 w-5/6">{children}</div>
         <Footer />
         <ScrollRestoration />
         <Scripts />

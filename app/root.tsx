@@ -1,23 +1,3 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faArrowLeftLong,
-  faEllipsisVertical,
-  faEuroSign,
-  faPencil,
-  faRemove,
-  faRobot,
-  faSpinner,
-  faTrashCan,
-  faUser,
-  faEye,
-} from '@fortawesome/free-solid-svg-icons';
-import {
-  faCircle,
-  faCircleCheck,
-  faCircleXmark,
-  faSquare,
-  faSquareCheck,
-} from '@fortawesome/free-regular-svg-icons';
 import type {
   HtmlMetaDescriptor,
   LinksFunction,
@@ -30,24 +10,6 @@ import Document from '~/components/Document';
 import { getUser } from './session.server';
 
 import tailwindStylesheetUrl from './styles/tailwind.css';
-
-library.add(
-  faRobot,
-  faEllipsisVertical,
-  faSpinner,
-  faTrashCan,
-  faPencil,
-  faArrowLeftLong,
-  faEuroSign,
-  faRemove,
-  faUser,
-  faEye,
-  faCircle,
-  faCircleCheck,
-  faCircleXmark,
-  faSquare,
-  faSquareCheck,
-);
 
 // @ts-ignore
 export const links: LinksFunction = () => {

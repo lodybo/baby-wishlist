@@ -14,7 +14,6 @@ const Navigation = () => {
 
   let theme: 'cyan' | 'lime' | 'gold' = 'cyan';
 
-  console.log(`location.pathname: ${location.pathname}`);
   if (location.pathname.startsWith('/admin')) {
     theme = 'gold';
   } else if (location.pathname.startsWith('/profiel')) {

@@ -27,7 +27,6 @@ import type {
 import { json } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import Document from '~/components/Document';
-import PageLayout from '~/layouts/Page';
 import { getUser } from './session.server';
 
 import tailwindStylesheetUrl from './styles/tailwind.css';
@@ -129,12 +128,10 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
   return (
     <Document>
-      <PageLayout>
-        <div className="prose lg:prose-xl xl:prose-2xl">
-          <h1>Er is iets fout gegaan.</h1>
-          <p>{error.message}</p>
-        </div>
-      </PageLayout>
+      <div className="prose lg:prose-xl xl:prose-2xl">
+        <h1>Er is iets fout gegaan.</h1>
+        <p>{error.message}</p>
+      </div>
     </Document>
   );
 }

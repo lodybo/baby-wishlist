@@ -1,9 +1,9 @@
-import type { ActionArgs, LoaderArgs } from '@remix-run/node';
+import type { ActionArgs } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 
 import { processImage } from '~/models/images.server';
 
-export const loader = async ({}: LoaderArgs) => {
+export const loader = async () => {
   return null;
 };
 

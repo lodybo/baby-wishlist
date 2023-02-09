@@ -1,17 +1,16 @@
-import type { LoaderArgs, MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { marked } from 'marked';
 import ItemGrid from '~/components/ItemGrid';
 
 import { getItemList } from '~/models/items.server';
-import PageLayout from '~/layouts/Page';
 
 export const meta: MetaFunction = () => ({
   title: 'Akés lijst',
 });
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async () => {
   const itemList = await getItemList();
 
   const items = itemList.map((item) => ({
@@ -28,10 +27,10 @@ export default function ItemsPage() {
   const { items } = useLoaderData<typeof loader>();
 
   return (
-    <PageLayout>
+    <>
       <h1 className="mb-10 font-handwritten text-resp">Wenslijstje</h1>
 
       <ItemGrid items={items} />
-    </PageLayout>
+    </>
   );
 }

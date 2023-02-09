@@ -8,7 +8,6 @@ import Anchor from '~/components/Anchor';
 import ErrorText from '~/components/ErrorText';
 import PasswordInput from '~/components/Inputs/PasswordInput';
 import TextInput from '~/components/Inputs/TextInput';
-import AuthPageLayout from '~/layouts/AuthPage';
 import Label from '~/components/Label';
 
 import { createUserSession, getUserId } from '~/session.server';
@@ -81,7 +80,6 @@ export const action = async ({ request }: ActionArgs) => {
   invariant(typeof name === 'string', 'Name is of an incorrect type');
   invariant(typeof email === 'string', 'Email is of an incorrect type');
   invariant(typeof password === 'string', 'Password is of an incorrect type');
-  invariant(typeof role === 'string', 'Role is of an incorrect type');
 
   fields = { name, email, password };
 
@@ -122,7 +120,7 @@ export const meta: MetaFunction = () => {
   };
 };
 
-export default function Join() {
+export default function _authJoin() {
   const [role, setRole] = useState<string>('user');
   const [redirectTo, setRedirectTo] = useState<string | undefined>(undefined);
 
@@ -144,7 +142,7 @@ export default function Join() {
 
   if (!access) {
     return (
-      <AuthPageLayout>
+      <>
         <div className="mt-10 mb-20">
           <img
             className="scale-100 animate-throb motion-reduce:animate-none"
@@ -190,12 +188,12 @@ export default function Join() {
             </Button>
           </Form>
         </main>
-      </AuthPageLayout>
+      </>
     );
   }
 
   return (
-    <AuthPageLayout>
+    <>
       <h2 className="mb-10 text-4xl md:text-6xl">
         Geef je op voor Akés wensjes!
       </h2>
@@ -265,6 +263,6 @@ export default function Join() {
           </p>
         </div>
       </Form>
-    </AuthPageLayout>
+    </>
   );
 }

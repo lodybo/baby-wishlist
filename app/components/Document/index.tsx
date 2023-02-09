@@ -6,6 +6,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
+import Footer from '~/components/Footer';
+import Navigation from '~/components/Navigation';
 
 type Props = {
   children: ReactNode;
@@ -19,7 +21,9 @@ export default function Document({ children }: Props) {
         <Links />
       </head>
       <body className="h-full">
-        {children}
+        <Navigation />
+        <div className="mx-auto mt-5 w-5/6">{children}</div>
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         <LiveReload port={4200} />

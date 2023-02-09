@@ -1,9 +1,9 @@
-import { json, MetaDescriptor } from '@remix-run/node';
+import type { MetaDescriptor } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import ProfileMenu from '~/components/ProfileMenu';
 
-import ProfilePageLayout from '~/layouts/ProfilePage';
 import { requireUser } from '~/session.server';
 import { useUser } from '~/utils';
 
@@ -34,15 +34,15 @@ const ProfilePage = () => {
   const user = useUser();
 
   return (
-    <ProfilePageLayout>
-      <div className="flex flex-col gap-10 md:flex-row">
+    <>
+      <div className="flex w-full flex-col gap-10 px-14 md:flex-row">
         <ProfileMenu role={user.role} theme="lime" />
 
         <div className="w-full md:w-3/4">
           <Outlet />
         </div>
       </div>
-    </ProfilePageLayout>
+    </>
   );
 };
 

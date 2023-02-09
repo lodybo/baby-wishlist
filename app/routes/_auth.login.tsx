@@ -10,7 +10,6 @@ import EmailInput from '~/components/Inputs/EmailInput';
 import PasswordInput from '~/components/Inputs/PasswordInput';
 import Label from '~/components/Label';
 import Button from '~/components/Button';
-import AuthPageLayout from '~/layouts/AuthPage';
 
 import { createUserSession, getUserId } from '~/session.server';
 import { verifyLogin } from '~/models/user.server';
@@ -82,7 +81,7 @@ export default function LoginPage() {
   const actionData = useActionData<typeof action>();
 
   return (
-    <AuthPageLayout>
+    <>
       <h2 className="mb-10 text-4xl md:text-6xl">Log in om de lijst te zien</h2>
 
       <Form method="post" className="space-y-6" noValidate>
@@ -143,6 +142,6 @@ export default function LoginPage() {
           </div>
         </div>
       </Form>
-    </AuthPageLayout>
+    </>
   );
 }

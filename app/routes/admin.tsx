@@ -8,7 +8,6 @@ import {
   useLocation,
 } from '@remix-run/react';
 import ProfileMenu from '~/components/ProfileMenu';
-import AdminPageLayout from '~/layouts/AdminPage';
 import { getItemList } from '~/models/items.server';
 import Button from '~/components/Button';
 import { requireUser } from '~/session.server';
@@ -53,29 +52,31 @@ export default function AdminPage() {
   const itemCount = count === 1 ? '1 item' : `${count} items`;
 
   return (
-    <AdminPageLayout>
-      <h1 className="mb-5 text-4xl">{title}</h1>
+    <>
+      <div className="w-full px-4 sm:px-14">
+        <h1 className="mb-5 text-4xl">{title}</h1>
 
-      <div className="flex flex-col gap-10 md:flex-row">
-        <ProfileMenu role="ADMIN" theme="gold" />
+        <div className="flex flex-col gap-10 md:flex-row">
+          <ProfileMenu role="ADMIN" theme="gold" />
 
-        <div className="w-full md:w-3/4">
-          {showDetails && (
-            <div className="flex w-full flex-row justify-between sm:w-3/4">
-              <h2 className="text-xl">{itemCount}</h2>
-              <Link to="item/nieuw">
-                <Button className="mx-auto md:mr-0 md:w-auto" primary>
-                  Item toevoegen
-                </Button>
-              </Link>
+          <div className="w-full md:w-3/4">
+            {showDetails && (
+              <div className="flex w-full flex-row justify-between sm:w-3/4">
+                <h2 className="text-xl">{itemCount}</h2>
+                <Link to="item/nieuw">
+                  <Button className="mx-auto md:mr-0 md:w-auto" primary>
+                    Item toevoegen
+                  </Button>
+                </Link>
+              </div>
+            )}
+
+            <div>
+              <Outlet />
             </div>
-          )}
-
-          <div>
-            <Outlet />
           </div>
         </div>
       </div>
-    </AdminPageLayout>
+    </>
   );
 }

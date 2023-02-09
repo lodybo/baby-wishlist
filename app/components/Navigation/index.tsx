@@ -1,31 +1,26 @@
-import { Form, Link } from '@remix-run/react';
+import { Form, Link, useLocation } from '@remix-run/react';
 import classnames from 'classnames';
 import Icon from '~/components/Icon';
-import type { User } from '~/models/user.server';
+import { useOptionalUser } from '~/utils';
 
 import Menu from './Menu';
 import MenuItem from './MenuItem';
 import Logo from '~/components/Logo';
 import Button from '~/components/Button';
 
-export type Props = {
-  /**
-   * The user, if available
-   */
-  user?: User;
+const Navigation = () => {
+  const user = useOptionalUser();
+  const location = useLocation();
 
-  /**
-   * The navigation bar theme, used to indicate differences in profiles.
-   */
-  theme?: 'cyan' | 'lime' | 'gold';
+  let theme: 'cyan' | 'lime' | 'gold' = 'cyan';
 
-  /**
-   * The contrast for the logo.
-   */
-  logoContrast?: boolean;
-};
+  console.log(`location.pathname: ${location.pathname}`);
+  if (location.pathname.startsWith('/admin')) {
+    theme = 'gold';
+  } else if (location.pathname.startsWith('/profiel')) {
+    theme = 'lime';
+  }
 
-const Navigation = ({ user, logoContrast = false, theme = 'cyan' }: Props) => {
   return (
     <nav
       className={classnames(
@@ -39,7 +34,7 @@ const Navigation = ({ user, logoContrast = false, theme = 'cyan' }: Props) => {
     >
       <h1 className="w-2/3 flex-auto text-3xl sm:w-1/3">
         <Link to="/">
-          <Logo emblemContrast={logoContrast} />
+          <Logo emblemContrast={theme === 'gold'} />
         </Link>
       </h1>
 

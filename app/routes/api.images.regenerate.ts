@@ -1,4 +1,3 @@
-import type { ActionArgs } from '@remix-run/node';
 import {
   emptyGeneratedImagesFolder,
   processImage,
@@ -6,7 +5,7 @@ import {
 import { getItemList } from '~/models/items.server';
 import { getErrorMessage } from '~/utils';
 
-export const action = async ({}: ActionArgs) => {
+export const action = async () => {
   const items = await getItemList();
 
   try {

@@ -5,7 +5,13 @@ import Tag from '~/components/Tag';
 
 export type Props = Omit<Item, 'amount' | 'userId' | 'claimId'>;
 
-export default function Index({ id, name, description, tags, claimed }: Props) {
+export default function ListItem({
+  id,
+  name,
+  description,
+  tags,
+  claimed,
+}: Props) {
   return (
     <li
       key={id}

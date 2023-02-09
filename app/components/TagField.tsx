@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { Props as InputProps } from '~/components/Inputs/Props';
-import TextInput from '~/components/Inputs/TextInput';
+import type { Props as InputProps } from '~/components/BaseInput';
+import TextInput from '~/components/TextInput';
 import Tag from '~/components/Tag';
 import Button from '~/components/Button';
 

@@ -5,9 +5,9 @@ import invariant from 'tiny-invariant';
 
 import Anchor from '~/components/Anchor';
 import ErrorText from '~/components/ErrorText';
-import Checkbox from '~/components/Inputs/Checkbox';
-import EmailInput from '~/components/Inputs/EmailInput';
-import PasswordInput from '~/components/Inputs/PasswordInput';
+import Checkbox from '~/components/Checkbox';
+import EmailInput from '~/components/EmailInput';
+import PasswordInput from '~/components/PasswordInput';
 import Label from '~/components/Label';
 import Button from '~/components/Button';
 

@@ -6,8 +6,8 @@ import invariant from 'tiny-invariant';
 import Anchor from '~/components/Anchor';
 
 import ErrorText from '~/components/ErrorText';
-import PasswordInput from '~/components/Inputs/PasswordInput';
-import TextInput from '~/components/Inputs/TextInput';
+import PasswordInput from '~/components/PasswordInput';
+import TextInput from '~/components/TextInput';
 import Label from '~/components/Label';
 
 import { createUserSession, getUserId } from '~/session.server';
@@ -18,7 +18,7 @@ import { safeRedirect } from '~/utils';
 
 import noPass from '~/images/you-shall-not-pass.png';
 import Button from '~/components/Button';
-import EmailInput from '~/components/Inputs/EmailInput';
+import EmailInput from '~/components/EmailInput';
 import {
   validateAccessCode,
   validatePassword,

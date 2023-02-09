@@ -1,6 +1,6 @@
 import sleepingBaby from '~/images/sleeping-baby.jpg';
 
-import HeroParagraph from './HeroParagraph';
+import HeroParagraph from 'app/components/HeroParagraph';
 
 const Hero = () => (
   <div className="mx-3 flex flex-col">

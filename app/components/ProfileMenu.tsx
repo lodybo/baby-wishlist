@@ -1,10 +1,11 @@
 import classnames from 'classnames';
 import Anchor from '~/components/Anchor';
-import type { Props as NavigationProps } from '~/components/Navigation';
+import type { Theme } from '~/components/Navigation';
 import type { User } from '~/models/user.server';
 
-type Props = Pick<NavigationProps, 'theme'> & {
+type Props = {
   role: User['role'];
+  theme: Theme;
 };
 
 export default function ProfileMenu({ role, theme = 'cyan' }: Props) {

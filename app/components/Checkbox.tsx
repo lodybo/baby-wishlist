@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import { useState } from 'react';
 import Icon from '~/components/Icon';
-import type { Props as InputProps } from './Props';
-import BaseInput from '~/components/Inputs/BaseInput';
+import type { Props as InputProps } from '~/components/BaseInput';
+import BaseInput from '~/components/BaseInput';
 
 type Props = InputProps & {
   caption: string;

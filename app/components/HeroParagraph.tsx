@@ -12,8 +12,8 @@ const HeroParagraph: FunctionComponent<Props> = ({
 }) => (
   <p
     className={classnames('mt-8 text-center text-slate-900', {
-      italic: !!footNote,
-      'text-sm': !!footNote,
+      italic: footNote,
+      'text-sm': footNote,
       'text-2xl': !footNote,
     })}
   >

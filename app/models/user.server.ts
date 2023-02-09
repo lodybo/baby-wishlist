@@ -127,3 +127,6 @@ export async function verifyLogin(
 
   return userWithoutPassword;
 }
+
+export const findUser = (users: User[], user: User) =>
+  users.find((u) => u.id === user.id);

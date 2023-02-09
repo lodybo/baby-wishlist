@@ -3,7 +3,7 @@ import { json } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import Button from '~/components/Button';
 import Icon from '~/components/Icon';
-import SmallListItem from '~/components/ListItem/Small';
+import SmallListItem from '~/components/SmallListItem';
 import { getItemsByUser } from '~/models/items.server';
 import { requireUser } from '~/session.server';
 import { useUser } from '~/utils';

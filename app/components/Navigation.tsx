@@ -3,16 +3,18 @@ import classnames from 'classnames';
 import Icon from '~/components/Icon';
 import { useOptionalUser } from '~/utils';
 
-import Menu from './Menu';
-import MenuItem from './MenuItem';
+import Menu from 'app/components/Menu';
+import MenuItem from 'app/components/MenuItem';
 import Logo from '~/components/Logo';
 import Button from '~/components/Button';
+
+export type Theme = 'cyan' | 'lime' | 'gold';
 
 const Navigation = () => {
   const user = useOptionalUser();
   const location = useLocation();
 
-  let theme: 'cyan' | 'lime' | 'gold' = 'cyan';
+  let theme: Theme = 'cyan';
 
   if (location.pathname.startsWith('/admin')) {
     theme = 'gold';
@@ -57,7 +59,7 @@ const Navigation = () => {
           {user ? (
             <Form
               className="flex flex-row items-center gap-5"
-              action="/logout"
+              action="/routes/logout"
               method="post"
             >
               <Button jumpOut secondary lighterContrast type="submit">

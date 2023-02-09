@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Icon from '~/components/Icon';
-import type { Props } from './Props';
-import BaseInput from '~/components/Inputs/BaseInput';
+import type { Props } from '~/components/BaseInput';
+import BaseInput from '~/components/BaseInput';
 
 export default function PasswordInput({ ...props }: Props) {
   const [hideChars, setHideChars] = useState(true);

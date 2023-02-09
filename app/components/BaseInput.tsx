@@ -1,7 +1,11 @@
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import classnames from 'classnames';
 import Icon from '~/components/Icon';
-import type { Props } from './Props';
 
+export type Props = JSX.IntrinsicElements['input'] & {
+  icon?: IconName;
+  inputClassName?: string;
+};
 export default function BaseInput({
   icon,
   className,

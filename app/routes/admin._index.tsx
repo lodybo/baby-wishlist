@@ -4,8 +4,8 @@ import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import Button from '~/components/Button';
 import Icon from '~/components/Icon';
-import Checkbox from '~/components/Inputs/Checkbox';
-import SmallListItem from '~/components/ListItem/Small';
+import Checkbox from '~/components/Checkbox';
+import SmallListItem from '~/components/SmallListItem';
 import { getItemList } from '~/models/items.server';
 import { requireUser } from '~/session.server';
 

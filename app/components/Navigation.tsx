@@ -1,14 +1,13 @@
 import { Form, Link, useLocation } from '@remix-run/react';
-import classnames from 'classnames';
-import Icon from '~/components/Icon';
-import { useOptionalUser } from '~/utils';
 
 import Menu from 'app/components/Menu';
 import MenuItem from 'app/components/MenuItem';
-import Logo from '~/components/Logo';
+import classnames from 'classnames';
 import Button from '~/components/Button';
-
-export type Theme = 'cyan' | 'lime' | 'gold';
+import Icon from '~/components/Icon';
+import Logo from '~/components/Logo';
+import type { Theme } from '~/types/Theme';
+import { useOptionalUser } from '~/utils';
 
 const Navigation = () => {
   const user = useOptionalUser();

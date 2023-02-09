@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import Anchor from '~/components/Anchor';
-import type { Theme } from '~/components/Navigation';
 import type { User } from '~/models/user.server';
+import type { Theme } from '~/types/Theme';
 
 type Props = {
   role: User['role'];
@@ -19,26 +19,36 @@ export default function ProfileMenu({ role, theme = 'cyan' }: Props) {
     >
       <ul className="flex flex-col gap-2.5">
         <li>
-          <Anchor to="/profiel">Mijn geclaimde items</Anchor>
+          <Anchor theme={theme} to="/profiel">
+            Mijn geclaimde items
+          </Anchor>
         </li>
 
         <li>
-          <Anchor to="/profiel/instellingen">Instellingen</Anchor>
+          <Anchor theme={theme} to="/profiel/instellingen">
+            Instellingen
+          </Anchor>
         </li>
 
         {role === 'ADMIN' && (
           <>
             <li className="mt-5 font-semibold">Admin opties</li>
             <li>
-              <Anchor to="/admin">Items beheren</Anchor>
+              <Anchor theme={theme} to="/admin">
+                Items beheren
+              </Anchor>
             </li>
 
             <li>
-              <Anchor to="/admin/gebruikers">Gebruikers beheren</Anchor>
+              <Anchor theme={theme} to="/admin/gebruikers">
+                Gebruikers beheren
+              </Anchor>
             </li>
 
             <li>
-              <Anchor to="/admin/hergenereer">Hergenereer afbeeldingen</Anchor>
+              <Anchor theme={theme} to="/admin/hergenereer">
+                Hergenereer afbeeldingen
+              </Anchor>
             </li>
           </>
         )}

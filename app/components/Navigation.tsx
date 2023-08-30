@@ -1,11 +1,8 @@
-import { Form, Link, useLocation } from '@remix-run/react';
+import { Link, useLocation } from '@remix-run/react';
 
-import Menu from 'app/components/Menu';
-import MenuItem from 'app/components/MenuItem';
 import classnames from 'classnames';
-import Button from '~/components/Button';
-import Icon from '~/components/Icon';
 import Logo from '~/components/Logo';
+import NavigationMenu from '~/components/NavigationMenu';
 import type { Theme } from '~/types/Theme';
 import { useOptionalUser } from '~/utils';
 
@@ -32,48 +29,13 @@ const Navigation = () => {
         },
       )}
     >
-      <h1 className="w-2/3 flex-auto text-3xl sm:w-1/3">
+      <h1 className="w-2/4 flex-auto text-3xl sm:w-1/4">
         <Link to="/">
           <Logo emblemContrast={theme === 'gold'} />
         </Link>
       </h1>
 
-      <Menu>
-        <MenuItem>
-          <Link to="/lijst">Lijst</Link>
-        </MenuItem>
-
-        {user && (
-          <MenuItem>
-            <span className="flex flex-row gap-2">
-              <Link to="/profiel">
-                <span className="inline sm:hidden">Profiel</span>{' '}
-                <Icon name="user" />
-              </Link>
-            </span>
-          </MenuItem>
-        )}
-
-        <MenuItem>
-          {user ? (
-            <Form
-              className="flex flex-row items-center gap-5"
-              action="/routes/logout"
-              method="post"
-            >
-              <Button jumpOut secondary lighterContrast type="submit">
-                Uitloggen
-              </Button>
-            </Form>
-          ) : (
-            <Link className="h-10" to="/login?redirectTo=/">
-              <Button useSpan jumpOut secondary lighterContrast>
-                Inloggen
-              </Button>
-            </Link>
-          )}
-        </MenuItem>
-      </Menu>
+      <NavigationMenu userHasLoggedIn={!!user} theme={theme} />
     </nav>
   );
 };

@@ -17,6 +17,7 @@ import {
   faUser,
   faEye,
   faCheck,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faCircle,
@@ -43,6 +44,7 @@ library.add(
   faSquare,
   faSquareCheck,
   faCheck,
+  faBars,
 );
 
 export type Props = {

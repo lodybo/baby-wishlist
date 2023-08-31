@@ -1,7 +1,6 @@
 import sharp from 'sharp';
 import path from 'path';
 import rimraf from 'rimraf';
-import { promisify } from 'util';
 
 import { getErrorMessage } from '~/utils';
 import type { Item } from './items.server';
@@ -12,8 +11,6 @@ import type { Item } from './items.server';
 const outputPath = path.join(__dirname, '../images');
 
 const maxPixelDensity = 3;
-
-const rimrafP = promisify(rimraf);
 
 type ResizeArgs = {
   input: Parameters<typeof sharp>[0];
@@ -100,7 +97,7 @@ export async function processImage({ url, itemId }: ProcessArgs) {
 }
 
 export async function emptyGeneratedImagesFolder() {
-  return rimrafP(`${outputPath}/*`);
+  return rimraf(`${outputPath}/*`);
 }
 
 // (async () => {

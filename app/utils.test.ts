@@ -13,7 +13,7 @@ test('Safe redirect should return a safe redirection URL at all times', () => {
   expect(safeRedirect('//')).toBe('/');
 });
 
-test.skip('Amounts should be formatted in Dutch locale', () => {
-  expect(formatAmount('25')).toBe('€ 25,00');
-  expect(formatAmount('25.59')).toBe('€ 25,59');
+test('Amounts should be formatted in Dutch locale', () => {
+  expect(formatAmount('25')).toBe('€\xa025,00'); // Including non-breaking space
+  expect(formatAmount('25.59')).toBe('€\xa025,59'); // Including non-breaking space
 });

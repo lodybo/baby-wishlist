@@ -4,14 +4,15 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import classnames from 'classnames';
 import Button from '~/components/Button';
 import Icon from '~/components/Icon';
+import type { User } from '~/models/user.server';
 import type { Theme } from '~/types/Theme';
 
 type Props = {
-  userHasLoggedIn: boolean;
+  user: User | undefined;
   theme: Theme;
 };
 
-export default ({ userHasLoggedIn, theme }: Props) => (
+export default ({ user, theme }: Props) => (
   <NavigationMenu.Root className="relative z-[1] flex w-1/4 justify-end">
     <NavigationMenuList className="flex sm:hidden" theme={theme}>
       <NavigationMenu.Item>
@@ -24,11 +25,17 @@ export default ({ userHasLoggedIn, theme }: Props) => (
               <LinkItem href="/lijst">Lijst</LinkItem>
             </li>
 
-            {userHasLoggedIn ? (
+            {user ? (
               <>
                 <li>
                   <LinkItem href="/profiel">Profiel</LinkItem>
                 </li>
+
+                {user.role === 'ADMIN' ? (
+                  <li>
+                    <LinkItem href="/admin">Beheer</LinkItem>
+                  </li>
+                ) : null}
 
                 <li>
                   <Form method="post" action="/logout">
@@ -55,7 +62,7 @@ export default ({ userHasLoggedIn, theme }: Props) => (
     <NavigationMenuList className="hidden sm:flex" theme={theme}>
       <LinkItem href="/lijst">Lijst</LinkItem>
 
-      {userHasLoggedIn ? (
+      {user ? (
         <NavigationMenu.Item>
           <NavigationMenu.Trigger className="relative text-2xl">
             <Icon name="user" />
@@ -65,6 +72,12 @@ export default ({ userHasLoggedIn, theme }: Props) => (
               <li>
                 <LinkItem href="/profiel">Profiel</LinkItem>
               </li>
+
+              {user.role === 'ADMIN' ? (
+                <li>
+                  <LinkItem href="/admin">Beheer</LinkItem>
+                </li>
+              ) : null}
 
               <li>
                 <Form method="post" action="/logout">

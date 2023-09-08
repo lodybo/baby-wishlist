@@ -35,7 +35,7 @@ const Navigation = () => {
         </Link>
       </h1>
 
-      <NavigationMenu userHasLoggedIn={!!user} theme={theme} />
+      <NavigationMenu user={user} theme={theme} />
     </nav>
   );
 };

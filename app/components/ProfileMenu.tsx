@@ -44,6 +44,12 @@ export default function ProfileMenu({ role, theme = 'cyan' }: Props) {
                 Gebruikers beheren
               </Anchor>
             </li>
+
+            <li>
+              <Anchor theme={theme} to="/admin/hergenereer">
+                Hergenereer afbeeldingen
+              </Anchor>
+            </li>
           </>
         )}
       </ul>

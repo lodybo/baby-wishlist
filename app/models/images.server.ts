@@ -2,7 +2,9 @@ import sharp from 'sharp';
 import path from 'path';
 
 import { getErrorMessage } from '~/utils';
+import { getItemList } from './items.server';
 import type { Item } from './items.server';
+import { rimraf } from 'rimraf';
 
 // curl -X POST -d 'imageUrl=https://media.s-bol.com/BLx97KQA2WmQ/550x733.jpg&itemId=abc123efg' http://localhost:3000/api/image
 
@@ -77,4 +79,37 @@ export async function processImage({ url, itemId }: ProcessArgs) {
     input: image,
     filename: itemId,
   });
+}
+
+export async function emptyGeneratedImagesFolder() {
+  return rimraf(`${outputPath}/*`);
+}
+
+export async function regenerateImages() {
+  console.log('>>> Regenerating images');
+
+  console.log('> Deleting image folder...');
+  await emptyGeneratedImagesFolder();
+
+  console.log('> Fetching all items');
+  const items = await getItemList();
+  await Promise.all(
+    items.map(async ({ id, imageUrl }) => {
+      console.log(`> Fetching image for item ${id}`);
+      try {
+        if (imageUrl) {
+          await processImage({ url: imageUrl, itemId: id });
+          console.log(`> Written image for item ${id}`);
+        } else {
+          console.log(
+            `> Skipped image fetch for item ${id} since no URL is supplied`,
+          );
+        }
+      } catch (err) {
+        console.error(`An error occurred writing for item ${id}`, err);
+      }
+    }),
+  );
+
+  console.log('>>> Images regenerated, enjoy!');
 }

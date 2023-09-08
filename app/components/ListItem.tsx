@@ -22,9 +22,9 @@ export default function ListItem({
           <img
             className="h-full w-full object-cover transition-all duration-300 group-hover:scale-110 motion-reduce:transition-none"
             srcSet={`
-              /images/${id}-575w.webp 575w,
-              /images/${id}-900w.webp 900w,
-              /images/${id}-1400w.webp 1400w,
+              /image/${id}.webp?w=575w 575w,
+              /image/${id}.webp?w=900w 900w,
+              /image/${id}.webp?w=1400w 1400w,
             `}
             sizes="
               (min-width: 1280px) 900px,

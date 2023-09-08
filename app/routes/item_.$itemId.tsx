@@ -29,14 +29,14 @@ export const meta: MetaFunction<typeof loader> = ({
     'og:url': `${origin}${location.pathname}`,
     'og:title': item.name,
     'og:description': item.description,
-    'og:image': `${origin}/images/${item.id}-160w.webp`,
+    'og:image': `${origin}/image/${item.id}.webp?w=160w`,
 
     // Twitter
     'twitter:card': 'summary_large_image',
     'twitter:url': `${origin}${location.pathname}`,
     'twitter:title': item.name,
     'twitter:description': item.description,
-    'twitter:image': `${origin}/images/${item.id}-160w.webp`,
+    'twitter:image': `${origin}/image/${item.id}.webp?w=160w`,
   };
 };
 
@@ -108,9 +108,9 @@ export default function ItemDetailsPage() {
             <img
               className="mb-10 w-full object-cover"
               srcSet={`
-                /images/${id}-575w.webp 575w,
-                /images/${id}-900w.webp 900w,
-                /images/${id}-1400w.webp 1400w,
+                /image/${id}.webp?w=575w 575w,
+                /image/${id}.webp?w=900w 900w,
+                /image/${id}.webp?w=1400w 1400w,
               `}
               sizes="
                 (min-width: 640px) 900px,

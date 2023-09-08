@@ -20,9 +20,9 @@ export default function SmallListItem({
         <img
           className="h-full w-20 object-cover"
           srcSet={`
-            /images/${id}-80w.webp,
-            /images/${id}-160w.webp 2x,
-            /images/${id}-240w.webp 3x,
+            /image/${id}.webp?w=80w,
+            /image/${id}.webp?w=160w 2x,
+            /image/${id}.webp?w=240w 3x,
           `}
           src={imageUrl}
           loading="lazy"

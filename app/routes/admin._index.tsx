@@ -69,7 +69,7 @@ export default function AdminItemList() {
                   </Button>
                 </Link>
 
-                <form action="/routes/item.claim.tsx" method="post">
+                <form action="/item/claim" method="post">
                   <input
                     type="hidden"
                     name="action"

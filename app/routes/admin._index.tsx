@@ -37,7 +37,6 @@ export default function AdminItemList() {
   const { items } = useLoaderData<typeof loader>();
 
   const handleShowClaimedStatus = () => {
-    console.log('aa');
     setShowClaimedStatus(!showClaimedStatus);
   };
 
